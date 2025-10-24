@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Account — Trading Tutor</title>
+  <link href="D:\Trading-TuTorial\static\CSS\styles.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
+        <div>
+          <div class="brand-title">Trading Tutor</div>
+          <div class="brand-sub">Create your account</div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="blog.html">Blog</a>
+        <a href="workshop.html">Workshop</a>
+        <a href="contactus.html">Contact</a>
+      </nav>
+      <div class="actions">
+        <button id="menu-btn" class="icon-btn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+        <div class="theme-toggle">
+          <button id="theme-btn" aria-label="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container auth">
+    <div class="card signup-card">
+      <h2>Create Account</h2>
+
+      <!-- Role Selector -->
+      <div class="role-selector">
+        <button class="role-btn active" data-role="user">
+          <i class="fa-solid fa-user-graduate"></i> Learner
+        </button>
+        <button class="role-btn" data-role="hoster">
+          <i class="fa-solid fa-chalkboard-user"></i> Hoster
+        </button>
+        <button class="role-btn" data-role="buyer">
+          <i class="fa-solid fa-hand-holding-dollar"></i> Buyer
+        </button>
+      </div>
+
+      <!-- Forms -->
+      <form id="signup-form">
+        <!-- Learner -->
+        <div class="form-fields active" id="user-form">
+          <label>Name</label>
+          <input type="text" placeholder="Your name" required />
+          <label>Email</label>
+          <input type="email" placeholder="Your email" required />
+          <label>Password</label>
+          <input type="password" placeholder="Choose password" required />
+        </div>
+
+        <!-- Hoster -->
+        <div class="form-fields" id="hoster-form">
+          <label>Name</label>
+          <input type="text" placeholder="Your name" required />
+          <label>Email</label>
+          <input type="email" placeholder="Your email" required />
+          <label>Password</label>
+          <input type="password" placeholder="Choose password" required />
+          <label>Organization</label>
+          <input type="text" placeholder="Your organization" required />
+        </div>
+
+        <!-- Buyer -->
+        <div class="form-fields" id="buyer-form">
+          <label>Name</label>
+          <input type="text" placeholder="Your name" required />
+          <label>Email</label>
+          <input type="email" placeholder="Your email" required />
+          <label>Password</label>
+          <input type="password" placeholder="Choose password" required />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Register</button>
+      </form>
+
+      <p class="muted small-links">Already have an account? <a href="login.html">Sign in</a></p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <h6>Trading Tutor</h6>
+        <p class="muted">One platform, multiple roles.</p>
+      </div>
+      <div>
+        <h6>Explore</h6>
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="workshop.html">Workshop</a>
+      </div>
+      <div>
+        <h6>Support</h6>
+        <a href="contactus.html">Contact</a>
+        <a href="forgot-password.html">Reset Password</a>
+      </div>
+      <div>
+        <h6>Account</h6>
+        <a href="login.html">Sign in</a>
+        <a href="signup.html">Create account</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div>© <span id="year"></span> Trading Tutor</div>
+      <div class="socials">
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="D:\Trading-TuTorial\static\JS\scripts.js"></script>
+</body>
+</html>
