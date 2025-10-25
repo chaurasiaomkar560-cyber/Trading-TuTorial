@@ -27,27 +27,52 @@ body.dark {
 }
 
 /* === Dark Mode Adjustments === */
+/* === Dark Theme Adjustments (Updated) === */
 body.dark header {
-  background: rgba(255, 255, 255, 0.08); /* transparent glass look */
+  background: rgba(25, 25, 35, 0.95); /* Dark navy tone */
   backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
+
+/* Brand Text (Logo Title + Subtitle) */
 body.dark .brand-title,
 body.dark .brand-sub {
-  color: #000 !important;
-}
-body.dark .nav-links {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-}
-body.dark .nav-links a {
-  color: #000 !important;
-}
-body.dark .nav-links a:hover {
-  background: linear-gradient(120deg, #4b44c9, #ff79a8);
   color: #fff !important;
 }
+
+/* Nav Links in Dark Mode */
+body.dark .nav-links {
+  background: transparent; /* keep same as header */
+  box-shadow: none;
+}
+
+/* Default link color white */
+body.dark .nav-links a {
+  color: #fff !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover animation (gradient) */
+body.dark .nav-links a:hover {
+  color: #fff;
+}
+
 body.dark .nav-links a::before {
-  background: linear-gradient(120deg, #4b44c9, #ff79a8);
+  background: linear-gradient(120deg, #8a7dff, #ff79a8);
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  content: "";
+  z-index: -1;
+  transition: all 0.35s ease;
+}
+
+body.dark .nav-links a:hover::before,
+body.dark .nav-links a.active::before {
+  left: 0;
 }
 
 /* === Base Reset === */
@@ -478,4 +503,92 @@ body.dark .nav-links a {
 body.dark .nav-links a:hover {
   color: #fff;
   background: rgba(255,255,255,0.15);
+}
+
+/* === Menu Button (3-lines icon) === */
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+  color: #000; /* Light theme default */
+  transition: color 0.3s ease;
+}
+
+/* Dark theme icon color */
+body.dark .icon-btn {
+  color: #fff;
+}
+
+/* === Mobile Menu === */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 75px;
+    right: 20px;
+    background: var(--white);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    border-radius: var(--radius);
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+    z-index: 999;
+  }
+
+  header.active .nav-links {
+    display: flex;
+    transform: scaleY(1);
+  }
+
+  /* Navigation Links inside menu */
+  .nav-links a {
+    display: block;
+    margin-bottom: 12px;
+    text-align: center;
+    color: #000;
+  }
+
+  /* === Dark Theme Mobile Menu === */
+  body.dark .nav-links {
+    background: #000;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+  }
+
+  body.dark .nav-links a {
+    color: #fff;
+  }
+
+  /* Hover animation remains same */
+  .nav-links a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, var(--primary), var(--secondary));
+    z-index: -1;
+    transition: all 0.3s ease;
+  }
+  .nav-links a:hover::before,
+  .nav-links a.active::before {
+    left: 0;
+  }
+
+  /* Buttons inside menu */
+  .nav-links .btn {
+    display: block;
+    margin: 8px 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* Show hamburger */
+  .icon-btn {
+    display: block;
+  }
 }
