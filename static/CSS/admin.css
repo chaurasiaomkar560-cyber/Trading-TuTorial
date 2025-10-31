@@ -1,0 +1,206 @@
+/*
+=========================================
+  ADMIN.CSS (Admin Panel Styles)
+=========================================
+*/
+
+/* --- Login Page Styles --- */
+.admin-login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+}
+.admin-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+}
+.admin-card .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.form-error {
+  color: #dc3545;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* --- Dashboard Page Layout --- */
+.admin-dashboard-page {
+  display: grid;
+  grid-template-columns: 260px 1fr; /* Sidebar + Main Content */
+  height: 100vh;
+  background-color: var(--bg-color);
+}
+
+/* --- Sidebar Styles --- */
+#admin-sidebar {
+  background: var(--footer-bg); /* Use footer color */
+  color: var(--footer-text);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+#admin-sidebar .brand {
+  margin-left: 0;
+  margin-bottom: 2rem;
+}
+#admin-sidebar .brand-title {
+  color: var(--footer-text);
+}
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.admin-nav-link {
+  color: var(--footer-text-muted);
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+.admin-nav-link i {
+  width: 20px;
+}
+.admin-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+.admin-nav-link.active {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+/* --- Main Content Styles --- */
+#admin-content {
+  overflow-y: auto;
+  padding: 2rem;
+}
+.admin-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+.admin-header h2 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+/* --- Table Styles --- */
+.table-wrapper {
+  overflow-x: auto;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+.admin-table th,
+.admin-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+.admin-table th {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.admin-table td .btn {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+}
+.admin-table .btn-approve {
+  color: #198754;
+  border-color: #198754;
+}
+.admin-table .btn-approve:hover {
+  background: #198754;
+  color: #fff;
+}
+.admin-table .btn-deny {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+.admin-table .btn-deny:hover {
+  background: #dc3545;
+  color: #fff;
+}
+
+/*
+=========================================
+  ADMIN LOGIN PAGE FIXES
+=========================================
+*/
+
+/* 1. Theme toggle button ko corner mein position karein */
+#admin-theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+}
+#admin-theme-toggle button {
+  font-size: 1.5rem;
+}
+
+/* 2. Dark Mode Input Fix */
+[data-theme="dark"] .admin-card input[type='email'],
+[data-theme="dark"] .admin-card input[type='password'] {
+  background-color: var(--bg-color); /* Dark background */
+  color: var(--text-primary);      /* Light text */
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .admin-card input[type='email']:focus,
+[data-theme="dark"] .admin-card input[type='password']:focus {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  border-color: var(--primary-color); /* Highlight */
+}
+
+.admin-tab-content {
+  display: none; /* Sabhi tabs ko by default hide karein */
+}
+
+.admin-tab-content.active {
+  display: block; /* Sirf active tab ko dikhayein */
+}
+
+/*
+=========================================
+  ADMIN DASHBOARD FIXES
+=========================================
+*/
+
+/* 1. Header ko update karein taaki theme button fit ho */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+.admin-header h2 {
+  margin: 0;
+}
+#admin-theme-toggle button {
+  font-size: 1.5rem;
+}

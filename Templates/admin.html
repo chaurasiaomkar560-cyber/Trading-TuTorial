@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Trading Tutor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../static/CSS/styles.css">
+  <link rel="stylesheet" href="../static/CSS/admin.css">
+</head>
+<body class="admin-dashboard-page">
+
+  <aside id="admin-sidebar">
+    <div class="brand">
+      <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
+      <div>
+        <div class="brand-title">Admin Panel</div>
+      </div>
+    </div>
+    <nav class="admin-nav">
+      <a href="#dashboard" class="admin-nav-link active"><i class="fa-solid fa-home"></i> Dashboard</a>
+      <a href="#workshops" class="admin-nav-link"><i class="fa-solid fa-chalkboard-user"></i> Workshops</a>
+      <a href="#users" class="admin-nav-link"><i class="fa-solid fa-users"></i> Users</a>
+      <a href="#blog" class="admin-nav-link"><i class="fa-solid fa-blog"></i> Blog Posts</a>
+    </nav>
+    <button id="logoutButton" class="btn btn-secondary" style="width: 100%; margin-top: auto;">Logout</button>
+  </aside>
+
+  <main id="admin-content">
+    <header class="admin-header">
+      <div>
+        <h2>Welcome, Admin!</h2>
+        <p class="muted">Here is the status of your platform.</p>
+      </div>
+      <div class="theme-toggle" id="admin-theme-toggle">
+        <button id="theme-btn" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </header>
+
+    <div id="dashboard" class="admin-tab-content active">
+      <div class="stats-grid">
+        <div class="card">
+          <h3>Total Users</h3>
+          <h2 id="stat-total-users">...</h2>
+        </div>
+        <div class="card">
+          <h3>Pending Workshops</h3>
+          <h2 id="stat-pending-workshops">...</h2>
+        </div>
+        <div class="card">
+          <h3>Total Blog Posts</h3>
+          <h2 id="stat-total-blogs">...</h2>
+        </div>
+      </div>
+    </div> <div id="workshops" class="admin-tab-content">
+      <div class="card">
+        <h3>Workshops Awaiting Review</h3>
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Hoster Name</th>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="workshopsTableBody">
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div> <div id="users" class="admin-tab-content">
+      <div class="card">
+        <h3>User Management</h3>
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div> <div id="blog" class="admin-tab-content">
+      <div class="card">
+        <h3>Blog Post Management</h3>
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="blogTableBody">
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div> </main>
+
+  <script src="../static/JS/admin.js"></script>
+</body>
+</html>

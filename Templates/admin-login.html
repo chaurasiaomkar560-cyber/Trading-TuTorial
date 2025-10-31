@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Trading Tutor</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  
+  <link rel="stylesheet" href="../static/CSS/styles.css">
+  <link rel="stylesheet" href="../static/CSS/admin.css">
+</head>
+<body class="admin-login-page">
+
+  <div class="theme-toggle" id="admin-theme-toggle">
+    <button id="theme-btn" aria-label="Toggle Theme">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+
+  <main class="container">
+    <div class="card admin-card">
+      <div class="brand" style="justify-content: center; margin-bottom: 1.5rem;">
+        <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
+        <div>
+          <div class="brand-title">Trading Tutor</div>
+          <div class="brand-sub">Admin Panel</div>
+        </div>
+      </div>
+      
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label for="adminEmail">Email</label>
+          <input type="email" id="adminEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="adminPassword">Password</label>
+          <input type="password" id="adminPassword" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        <p id="adminLoginError" class="form-error"></p>
+      </form>
+    </div>
+  </main>
+
+  <script src="../static/JS/admin.js"></script>
+</body>
+</html>

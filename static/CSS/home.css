@@ -1,0 +1,65 @@
+/* ===== HERO SECTION ===== */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.hero-content {
+  flex: 1;
+}
+
+.hero-content h1 {
+  font-size: 2.5rem; /* Example */
+  line-height: 1.2;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+.hero-cta {
+  margin-top: 2rem;
+}
+
+.hero-visual {
+  flex: 1;
+  display: grid;
+  gap: 1rem;
+}
+
+.glow-card {
+  background-color: var(--card-bg); /* Assuming you use CSS variables */
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /* etc. */
+}
+
+/* ===== FEATURES ===== */
+.features {
+  text-align: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+/* ===== CTA SECTION ===== */
+.cta {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+.card-cta {
+  text-align: center;
+  background-color: var(--primary-light); /* Example */
+  padding: 2.5rem;
+}

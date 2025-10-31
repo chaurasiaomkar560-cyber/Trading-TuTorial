@@ -1,0 +1,99 @@
+/*
+=========================================
+  CONTACTUS.CSS (Page-Specific Styles)
+=========================================
+*/
+
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile-first (stack) */
+  gap: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  align-items: center;
+}
+
+/* Left Side Info */
+.contact-info h1 {
+  font-size: 2.5rem;
+}
+.contact-info .muted {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.info-item i {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  width: 30px; /* Align icons */
+}
+
+/* Right Side Form Card */
+.contact-card {
+  padding: 2rem;
+}
+
+#contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+#contactForm label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Success Message (Dynamic part) */
+.form-success {
+  text-align: center;
+  padding: 2rem 0;
+}
+.form-success i {
+  font-size: 4rem;
+  color: #198754; /* Green */
+  margin-bottom: 1.5rem;
+}
+.form-success h3 {
+  font-size: 1.8rem;
+  color: var(--text-primary);
+}
+.form-success p {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+/* Desktop layout */
+@media (min-width: 992px) {
+  .contact-container {
+    grid-template-columns: 1fr 1fr; /* Side-by-side */
+    gap: 3rem;
+  }
+}
+
+/*
+=========================================
+  CONTACT FORM - NEW STYLES
+=========================================
+*/
+
+/* 1. Form card par naya, zyaada prominent shadow */
+.contact-card {
+  box-shadow: 0 10px 30px rgba(109, 65, 200, 0.25); /* Purple-ish shadow */
+}
+
+/* 2. Label ka font color (website theme se match karta hua) */
+#contactForm label {
+  color: var(--primary-color); /* Yeh aapke global purple color ko use karega */
+}

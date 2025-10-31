@@ -1,0 +1,28 @@
+/* Use on the <main> element */
+.auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  min-height: 70vh;
+}
+
+/* Use on the .card element */
+.auth-card {
+  width: 100%;
+  max-width: 400px; /* Sets the width for login/reset forms */
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Styles for the "Forgot password? · Create account" links */
+.auth-card .small-links {
+  margin-top: 1.5rem;
+  text-align: center;
+}
