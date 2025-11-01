@@ -138,98 +138,145 @@
     </div>
   </main>
 
-  <div id="hostModal" class="modal-overlay">
+  <div id="workshopModal" class="modal-overlay">
   <div class="modal-card">
+    <button id="workshopCloseBtn" class="modal-close-btn">&times;</button>
     <div class="modal-content">
+      
+      <div id="buyer-step-1" class="modal-step active">
+        <h2>Register for Workshop</h2>
+        
+        <div class="workshop-summary">
+          <p><strong>Workshop:</strong> <span id="modalWorkshopTitle">...</span></p>
+          <p><strong>Hoster:</strong> <span id="modalHosterName">...</span></p>
+          <p><strong>Amount:</strong> <span id="modalAmount">...</span></p>
+        </div>
+        
+        <form id="buyerRegForm">
+          <div class="form-group">
+            <label for="buyerName">Full Name</label>
+            <input type="text" id="buyerName" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="buyerMobile">Mobile Number</label>
+            <input type="tel" id="buyerMobile" placeholder="Enter your 10-digit number" required>
+          </div>
+          
+          <div class="terms-box">
+            <p><strong>Terms and Conditions:</strong></p>
+            <ul>
+              <li>If the issue happens from the side of the hoster or any technical fault of the site, the buyer can demand the refund.</li>
+              <li>By any reason, if it is the buyer's fault, the refund will be rejected.</li>
+              <li>If any buyer misses a workshop, he/she will get the next session or a recorded session. A refund will not be given.</li>
+            </ul>
+            <hr>
+            <p><strong>Support:</strong> If there is any problem regarding the workshop, you can contact us via the Contact page or mail your issue in the feedback form (Your Name, Workshop Name, Genuine Issue).</p>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="buyerTerms" class="terms-checkbox">
+            <label for="buyerTerms">I hereby state that I have read all the information and I accept it.</label>
+          </div>
+          
+          <button type="submit" id="buyerProceedBtn" class="btn btn-primary" style="width: 100%;" disabled>
+            Please Proceed
+          </button>
+        </form>
+      </div> <div id="buyer-step-2" class="modal-step">
+        <h2>Payment Interface</h2>
+        <p class="muted">This is a simulation. In a real app, a payment gateway (like Stripe or Razorpay) would be here.</p>
+        <div class="payment-options">
+          <button class="btn btn-secondary" style="width: 100%;">Pay with Card</button>
+          <button class="btn btn-secondary" style="width: 100%;">Pay with UPI</button>
+        </div>
+        <button id="paymentBackBtn" class="btn btn-outline" style="width: 100%; margin-top: 1rem;">Go Back</button>
+      </div> </div>
+  </div>
+</div>
+<div id="hostModal" class="modal-overlay">
+  <div class="modal-card">
     <button id="hostCloseBtn" class="modal-close-btn">&times;</button>
-      <h2>Create a New Workshop</h2>
-      <p class="muted">Fill out the details to list your workshop.</p>
+    <div class="modal-content">
       
       <form id="hostWorkshopForm">
-  
-  <fieldset class="form-fieldset">
-    <legend>Step 1: Your Hoster Details</legend>
-    <div class="form-group">
-      <label for="hostName">Full Name (as per ID)</label>
-      <input type="text" id="hostName" placeholder="Enter your full name" required>
-    </div>
-    <div class="form-group">
-      <label for="hostEmail">Contact Email</label>
-      <input type="email" id="hostEmail" placeholder="Your primary email for verification" required>
-    </div>
-    <div class="form-group">
-      <label for="hostSocial">LinkedIn or Portfolio URL</label>
-      <input type="text" id="hostSocial" placeholder="e.g., https://linkedin.com/in/yourprofile" required>
-    </div>
-    <div class="form-group">
-      <label for="hostExpertise">Proof of Expertise</label>
-      <textarea id="hostExpertise" rows="2" placeholder="e.g., 'I am a 5-year certified analyst' or paste portfolio links." required></textarea>
-    </div>
-  </fieldset>
-  
-  <fieldset class="form-fieldset">
-    <legend>Step 2: Your Workshop Details</legend>
-    <div class="form-group">
-      <label for="hostTitle">Workshop Title</label>
-      <input type="text" id="hostTitle" placeholder="e.g., Advanced Options Strategy" required>
-    </div>
-    <div class="form-group">
-      <label for="hostDesc">Description</label>
-      <textarea id="hostDesc" rows="3" placeholder="What will attendees learn?" required></textarea>
-    </div>
-    <div class="form-grid"> <div class="form-group">
-        <label for="hostPrice">Price ($ or 'FREE')</label>
-        <input type="text" id="hostPrice" placeholder="e.g., $50 or FREE" required>
-      </div>
-      <div class="form-group">
-        <label for="hostDuration">Duration</label>
-        <input type="text" id="hostDuration" placeholder="e.g., 3 Days" required>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="hostDate">Date & Time</label>
-      <input type="text" id="hostDate" placeholder="e.g., 25 Dec 2025 • 5:00 PM IST" required>
-    </div>
-    <div class="form-group">
-      <label for="hostImage">Image URL</label>
-      <input type="text" id="hostImage" placeholder="https://picsum.photos/seed/myworkshop/400/200">
-    </div>
-  </fieldset>
-  
-  <p class="muted" style="font-size: 0.8rem; margin-top: 1rem;">
-    *By submitting, you agree to our platform's quality and identity verification process (Tier 1 & 2). Your workshop will be manually reviewed before publishing.*
-  </p>
-  
-  <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
-    Submit for Review
-  </button>
-</form>
+        <div id="host-step-1" class="modal-step active">
+          <h2>Create Workshop (Page 1 of 2)</h2>
+          <fieldset class="form-fieldset">
+            <legend>Workshop Details</legend>
+            <div class="form-group">
+              <label for="hostName">Hoster Name</label>
+              <input type="text" id="hostName" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="hostTitle">Workshop Name</label>
+              <input type="text" id="hostTitle" placeholder="e.g., Advanced Options Strategy" required>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="hostDuration">Duration</label>
+                <input type="text" id="hostDuration" placeholder="e.g., 3 Days" required>
+              </div>
+              <div class="form-group">
+                <label for="hostLang">Language</label>
+                <input type="text" id="hostLang" placeholder="e.g., English, Hindi" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="hostDesc">Details about workshop</label>
+              <textarea id="hostDesc" rows="3" placeholder="What will attendees learn?" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="hostVideo">Video URL (Optional)</label>
+              <input type="text" id="hostVideo" placeholder="Link to a promo video">
+            </div>
+          </fieldset>
+          <button type="button" id="hostProceedBtn" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+            Please Proceed
+          </button>
+        </div> <div id="host-step-2" class="modal-step">
+          <h2>Financial Details (Page 2 of 2)</h2>
+          <fieldset class="form-fieldset">
+            <legend>Financial Details</legend>
+            <div class="form-group">
+              <label for="finHostName">Hoster Name</label>
+              <input type="text" id="finHostName" readonly> </div>
+            <div class="form-group">
+              <label for="finWorkshopName">Workshop Name</label>
+              <input type="text" id="finWorkshopName" readonly> </div>
+            <div class="form-group">
+              <label for="finEmail">Email</label>
+              <input type="email" id="finEmail" placeholder="Your payment email" required>
+            </div>
+            <div class="form-group">
+              <label for="finAccount">Account Number</label>
+              <input type="text" id="finAccount" placeholder="Your bank account number" required>
+            </div>
+          </fieldset>
+          
+          <div class="terms-box">
+            <p><strong>Terms and Conditions:</strong></p>
+            <ul>
+              <li>If any fault is detected by us during your live session, false information is provided, or any complaints are received from buyers, your workshop payment will be deducted and the workshop will be removed from the site.</li>
+              <li>Your payment will be processed after 7 days of workshop completion.</li>
+            </ul>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="hostTerms" class="terms-checkbox">
+            <label for="hostTerms">I have read and accept the terms and conditions.</label>
+          </div>
+          
+          <div class="form-grid" style="margin-top: 1rem;">
+            <button type="button" id="hostBackBtn" class="btn btn-secondary" style="width: 100%;">Go Back</button>
+            <button type="submit" id="hostSubmitBtn" class="btn btn-primary" style="width: 100%;" disabled>Submit for Review</button>
+          </div>
+        </div> </form>
+      
     </div>
   </div>
 </div>
 
-  <div id="workshopModal" class="modal-overlay">
-  <div class="modal-card">
-    <div class="modal-content"></div>
-    <button id="workshopCloseBtn" class="modal-close-btn">&times;</button>
-    <div class="modal-content">
-      <h2>Register for Workshop</h2>
-      <p class="muted">You are registering for: <strong id="modalWorkshopTitle">Workshop Title</strong></p>
-      
-      <form id="workshopRegForm">
-        <div class="form-group">
-          <label for="regName">Full Name</label>
-          <input type="text" id="regName" placeholder="Enter your full name" required>
-        </div>
-        <div class="form-group">
-          <label for="regEmail">Email Address</label>
-          <input type="email" id="regEmail" placeholder="Enter your email" required>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm Registration</button>
-      </form>
-    </div>
-  </div>
-</div>
+
 
   <footer>
     <div class="container footer-inner">

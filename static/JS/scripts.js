@@ -2,6 +2,16 @@
    scripts.js — Trading Tutor
    =========================== */
 
+/* === 20-SECOND REDIRECT ON HOME PAGE === */
+// Check karein ki hum index page par hain
+const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
+if (isHomePage) {
+  setTimeout(() => {
+    // 20 seconds ke baad, signup page par redirect kar dein
+    window.location.href = 'signup.html';
+  }, 20000); // 20,000 milliseconds = 20 seconds
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
  // === 1. HAMBURGER MENU TOGGLE (Updated for Popup) ===
@@ -471,159 +481,183 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // *** End of Section 13 ***
 
-  // === 14. WORKSHOP REGISTRATION MODAL ===
+  // === 14. WORKSHOP REGISTRATION MODAL (Multi-Step) ===
   const workshopModal = document.getElementById('workshopModal');
   const workshopCloseBtn = document.getElementById('workshopCloseBtn');
-  const workshopRegForm = document.getElementById('workshopRegForm');
-  const workshopGrid = document.querySelector('.workshop-grid'); // Cards ka container
+  const buyerRegForm = document.getElementById('buyerRegForm');
+  const workshopGrid = document.querySelector('.workshop-grid');
   
-  if (workshopModal && workshopCloseBtn && workshopRegForm && workshopGrid) {
+  if (workshopModal && workshopCloseBtn && buyerRegForm && workshopGrid) {
     
+    const buyerStep1 = document.getElementById('buyer-step-1');
+    const buyerStep2 = document.getElementById('buyer-step-2');
+    const buyerTerms = document.getElementById('buyerTerms');
+    const buyerProceedBtn = document.getElementById('buyerProceedBtn');
+    const paymentBackBtn = document.getElementById('paymentBackBtn');
+
     // 1. "Register Now" button par click
     workshopGrid.addEventListener('click', (e) => {
       if (e.target.classList.contains('register-btn')) {
-        // Card se title dhoondhein
         const card = e.target.closest('.workshop-card');
-        const title = card.querySelector('h3').textContent;
-        const priceBadge = card.querySelector('.workshop-badge');
-        const price = priceBadge ? priceBadge.textContent : 'FREE'; // Price lein
-        const meta = card.querySelector('.workshop-meta');
-        const date = meta ? meta.dataset.date : new Date().toISOString();
-
-        workshopRegForm.dataset.title = title;
-        workshopRegForm.dataset.price = price;
-        workshopRegForm.dataset.date = date;
         
-        // Modal mein title set karein
+        // Hoster ka naam (jo Section 15 se save hua) lein
+        // Hum yeh assume kar rahe hain ki data-host-name attribute card par hai
+        const title = card.querySelector('h3').textContent;
+        const price = card.querySelector('.workshop-badge')?.textContent || 'FREE';
+        const hostName = card.dataset.hostName || 'Trading Tutor Staff'; // Naya
+        
+        // Modal mein details fill karein
         document.getElementById('modalWorkshopTitle').textContent = title;
+        document.getElementById('modalHosterName').textContent = hostName;
+        document.getElementById('modalAmount').textContent = price;
         
         // Modal ko dikhayein
         workshopModal.classList.add('open');
       }
     });
-    
-    // 2. Modal band karne ka function
-    const closeWorkshopModal = () => {
-      workshopModal.classList.remove('open');
-      workshopRegForm.reset(); // Form ko reset karein
-    };
-    
-    // 3. Close button par click
-    workshopCloseBtn.addEventListener('click', closeWorkshopModal);
-    
-    // 4. Overlay (background) par click
-    workshopModal.addEventListener('click', (e) => {
-      if (e.target.id === 'workshopModal') {
-        closeWorkshopModal();
-      }
+
+    // 2. Checkbox to enable button
+    buyerTerms.addEventListener('change', () => {
+      buyerProceedBtn.disabled = !buyerTerms.checked;
+    });
+
+    // 3. "Proceed" button (Step 1 -> Step 2)
+    buyerRegForm.addEventListener('submit', (e) => {
+      e.preventDefault(); // Form submit ko rokein
+      buyerStep1.classList.remove('active');
+      buyerStep2.classList.add('active');
+    });
+
+    // 4. "Go Back" button (Step 2 -> Step 1)
+    paymentBackBtn.addEventListener('click', () => {
+      buyerStep2.classList.remove('active');
+      buyerStep1.classList.add('active');
     });
     
-    // 5. Form Submit Logic (Abhi ke liye sirf alert)
-    workshopRegForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('regName').value;
-      const {title,price,date} = workshopRegForm.dataset;
-
-      let myWorkshops = JSON.parse(localStorage.getItem('myWorkshops')) || [];
-      myWorkshops.push({ title, price, date });
-      localStorage.setItem('myWorkshops', JSON.stringify(myWorkshops));
-      alert(`Success, ${name}! You are registered for the workshop: ${title}`);
-      closeWorkshopModal(); // Form submit hone par modal band kar dein
+    // 5. Modal band karne ka function
+    const closeWorkshopModal = () => {
+      workshopModal.classList.remove('open');
+      buyerRegForm.reset();
+      // Steps ko reset karein
+      buyerStep2.classList.remove('active');
+      buyerStep1.classList.add('active');
+      buyerTerms.checked = false;
+      buyerProceedBtn.disabled = true;
+    };
+    
+    workshopCloseBtn.addEventListener('click', closeWorkshopModal);
+    workshopModal.addEventListener('click', (e) => {
+      if (e.target.id === 'workshopModal') closeWorkshopModal();
     });
   }
   // *** End of Section 14 ***
 
-  // === 15. HOST A WORKSHOP MODAL & FORM LOGIC ===
+  // === 15. HOST A WORKSHOP MODAL (Multi-Step) ===
   const showHostModalBtn = document.getElementById('showHostModalBtn');
   const hostModal = document.getElementById('hostModal');
   const hostCloseBtn = document.getElementById('hostCloseBtn');
   const hostWorkshopForm = document.getElementById('hostWorkshopForm');
-  // workshopGrid (cards container) pehle se defined hai (Section 14)
-
-  if (showHostModalBtn && hostModal && hostCloseBtn && hostWorkshopForm && workshopGrid) {
+  
+  if (showHostModalBtn && hostModal && hostCloseBtn && hostWorkshopForm) {
+    
+    const hostStep1 = document.getElementById('host-step-1');
+    const hostStep2 = document.getElementById('host-step-2');
+    const hostProceedBtn = document.getElementById('hostProceedBtn');
+    const hostBackBtn = document.getElementById('hostBackBtn');
+    const hostTerms = document.getElementById('hostTerms');
+    const hostSubmitBtn = document.getElementById('hostSubmitBtn');
 
     // 1. "Host a Workshop" button par click
     showHostModalBtn.addEventListener('click', () => {
       hostModal.classList.add('open');
     });
 
-    // 2. Modal band karne ka function
+    // 2. "Proceed" button (Page 1 -> Page 2)
+    hostProceedBtn.addEventListener('click', () => {
+      // Simple validation (check if inputs are empty)
+      const hostName = document.getElementById('hostName').value;
+      const hostTitle = document.getElementById('hostTitle').value;
+      if (hostName === '' || hostTitle === '') {
+        alert('Please fill out Hoster Name and Workshop Name.');
+        return;
+      }
+      
+      // Page 1 se Page 2 mein data pre-fill karein
+      document.getElementById('finHostName').value = hostName;
+      document.getElementById('finWorkshopName').value = hostTitle;
+      
+      // Steps switch karein
+      hostStep1.classList.remove('active');
+      hostStep2.classList.add('active');
+    });
+
+    // 3. "Go Back" button (Page 2 -> Page 1)
+    hostBackBtn.addEventListener('click', () => {
+      hostStep2.classList.remove('active');
+      hostStep1.classList.add('active');
+    });
+
+    // 4. Checkbox to enable submit
+    hostTerms.addEventListener('change', () => {
+      hostSubmitBtn.disabled = !hostTerms.checked;
+    });
+
+    // 5. Modal band karne ka function
     const closeHostModal = () => {
       hostModal.classList.remove('open');
       hostWorkshopForm.reset();
+      // Steps reset karein
+      hostStep2.classList.remove('active');
+      hostStep1.classList.add('active');
+      hostTerms.checked = false;
+      hostSubmitBtn.disabled = true;
     };
-
-    // 3. Close button aur Overlay par click
+    
     hostCloseBtn.addEventListener('click', closeHostModal);
     hostModal.addEventListener('click', (e) => {
-      if (e.target.id === 'hostModal') {
-        closeHostModal();
-      }
+      if (e.target.id === 'hostModal') closeHostModal();
     });
 
-    // 4. Form Submit Logic (Ab localStorage mein SAVE karega)
+    // 6. FINAL Form Submit Logic (Page 2 se)
     hostWorkshopForm.addEventListener('submit', (e) => {
       e.preventDefault();
-
-      // --- Tier 2: Hoster Vetting Details ---
+      
+      // Page 1 se details lein
       const hostName = document.getElementById('hostName').value;
-      const hostEmail = document.getElementById('hostEmail').value;
-      // ... (baaki hoster details)
-
-      // --- Workshop Details ---
       const title = document.getElementById('hostTitle').value;
-      const desc = document.getElementById('hostDesc').value;
-      const price = document.getElementById('hostPrice').value;
       const duration = document.getElementById('hostDuration').value;
       const date = document.getElementById('hostDate').value;
+      const price = document.getElementById('hostPrice').value;
+      const desc = document.getElementById('hostDesc').value;
       let imageUrl = document.getElementById('hostImage').value;
 
-      if (imageUrl === '') {
-        const randomSeed = Math.floor(Math.random() * 1000);
-        imageUrl = `https://picsum.photos/seed/${randomSeed}/400/200`;
-      }
-      
-      let badgeClass = 'price';
-      if (price.toLowerCase() === 'free') {
-        badgeClass = 'free';
-      }
+      // Page 2 se details lein (validation ke liye)
+      const email = document.getElementById('finEmail').value;
+      const account = document.getElementById('finAccount').value;
 
-      // --- YEH HAI NAYA LOGIC (Step 1) ---
-      // 1. Puraana data "PendingWorkshops" se lein
+      // ... (Yahaan aapka puraana 'pendingWorkshops' localStorage logic...)
+      
       let pendingWorkshops = JSON.parse(localStorage.getItem('pendingWorkshops')) || [];
-      
-      // 2. Naya workshop object banayein
       const newWorkshopData = {
-        id: `ws_${new Date().getTime()}`, // Ek unique ID banayein
-        title,
-        hostName,
-        hostEmail,
-        date,
-        price,
-        duration,
-        desc,
-        imageUrl,
-        badgeClass
+        id: `ws_${new Date().getTime()}`,
+        title, hostName, date, price, duration, desc, imageUrl,
+        badgeClass: (price.toLowerCase() === 'free' ? 'free' : 'price'),
+        hostEmail: email, // Naya data
+        hostAccount: account // Naya data
       };
-      
-      // 3. Naya workshop add karein
       pendingWorkshops.push(newWorkshopData);
-      
-      // 4. Waapas localStorage mein save karein
       localStorage.setItem('pendingWorkshops', JSON.stringify(pendingWorkshops));
-      
-      // --- End of Naya Logic ---
 
-      
-      // --- Front-End Update (UI) ---
-      // (Ab hum naya data use karke card banayenge)
+      // UI par naya card banayein
       const newWorkshop = document.createElement('div');
       newWorkshop.className = 'card workshop-card';
+      // *** YEH IMPORTANT HAI: Hoster ka naam card par save karein taaki Buyer use padh sake ***
+      newWorkshop.dataset.hostName = hostName; 
       
       newWorkshop.innerHTML = `
-        <div class="workshop-badge ${newWorkshopData.badgeClass}">${newWorkshopData.price}</div>
+        <div class.="workshop-badge ${newWorkshopData.badgeClass}">${newWorkshopData.price}</div>
         <img src="${newWorkshopData.imageUrl}" class="workshop-thumb" alt="Workshop Image">
-        <div class.="workshop-content">
+        <div class="workshop-content">
           <div class="workshop-meta" data-date="${newWorkshopData.date}">
             <div class="countdown-timer">Just Published!</div>
             <span class="workshop-duration">
@@ -635,14 +669,12 @@ document.addEventListener('DOMContentLoaded', () => {
           <button class="btn btn-primary register-btn" style="width: 100%;">Register Now</button>
         </div>
       `;
-
       workshopGrid.prepend(newWorkshop);
-      startWorkshopCountdowns(); 
+      startWorkshopCountdowns();
       closeHostModal();
       
       alert('Success! Your workshop is submitted for review.');
     });
-  
   }
   // *** End of Section 15 ***
 
@@ -966,8 +998,140 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Function ko run karein
   loadDashboardStats();
-  
   // *** End of Section 20 ***
 
+  // === 21. LIVE WEBINAR PAGE LOGIC (UPGRADED) ===
+  
+  // Control bar buttons
+  const micBtn = document.getElementById('mic-btn');
+  const videoBtn = document.getElementById('video-btn');
+  const chatToggleBtn = document.getElementById('chat-toggle-btn');
+  const leaveBtn = document.getElementById('leave-btn');
+  
+  // Sidebar elements
+  const sidebar = document.getElementById('webinar-sidebar');
+  const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
+  
+  // Tab elements
+  const sidebarTabs = document.querySelector('.sidebar-tabs');
+  const sidebarPanels = document.querySelectorAll('.sidebar-panel');
+  
+  // Chat elements
+  const chatLog = document.getElementById('webinar-chat-log');
+  const chatInput = document.getElementById('chat-input');
+  const chatSendBtn = document.getElementById('chat-send-btn');
+
+  // Check if we are on the webinar page
+  if (micBtn && sidebarTabs && chatInput) {
+    
+    // --- 1. Control Bar Logic (Mic, Video, Leave) ---
+    micBtn.addEventListener('click', () => {
+      micBtn.classList.toggle('active');
+      micBtn.classList.toggle('mic-off');
+      const icon = micBtn.querySelector('i');
+      if (icon.classList.contains('fa-microphone')) {
+        icon.classList.remove('fa-microphone');
+        icon.classList.add('fa-microphone-slash');
+        micBtn.setAttribute('title', 'Unmute Microphone');
+      } else {
+        icon.classList.remove('fa-microphone-slash');
+        icon.classList.add('fa-microphone');
+        micBtn.setAttribute('title', 'Mute Microphone');
+      }
+    });
+
+    videoBtn.addEventListener('click', () => {
+      videoBtn.classList.toggle('active');
+      const icon = videoBtn.querySelector('i');
+      if (icon.classList.contains('fa-video')) {
+        icon.classList.remove('fa-video');
+        icon.classList.add('fa-video-slash');
+        videoBtn.setAttribute('title', 'Start Camera');
+      } else {
+        icon.classList.remove('fa-video-slash');
+        icon.classList.add('fa-video');
+        videoBtn.setAttribute('title', 'Stop Camera');
+      }
+    });
+
+    leaveBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to leave the workshop?')) {
+        window.location.href = 'workshop.html';
+      }
+    });
+
+    // --- 2. Sidebar Open/Close Logic ---
+    chatToggleBtn.addEventListener('click', () => {
+      sidebar.classList.add('open');
+    });
+    sidebarCloseBtn.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+    });
+
+    // --- 3. Sidebar Tab Switching Logic ---
+    sidebarTabs.addEventListener('click', (e) => {
+      const tabBtn = e.target.closest('.sidebar-tab-btn');
+      if (!tabBtn) return;
+      
+      const targetPanelId = tabBtn.dataset.target;
+      
+      // Sabhi buttons se 'active' hatayein
+      document.querySelectorAll('.sidebar-tab-btn').forEach(btn => btn.classList.remove('active'));
+      // Click kiye gaye button par 'active' lagayein
+      tabBtn.classList.add('active');
+      
+      // Sabhi panels ko hide karein
+      sidebarPanels.forEach(panel => {
+        if (panel.id === targetPanelId) {
+          panel.classList.add('active'); // Target panel ko dikhayein
+        } else {
+          panel.classList.remove('active');
+        }
+      });
+    });
+
+    // --- 4. Clock Logic ---
+    const timeEl = document.getElementById('current-time');
+    if (timeEl) {
+      setInterval(() => {
+        const now = new Date();
+        timeEl.textContent = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+      }, 1000);
+    }
+    
+    // --- 5. FUNCTIONAL CHAT LOGIC ---
+    const sendChatMessage = () => {
+      const text = chatInput.value.trim();
+      if (text === "") return;
+      
+      // Naya message element banayein (user)
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'chat-message user';
+      messageDiv.innerHTML = `<p>${text}</p>`;
+      
+      chatLog.appendChild(messageDiv);
+      chatLog.scrollTop = chatLog.scrollHeight; // Auto-scroll
+      
+      chatInput.value = "";
+      
+      // Bot ka reply simulate karein
+      setTimeout(() => {
+        const botMessage = document.createElement('div');
+        botMessage.className = 'chat-message bot';
+        botMessage.innerHTML = `<p>Thanks for your message! (This is a simulation)</p>`;
+        chatLog.appendChild(botMessage);
+        chatLog.scrollTop = chatLog.scrollHeight;
+      }, 1000);
+    };
+    
+    chatSendBtn.addEventListener('click', sendChatMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendChatMessage();
+      }
+    });
+  }
+  // *** End of Section 21 ***
 
 }); // <-- End of DOMContentLoaded
