@@ -1,0 +1,178 @@
+/* Reuse global variables */
+:root {
+  --primary: #6c63ff;
+  --primary-dark: #4b44c9;
+  --secondary: #ff6584;
+  --accent: #4dd0e1;
+  --bg: linear-gradient(135deg, #d9a7c7 0%, #fffcdc 100%);
+  --text: #222;
+  --white: #fff;
+  --radius: 14px;
+  --shadow: 0 8px 24px rgba(0,0,0,0.15);
+  --transition: all 0.35s ease;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--bg);
+  padding-top: 80px;
+}
+
+/* Signup Card */
+.signup-card {
+  max-width: 520px;
+  margin: auto;
+  padding: 28px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  animation: floatIn 0.8s ease forwards;
+}
+@keyframes floatIn {
+  from {opacity: 0; transform: translateY(30px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* Role Selector */
+.role-selector {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0 25px;
+  gap: 10px;
+}
+.role-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius);
+  background: #f1f1f1;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.role-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: var(--white);
+  box-shadow: var(--shadow);
+}
+.role-btn:hover {
+  transform: translateY(-3px);
+  background: var(--accent);
+  color: var(--white);
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+input {
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid #ddd;
+  transition: var(--transition);
+}
+input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.3);
+}
+.hidden {
+  display: none;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: var(--white);
+  box-shadow: var(--shadow);
+}
+.btn-primary:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+}
+
+/* Footer */
+footer {
+  margin-top: 60px;
+  background: linear-gradient(135deg, var(--primary-dark), #111);
+  color: var(--white);
+  padding-top: 40px;
+}
+.footer-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap: 24px;
+  padding: 20px 0;
+}
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 0;
+  font-size: 0.95rem;
+}
+/* === Light Theme (Default) === */
+:root {
+  --primary: #6c63ff;
+  --primary-dark: #4b44c9;
+  --secondary: #ff6584;
+  --accent: #4dd0e1;
+  --bg: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  --text: #222;
+  --muted: #666;
+  --white: #fff;
+  --radius: 14px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === Dark Theme Overrides === */
+body.dark {
+  --bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  --text: #eee;
+  --muted: #aaa;
+  --white: #1c1c1c;
+  --primary: #8a7dff;
+  --primary-dark: #6b5bda;
+  --secondary: #ff79a8;
+  --accent: #26c6da;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  margin-left: 15px;
+}
+.theme-toggle button {
+  background: var(--primary);
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+.theme-toggle button:hover {
+  transform: rotate(20deg) scale(1.1);
+  background: var(--secondary);
+}
+

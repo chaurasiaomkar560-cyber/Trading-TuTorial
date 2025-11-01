@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trading Tutor Chatbot</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafc;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    /* Chatbot Toggle Button */
+    #chatToggle {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 14px 22px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    #chatToggle:hover {
+      transform: scale(1.05);
+    }
+
+    /* Sidebar Chatbot Container */
+    #chatSidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 360px;
+      height: 100%;
+      background: white;
+      box-shadow: -3px 0 15px rgba(0, 0, 0, 0.2);
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: right 0.4s ease;
+      z-index: 999;
+    }
+
+    #chatSidebar.active {
+      right: 0;
+    }
+
+    #chatHeader {
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      color: white;
+      text-align: center;
+      padding: 18px;
+      border-top-left-radius: 20px;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    #chatBox {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #f6f8fa;
+    }
+
+    .bot, .user {
+      padding: 12px 15px;
+      border-radius: 15px;
+      max-width: 80%;
+      font-size: 14px;
+      line-height: 1.4;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .bot {
+      background: #e9efff;
+      color: #333;
+      align-self: flex-start;
+    }
+
+    .user {
+      background: #6a11cb;
+      color: white;
+      align-self: flex-end;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #inputArea {
+      display: flex;
+      padding: 10px;
+      background: white;
+      border-top: 1px solid #ddd;
+    }
+
+    #userInput {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    #sendBtn {
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 18px;
+      margin-left: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+
+    #sendBtn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Chatbot Toggle Button -->
+  <button id="chatToggle">💬 Chat with Tutor</button>
+
+  <!-- Chatbot Sidebar -->
+  <div id="chatSidebar">
+    <div id="chatHeader">Trading Tutor Chatbot 📈</div>
+
+    <div id="chatBox"></div>
+
+    <div id="inputArea">
+      <input type="text" id="userInput" placeholder="Ask about trading..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatToggle = document.getElementById("chatToggle");
+    const chatSidebar = document.getElementById("chatSidebar");
+    const chatBox = document.getElementById("chatBox");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    chatToggle.addEventListener("click", () => {
+      chatSidebar.classList.toggle("active");
+    });
+
+    function appendMessage(sender, text) {
+      const div = document.createElement("div");
+      div.className = sender;
+      div.innerText = text;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    
+    appendMessage("bot", "👋 Hello! I’m your Trading Tutor Bot — here to solve your trading doubts and queries.");
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keypress", e => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+
+      appendMessage("user", message);
+      userInput.value = "";
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+
+        if (!response.ok) throw new Error("Network error");
+        const data = await response.json();
+        appendMessage("bot", data.response);
+      } catch {
+        appendMessage("bot", "⚠️ Error connecting to chatbot. Please try again later.");
+      }
+    }
+  </script>
+</body>
+</html>

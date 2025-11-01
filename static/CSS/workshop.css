@@ -280,6 +280,7 @@
   width: 100%;
   padding: 0.85rem 1.25rem;
   padding-left: 3.25rem;
+  padding-right: 3.25rem;
   font-size: 1rem;
   background-color: var(--card-bg);
   border-radius: var(--border-radius);
@@ -297,9 +298,14 @@
 
 /* Filter Dropdown styling */
 .filter-wrapper {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 0.5rem;
+}
+
+/* This class will be toggled by JavaScript */
+.filter-wrapper.open {
+  display: flex;
 }
 
 .filter-wrapper label {
@@ -330,6 +336,10 @@
   
   #workshopFilter {
     width: 200px; /* Fixed width on desktop */
+  }
+
+  .filter-wrapper {
+    display: flex; /* Hamesha dikhayein */
   }
 }
 
@@ -541,4 +551,30 @@ button:disabled:hover {
   flex-direction: column;
   gap: 1rem;
   margin: 2rem 0;
+}
+
+/*
+=========================================
+  SEARCH BAR FILTER BUTTON
+=========================================
+*/
+.filter-icon-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3.25rem; /* Left padding se match karein */
+  
+  /* Button styles reset karein */
+  background: none;
+  border: none;
+  cursor: pointer;
+  
+  /* Icon styles */
+  color: var(--text-muted);
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+.filter-icon-btn:hover {
+  color: var(--primary-color);
 }

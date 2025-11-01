@@ -1134,4 +1134,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // *** End of Section 21 ***
 
+  // === 21. WORKSHOP FILTER ICON TOGGLE (Mobile) ===
+  const workshopFilterBtn = document.querySelector('.filter-bar .filter-icon-btn');
+  const workshopFilterWrapper = document.querySelector('.filter-wrapper');
+  
+  if (workshopFilterBtn && workshopFilterWrapper) {
+    workshopFilterBtn.addEventListener('click', () => {
+      // Toggle the 'open' class on the dropdown wrapper
+      workshopFilterWrapper.classList.toggle('open');
+    });
+  }
+  // *** End of Section 21 ***
+
+  // === 22. BLOG FILTER ICON (Placeholder) ===
+  // We select the filter button from the blog page.
+  const blogFilterBtn = document.querySelector('#blogSearchInput + .filter-icon-btn');
+  
+  if (blogFilterBtn) {
+    blogFilterBtn.addEventListener('click', () => {
+      alert('Blog filters (by category, date, etc.) are coming soon!');
+    });
+  }
+  // *** End of Section 22 ***
+
 }); // <-- End of DOMContentLoaded

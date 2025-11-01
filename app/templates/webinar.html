@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎥 Live Webinar | Trading Tutorial</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      padding-top: 40px;
+    }
+    h1 {
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    video {
+      width: 720px;
+      height: 480px;
+      border-radius: 10px;
+      background: #000;
+      margin-top: 20px;
+      filter: brightness(1.6); /* ✅ brighten dark webcam */
+    }
+    select {
+      margin-top: 15px;
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      border: none;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎥 Live Webinar</h1>
+  <select id="cameraSelect"></select><br>
+  <video id="localVideo" autoplay playsinline muted></video><br>
+  <button onclick="startWebinar()">Start Webinar</button>
+
+  <script>
+    let pc;
+
+    // ✅ List available cameras
+    async function listCameras() {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const cameras = devices.filter(d => d.kind === 'videoinput');
+      const select = document.getElementById('cameraSelect');
+
+      cameras.forEach(cam => {
+        const option = document.createElement('option');
+        option.value = cam.deviceId;
+        option.text = cam.label || `Camera ${select.length + 1}`;
+        select.appendChild(option);
+      });
+    }
+
+    // ✅ Start webinar with selected camera
+    async function startWebinar() {
+      try {
+        const select = document.getElementById('cameraSelect');
+        const deviceId = select.value;
+        const videoEl = document.getElementById('localVideo');
+
+        // Get stream from selected camera
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { deviceId: deviceId ? { exact: deviceId } : undefined, width: 1280, height: 720 },
+          audio: true
+        });
+
+        // Display the local video immediately
+        videoEl.srcObject = stream;
+
+        // Create peer connection
+        pc = new RTCPeerConnection();
+        stream.getTracks().forEach(track => pc.addTrack(track, stream));
+
+        pc.ontrack = (event) => {
+          console.log("🎬 Remote stream received:", event.streams[0]);
+        };
+
+        // Create and send offer
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+
+        const response = await fetch('/offer', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sdp: pc.localDescription.sdp,
+            type: pc.localDescription.type
+          })
+        });
+
+        const answer = await response.json();
+        await pc.setRemoteDescription(answer);
+
+      } catch (err) {
+        console.error("Error starting webinar:", err);
+        alert("❌ Camera or microphone access failed.\nPlease allow permissions or check your webcam.");
+      }
+    }
+
+    // Load camera list when page opens
+    listCameras();
+  </script>
+</body>
+</html>
