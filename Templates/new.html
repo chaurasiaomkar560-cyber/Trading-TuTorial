@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Trading Tutor</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../static/CSS/styles.css">
+  <link rel="stylesheet" href="../static/CSS/dashboard.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
+        <div>
+          <div class="brand-title">Trading Tutor</div>
+          <div class="brand-sub">Learn • Practice • Grow</div>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="blog.html">Blog</a>
+        <a href="workshop.html">Workshop</a>
+        <a href="contactus.html">Contact</a>
+
+        <div class="mobile-actions">
+          <a href="login.html" class="btn btn-secondary mobile-only">Sign in</a>
+          <a href="signup.html" class="btn btn-primary mobile-only">Create account</a>
+        </div>
+      </nav>
+
+      <div class="actions">
+        <div class="theme-toggle">
+          <button id="theme-btn" aria-label="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+
+        <button id="menu-btn" class="icon-btn" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a class="btn btn-secondary desktop-only" href="login.html">Sign in</a>
+        <a class="btn btn-primary desktop-only" href="signup.html">Create account</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 2rem;">
+    <h1>Welcome Back, Krishna!</h1>
+    <p class="muted">Here’s a quick overview of your trading progress.</p>
+
+    <div class="stats-grid" style="margin-top: 2rem;">
+      <a href="#" class="card stats-card" data-filter="total">
+        <i class="fa-solid fa-calendar-check"
+          style="font-size: 2rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+        <h3>Total Registered</h3>
+        <h2 id="stats-total" style="font-size: 2.5rem;">0</h2>
+      </a>
+      <a href="#" class="card stats-card" data-filter="completed">
+        <i class="fa-solid fa-book-open" style="font-size: 2rem; color: #198754; margin-bottom: 1rem;"></i>
+        <h3>Workshops Completed</h3>
+        <h2 id="stats-completed" style="font-size: 2.5rem;">0</h2>
+      </a>
+      <a href="#" class="card stats-card" data-filter="pending-paid">
+        <i class="fa-solid fa-fire" style="font-size: 2rem; color: #ff9900; margin-bottom: 1rem;"></i>
+        <h3>Pending (Paid)</h3>
+        <h2 id="stats-pending-paid" style="font-size: 2.5rem;">0</h2>
+      </a>
+      <a href="#" class="card stats-card" data-filter="pending-free">
+        <i class="fa-solid fa-gift" style="font-size: 2rem; color: #0dcaf0; margin-bottom: 1rem;"></i>
+        <h3>Pending (Free)</h3>
+        <h2 id="stats-pending-free" style="font-size: 2.5rem;">0</h2>
+      </a>
+    </div>
+
+    <h2 style="margin-top: 3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+      Explore Trading Styles
+    </h2>
+
+    <p class="muted">Click the arrow to learn more about each strategy.</p>
+
+    <h3 style="margin-top: 2rem;">By Trade Duration</h3>
+    <div class="accordion-grid" style="margin-top: 1.5rem;">
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/scalping/100/100" class="card-image" alt="Scalping">
+          <div class="card-title-wrapper">
+            <h3>Scalping</h3>
+            <p class="muted">Category: By Trade Duration</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Scalping is a short-term trading strategy used by traders (called scalpers) to profit from small price movements in financial markets such as forex, stocks, crypto, or futures. The goal is to make many quick trades throughout the day, capturing tiny profits that can add up to a significant amount by the end of a trading session.</p>
+          
+          <h4>🧠 Basic Concept</h4>
+          <p>Scalping is based on the idea that:</p>
+          <blockquote class="styled-quote">“Small moves happen more frequently than large moves.”</blockquote>
+          <p>Instead of waiting hours or days for big price swings, scalpers focus on minute-to-minute fluctuations. Each trade may last only a few seconds to a few minutes, and profits per trade are small — often just a few cents or pips.</p>
+          
+          <h4>⚙️ How Scalping Works</h4>
+          <p><strong>Fast Entry and Exit:</strong> Traders open and close positions quickly to capture tiny gains. (Example: Buying a stock at $100.00 and selling at $100.05 for a 5¢ profit.)</p>
+          <p><strong>High Trade Frequency:</strong> Scalpers might execute dozens or even hundreds of trades per day.</p>
+          <p><strong>Small Targets and Tight Stops:</strong> Take-profit target is small (e.g., 5–10 pips in forex), and the stop-loss is also small to limit losses.</p>
+          <p><strong>High Leverage (sometimes):</strong> Many scalpers use leverage to magnify small price movements — but this also increases risk.</p>
+          <p><strong>Technical Analysis Focused:</strong> Scalping relies heavily on technical indicators, chart patterns, and price action, not on fundamental analysis.</p>
+          
+          <h4>📊 Common Tools & Indicators</h4>
+          <ul class="styled-list">
+            <li>Moving Averages (MA): To identify short-term trends.</li>
+            <li>Bollinger Bands: To detect volatility and breakout opportunities.</li>
+            <li>RSI or Stochastic Oscillator: For overbought/oversold signals.</li>
+            <li>Volume Indicators: To confirm trade strength.</li>
+            <li>Level II Quotes / Order Book: To see real-time bid and ask prices.</li>
+          </ul>
+
+          <h4>💼 Example of a Scalping Trade</h4>
+          <p>Let’s say a trader is scalping EUR/USD in forex:</p>
+          <ul class="styled-list">
+            <li><strong>Buys at:</strong> 1.1000</li>
+            <li><strong>Sets a take profit at:</strong> 1.1003 (3 pips gain)</li>
+            <li><strong>Sets a stop loss at:</strong> 1.0998 (2 pips loss)</li>
+          </ul>
+          <p>If successful, the trader gains 3 pips. This process might be repeated 50–100 times a day.</p>
+
+          <h4>⚖️ Advantages of Scalping</h4>
+          <ul class="styled-list">
+            <li>✅ Frequent Opportunities: Markets move constantly, offering many setups.</li>
+            <li>✅ Low Exposure Time: Reduced risk from sudden market reversals.</li>
+            <li>✅ Quick Feedback: You know fast whether your strategy works.</li>
+            <li>✅ Can Compound Profits: Small but frequent wins can add up.</li>
+          </ul>
+
+          <h4>⚠️ Disadvantages of Scalping</h4>
+          <ul class="styled-list">
+            <li>❌ High Transaction Costs: Commissions and spreads can eat profits.</li>
+            <li>❌ Requires Intense Focus: Constant monitoring and fast reactions needed.</li>
+            <li>❌ Emotionally Demanding: Many small trades can cause stress and fatigue.</li>
+            <li>❌ Not Ideal for Beginners: Requires strong discipline and experience.</li>
+            <li>❌ Dependence on Speed: Professional scalpers often use low-latency trading platforms.</li>
+          </ul>
+
+          <h4>🕒 Typical Timeframes</h4>
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Market</th>
+                <th>Common Scalping Chart Timeframes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Forex</td>
+                <td>1-minute, 5-minute charts</td>
+              </tr>
+              <tr>
+                <td>Stocks</td>
+                <td>Tick charts, 1-minute charts</td>
+              </tr>
+              <tr>
+                <td>Crypto</td>
+                <td>15-second, 1-minute charts</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h4>🧩 Scalping Strategies</h4>
+          <p><strong>Market Making:</strong> Placing simultaneous buy and sell limit orders around the current price to profit from spreads.</p>
+          <p><strong>Momentum Scalping:</strong> Trading during high volatility when price breaks out of a range.</p>
+          <p><strong>Range Scalping:</strong> Buying at support and selling at resistance within a tight range.</p>
+          <p><strong>News Scalping:</strong> Entering trades during economic announcements with fast-moving prices.</p>
+
+          <h4>📈 Who Uses Scalping?</h4>
+          <ul class="styled-list">
+            <li>Day traders seeking consistent daily profits.</li>
+            <li>Algorithmic and high-frequency traders (HFTs).</li>
+            <li>Institutional traders with access to ultra-fast execution.</li>
+            <li>Retail traders who can manage costs and execute quickly.</li>
+          </ul>
+
+          <h4>🧮 Example Profit Calculation</h4>
+          <p>Suppose:</p>
+          <ul class="styled-list">
+            <li>You make 50 trades/day.</li>
+            <li>Average profit per trade = $10.</li>
+            <li>Total daily profit = $500.</li>
+            <li>If you lose on 10 trades (-$10 each), net profit = $400.</li>
+          </ul>
+          <p>Even with small profits per trade, high frequency can yield solid returns.</p>
+
+          <h4>🏁 Conclusion</h4>
+          <p>Scalping is a precision-based, fast-paced trading style best suited for traders who:</p>
+          <ul class="styled-list">
+            <li>Can make quick decisions under pressure,</li>
+            <li>Have reliable technology (low spreads, fast execution),</li>
+            <li>And possess the discipline to stick to strict risk management.</li>
+          </ul>
+          <p>While it can be profitable, it’s also one of the most challenging trading strategies due to its speed, cost, and psychological demands.</p>
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/daytrading/100/100" class="card-image" alt="Day Trading">
+          <div class="card-title-wrapper">
+            <h3>Day Trading</h3>
+            <p class="muted">Category: By Trade Duration</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Day trading (ya Intraday trading) mein traders ek hi trading day ke andar securities ko buy aur sell karte
+            hain. Market close hone se pehle sabhi positions ko square off kar diya jaata hai, taaki overnight risk
+            (jaise ki market gap-up ya gap-down open hona) se bacha ja sake. Yeh scalping se thoda lamba, par swing
+            trading se chota hota hai.</p>
+          <img src="https://picsum.photos/seed/ai_daytrade/400/200" class="ai-image"
+            alt="AI Generated Image of Day Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/swingtrading/100/100" class="card-image" alt="Swing Trading">
+          <div class="card-title-wrapper">
+            <h3>Swing Trading</h3>
+            <p class="muted">Category: By Trade Duration</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Swing trading mein positions ko kuch dino se lekar kuch hafton tak hold kiya jaata hai. Iska aim short-term
+            price "swings" ya market trends se profit kamaana hota hai. Swing traders aksar technical analysis (jaise
+            chart patterns aur indicators) ka istemaal karke entry aur exit points dhoondhte hain.</p>
+          <img src="https://picsum.photos/seed/ai_swing/400/200" class="ai-image"
+            alt="AI Generated Image of Swing Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/position/100/100" class="card-image" alt="Position Trading">
+          <div class="card-title-wrapper">
+            <h3>Position Trading</h3>
+            <p class="muted">Category: By Trade Duration</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Position trading sabse longest-term trading strategy hai, jo investing ke kaafi kareeb hai. Ismein traders
+            positions ko mahino ya saalon tak hold karte hain, taaki long-term market trends se fayda utha sakein.
+            Ismein daily price fluctuations ko ignore kiya jaata hai aur fundamental analysis par zyaada dhyaan diya
+            jaata hai.</p>
+          <img src="https://picsum.photos/seed/ai_position/400/200" class="ai-image"
+            alt="AI Generated Image of Position Trading">
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 2rem;">By Strategy</h3>
+    <div class="accordion-grid" style="margin-top: 1.5rem;">
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/momentum/100/100" class="card-image" alt="Momentum Trading">
+          <div class="card-title-wrapper">
+            <h3>Momentum Trading</h3>
+            <p class="muted">Category: By Strategy</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Momentum trading is strategy hai jo "trend is your friend" ke principle par kaam karti hai. Traders un
+            stocks ko khareedte hain jo pehle se hi upar jaa rahe hain (strong momentum) aur unko bechte hain jo neeche
+            gir rahe hain. Iska idea yeh hai ki jo trend chal raha hai, woh kuch waqt tak continue rahega.</p>
+          <img src="https://picsum.photos/seed/ai_momentum/400/200" class="ai-image"
+            alt="AI Generated Image of Momentum Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/fundamental/100/100" class="card-image" alt="Fundamental Trading">
+          <div class="card-title-wrapper">
+            <h3>Fundamental Trading</h3>
+            <p class="muted">Category: By Strategy</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Fundamental trading mein kisi asset ki intrinsic value (asli keemat) ka pata lagaya jaata hai. Iske liye
+            company ki financial statements (jaise balance sheet, P&L statement), industry trends, economic data, aur
+            management quality ko analyze kiya jaata hai. Agar stock price apni intrinsic value se kam hai, toh use
+            "undervalued" maankar khareeda jaata hai.</p>
+          <img src="https://picsum.photos/seed/ai_fundamental/400/200" class="ai-image"
+            alt="AI Generated Image of Fundamental Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/technical/100/100" class="card-image" alt="Technical Trading">
+          <div class="card-title-wrapper">
+            <h3>Technical Trading</h3>
+            <p class="muted">Category: By Strategy</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Technical trading (Technical Analysis par based) mein traders price charts aur trading volume ka istemaal
+            karke future price movements ko predict karte hain. Ismein maana jaata hai ki saari information (jaise news,
+            fundamentals) pehle se hi price mein reflected hoti hai. Traders chart patterns, trendlines, aur indicators
+            (jaise RSI, MACD) ka istemaal karte hain.</p>
+          <img src="https://picsum.photos/seed/ai_technical/400/200" class="ai-image"
+            alt="AI Generated Image of Technical Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/arbitrage/100/100" class="card-image" alt="Arbitrage Trading">
+          <div class="card-title-wrapper">
+            <h3>Arbitrage Trading</h3>
+            <p class="muted">Category: By Strategy</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Arbitrage ek low-risk strategy hai jisme trader ek hi asset ko do alag-alag markets mein ek saath khareedta
+            aur bechta hai. Aisa tab kiya jaata hai jab asset ki keemat dono markets mein alag-alag ho. Maqsad is price
+            difference se risk-free profit kamaana hota hai. For example, ek stock ko NSE par kam daam mein khareedna
+            aur usi waqt BSE par zyaada daam mein bech dena.</p>
+          <img src="https://picsum.photos/seed/ai_arbitrage/400/200" class="ai-image"
+            alt="AI Generated Image of Arbitrage Trading">
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 2rem;">By Methodology</h3>
+    <div class="accordion-grid" style="margin-top: 1.5rem;">
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/algotrading/100/100" class="card-image" alt="Algo Trading">
+          <div class="card-title-wrapper">
+            <h3>Algorithmic Trading</h3>
+            <p class="muted">Category: By Methodology</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Algorithmic trading (ya Algo-trading) mein computer programs ka istemaal karke trades ko automatically
+            execute kiya jaata hai. Yeh programs pehle se define kiye gaye rules (jaise price, timing, volume) par kaam
+            karte hain. Iska fayda speed (insaanon se tez) aur accuracy (bina emotions ke) hai. High-Frequency Trading
+            (HFT) iska ek advanced form hai.</p>
+          <img src="https://picsum.photos/seed/ai_algo/400/200" class="ai-image"
+            alt="AI Generated Image of Algo Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/social/100/100" class="card-image" alt="Social Trading">
+          <div class="card-title-wrapper">
+            <h3>Social Trading</h3>
+            <p class="muted">Category: By Methodology</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Social trading ek naya concept hai jisme traders (khaaskar naye) doosre expert traders ke trading behavior
+            ko dekhte hain aur unse seekhte hain. Yeh social media jaisa hota hai, lekin trading ke liye. Traders apne
+            ideas share karte hain, market analysis post karte hain aur doosron ki strategies ko follow kar sakte hain.
+          </p>
+          <img src="https://picsum.photos/seed/ai_social/400/200" class="ai-image"
+            alt="AI Generated Image of Social Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/copy/100/100" class="card-image" alt="Copy Trading">
+          <div class="card-title-wrapper">
+            <h3>Copy Trading</h3>
+            <p class="muted">Category: By Methodology</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Copy trading, social trading ka ek hissa hai jisme aap kisi doosre successful trader ki trades ko "copy"
+            karte hain. Jab woh expert trader koi trade leta hai (buy ya sell), toh wahi trade aapke account mein bhi
+            automatically execute ho jaati hai. Yeh naye traders ke liye popular hai jo experts ki strategy se fayda
+            uthaana chahte hain.</p>
+          <img src="https://picsum.photos/seed/ai_copy/400/200" class="ai-image"
+            alt="AI Generated Image of Copy Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/news/100/100" class="card-image" alt="News Trading">
+          <div class="card-title-wrapper">
+            <h3>News Trading</h3>
+            <p class="muted">Category: By Methodology</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>News trading mein traders economic data releases (jaise GDP, inflation, unemployment data) ya
+            company-specific news (jaise earnings results, merger announcements) ke aate hi turant trade lete hain. Iska
+            aim news ke kaaran hone waale sudden aur strong price movements se profit kamaana hota hai. Ismein high
+            volatility aur risk hota hai.</p>
+          <img src="https://picsum.photos/seed/ai_news/400/200" class="ai-image"
+            alt="AI Generated Image of News Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/delivery/100/100" class="card-image" alt="Delivery Trading">
+          <div class="card-title-wrapper">
+            <h3>Delivery Trading</h3>
+            <p class="muted">Category: By Methodology</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Delivery trading mein aap stocks ko khareedte hain aur unhe apne Demat account mein "deliver" lete hain.
+            Ismein aap stocks ko ek din se zyaada (hafton, mahino, ya saalon tak) hold kar sakte hain. Yeh intraday
+            trading ka ulta hai. Ismein aapko poora paisa dena hota hai (koi margin nahi milta) aur aap stocks ke legal
+            owner ban jaate hain.</p>
+          <img src="https://picsum.photos/seed/ai_delivery/400/200" class="ai-image"
+            alt="AI Generated Image of Delivery Trading">
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 2rem;">Other Trading Types</h3>
+    <div class="accordion-grid" style="margin-top: 1.5rem;">
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/commodity/100/100" class="card-image" alt="Commodity Trading">
+          <div class="card-title-wrapper">
+            <h3>Commodity Trading</h3>
+            <p class="muted">Category: Other Types</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Commodity trading mein raw materials (commodities) ko khareeda aur becha jaata hai. Yeh do tarah ke hote
+            hain: Hard commodities (jaise Gold, Silver, Crude Oil) aur Soft commodities (jaise Wheat, Cotton, Sugar).
+            Traders inke future price movements par speculation karte hain. Yeh aksar futures contracts ke through kiya
+            jaata hai.</p>
+          <img src="https://picsum.photos/seed/ai_commodity/400/200" class="ai-image"
+            alt="AI Generated Image of Commodity Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/options/100/100" class="card-image" alt="Options Trading">
+          <div class="card-title-wrapper">
+            <h3>Options Trading</h3>
+            <p class="muted">Category: Other Types</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Options trading derivatives ka ek form hai. Ek 'Option' ek contract hota hai jo buyer ko 'right' (haq) deta
+            hai, lekin 'obligation' (majboori) nahi, ki woh ek asset ko ek specific price (strike price) par ek specific
+            date (expiry date) tak khareed (Call Option) ya bech (Put Option) sake. Iska istemaal speculation aur
+            hedging (risk kam karne) dono ke liye hota hai.</p>
+          <img src="https://picsum.photos/seed/ai_options/400/200" class="ai-image"
+            alt="AI Generated Image of Options Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/crypto/100/100" class="card-image" alt="Crypto Trading">
+          <div class="card-title-wrapper">
+            <h3>Cryptocurrency Trading</h3>
+            <p class="muted">Category: Other Types</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Cryptocurrency trading mein digital assets jaise Bitcoin, Ethereum, etc. ko khareeda aur becha jaata hai.
+            Yeh market 24/7 chalta hai aur bahut zyaada volatile (asteer) hota hai. Traders in crypto assets ki keemat
+            ke utaar-chadhaav par speculation karke profit kamaane ki koshish karte hain.</p>
+          <img src="https://picsum.photos/seed/ai_crypto/400/200" class="ai-image"
+            alt="AI Generated Image of Crypto Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/futures/100/100" class="card-image" alt="Futures Trading">
+          <div class="card-title-wrapper">
+            <h3>Futures Trading</h3>
+            <p class="muted">Category: Other Types</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Futures bhi derivatives hain. Yeh ek legal contract hota hai jisme aap ek asset (jaise commodity, stock, ya
+            currency) ko future ki ek specific date par ek pehle se tay (pre-determined) price par khareedne ya bechne
+            ke liye agree karte hain. Options ke विपरीत, Futures mein 'obligation' (majboori) hoti hai, 'right' nahi.
+          </p>
+          <img src="https://picsum.photos/seed/ai_futures/400/200" class="ai-image"
+            alt="AI Generated Image of Futures Trading">
+        </div>
+      </div>
+
+      <div class="card accordion-card">
+        <div class="card-header">
+          <img src="https://picsum.photos/seed/priceaction/100/100" class="card-image" alt="Price Action Trading">
+          <div class="card-title-wrapper">
+            <h3>Price Action Trading</h3>
+            <p class="muted">Category: Other Types</p>
+          </div>
+          <i class="fa-solid fa-angle-up card-icon"></i>
+        </div>
+        <div class="card-content">
+          <p>Price action trading technical analysis ka ek form hai jisme traders sirf "price" ke movement par dhyaan
+            dete hain. Ismein lagging indicators (jaise RSI, MACD) ka istemaal nahi kiya jaata. Traders candlestick
+            patterns, support & resistance levels, aur trend lines ko padhkar trading decisions lete hain.</p>
+          <img src="https://picsum.photos/seed/ai_priceaction/400/200" class="ai-image"
+            alt="AI Generated Image of Price Action Trading">
+        </div>
+      </div>
+    </div>
+    </div>
+
+    </div>
+
+  </main>
+  
+  <div id="dashboardCardModal" class="card-modal-overlay">
+    <div class="card-modal-content">
+      <button id="cardModalCloseBtn" class="modal-close-btn">&times;</button>
+
+      <img src="" id="cardModalImage" alt="Workshop Image">
+      <h2 id="cardModalTitle"></h2>
+      <p id="cardModalContent"></p>
+
+    </div>
+  </div>
+
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <h6>Trading Tutor</h6>
+        <p class="muted">Learn • Practice • Grow</p>
+      </div>
+      <div>
+        <h6>Explore</h6>
+        <a href="index.html">Home</a><br>
+        <a href="dashboard.html">Dashboard</a><br>
+        <a href="blog.html">Blog</a><br>
+        <a href="workshop.html">Workshop</a><br>
+      </div>
+      <div>
+        <h6>Support</h6>
+        <a href="contactus.html">Contact</a><br>
+        <a href="forgot-password.html">Reset Password</a><br>
+      </div>
+      <div>
+        <h6>Legal</h6>
+        <a href="#">Terms</a><br>
+        <a href="#">Privacy</a><br>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div>© <span id="year"></span> Trading Tutor</div>
+      <div class="socials">
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../static/JS/scripts.js"></script>
+</body>
+
+</html>

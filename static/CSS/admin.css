@@ -204,3 +204,88 @@
 #admin-theme-toggle button {
   font-size: 1.5rem;
 }
+
+/*
+=========================================
+  ADMIN MODULES (New UI Styles)
+=========================================
+*/
+
+/* 5-column grid for stats */
+.stats-grid.grid-5 {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+/* Section titles (e.g., "User Management") */
+.admin-section-title {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* User Status (Active/Blocked) */
+.status-badge {
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.status-badge.active {
+  background: rgba(25, 135, 84, 0.1);
+  color: #198754;
+}
+.status-badge.blocked {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+/* Email Management (Sub-tabs) */
+.admin-sub-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+.sub-tab-btn {
+  background: none;
+  border: none;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+}
+.sub-tab-btn.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+.admin-sub-tab-content {
+  display: none;
+}
+.admin-sub-tab-content.active {
+  display: block;
+}
+
+/* Finance Form */
+.finance-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.finance-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.finance-form label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.finance-form .btn {
+  width: auto;
+  align-self: flex-start;
+}

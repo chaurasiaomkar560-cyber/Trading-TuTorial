@@ -1,146 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Trading Tutor — Learn, Simulate, Succeed</title>
-  <link href="D:/Trading-TuTorial/static/CSS/styles.css" rel="stylesheet"/>
-  <link href="D:/Trading-TuTorial/static/CSS/home.css" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
-</head>
-<body>
-  <!-- ===== HEADER ===== -->
-  <header>
-    <div class="container nav">
-      <div class="brand">
-        <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
-        <div>
-          <div class="brand-title">Trading Tutor</div>
-          <div class="brand-sub">Learn • Practice • Grow</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trading Tutor — Learn, Simulate, Succeed</title>
+    <link href="D:/Trading-TuTorial/static/CSS/styles.css" rel="stylesheet" />
+    <link href="D:/Trading-TuTorial/static/CSS/home.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- ===== HEADER ===== -->
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
+          <div>
+            <div class="brand-title">Trading Tutor</div>
+            <div class="brand-sub">Learn • Practice • Grow</div>
+          </div>
         </div>
-      </div>
 
-      <!-- ===== NAVIGATION LINKS ===== -->
-      <nav class="nav-links">
-        <a href="index.html" class="active">Home</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="blog.html">Blog</a>
-        <a href="workshop.html">Workshop</a>
-        <a href="contactus.html">Contact</a>
+        <!-- ===== NAVIGATION LINKS ===== -->
+        <nav class="nav-links">
+          <a href="index.html" class="active">Home</a>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="blog.html">Blog</a>
+          <a href="workshop.html">Workshop</a>
+          <a href="contactus.html">Contact</a>
 
-        <!-- Mobile-only buttons (bottom of hamburger menu) -->
-        <div class="mobile-actions">
-          <a href="login.html" class="btn btn-secondary mobile-only">Sign in</a>
-          <a href="signup.html" class="btn btn-primary mobile-only">Create account</a>
-        </div>
-      </nav>
+          <!-- Mobile-only buttons (bottom of hamburger menu) -->
+          <div class="mobile-actions">
+            <a href="login.html" class="btn btn-secondary mobile-only"
+              >Sign in</a
+            >
+            <a href="signup.html" class="btn btn-primary mobile-only"
+              >Create account</a
+            >
+          </div>
+        </nav>
 
-      <!-- ===== RIGHT SIDE ACTIONS ===== -->
-      <div class="actions">
-        <!-- Theme toggle -->
-        <div class="theme-toggle">
-          <button id="theme-btn" aria-label="Toggle Theme">
-            <i class="fa-solid fa-moon"></i>
+        <!-- ===== RIGHT SIDE ACTIONS ===== -->
+        <div class="actions">
+          <!-- Theme toggle -->
+          <div class="theme-toggle">
+            <button id="theme-btn" aria-label="Toggle Theme">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+          </div>
+
+          <!-- Hamburger icon -->
+          <button id="menu-btn" class="icon-btn" aria-label="Menu">
+            <i class="fa-solid fa-bars"></i>
           </button>
+
+          <!-- Desktop-only buttons -->
+          <a class="btn btn-secondary desktop-only" href="login.html"
+            >Sign in</a
+          >
+          <a class="btn btn-primary desktop-only" href="signup.html"
+            >Create account</a
+          >
         </div>
+      </div>
+    </header>
 
-        <!-- Hamburger icon -->
-        <button id="menu-btn" class="icon-btn" aria-label="Menu">
-          <i class="fa-solid fa-bars"></i>
-        </button>
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero container">
+      <div class="hero-content">
+        <h1>Master Online Trading with Confidence</h1>
+        <p>
+          Premium tutorials and analytics dashboards to help you learn
+          strategies and practice risk-free.
+        </p>
+        <div class="hero-cta">
+          <a href="signup.html" class="btn btn-primary">Get Started</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="glow-card">
+          <i class="fa-solid fa-lightbulb"></i>
+          <span>Actionable Lessons</span>
+        </div>
+        <div class="glow-card">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Analytics Insights</span>
+        </div>
+      </div>
+    </section>
 
-        <!-- Desktop-only buttons -->
-      <a class="btn btn-secondary desktop-only" href="login.html">Sign in</a>
-        <a class="btn btn-primary desktop-only" href="signup.html">Create account</a>
+    <!-- ===== FEATURES ===== -->
+    <section class="container grid-3 features">
+      <div class="card">
+        <i class="fa-solid fa-book-open feature-icon"></i>
+        <h3>Step-by-Step Tutorials</h3>
+        <p>
+          From chart basics to advanced strategies, learn with curated, visual
+          lessons.
+        </p>
       </div>
-    </div>
-  </header>
+      <div class="card">
+        <i class="fa-solid fa-flask feature-icon"></i>
+        <h3>Proper Live Webinar</h3>
+        <p>Experienced hosters come here to teach people about trading.</p>
+      </div>
+      <div class="card">
+        <i class="fa-solid fa-chart-column feature-icon"></i>
+        <h3>Performance Analytics</h3>
+        <p>Track win-rate, expectancy, and equity curve to find your edge.</p>
+      </div>
+    </section>
 
-  <!-- ===== HERO SECTION ===== -->
-  <section class="hero container">
-    <div class="hero-content">
-      <h1>Master Online Trading with Confidence</h1>
-      <p>Premium tutorials and analytics dashboards to help you learn strategies and practice risk-free.</p>
-      <div class="hero-cta">
-        <a href="signup.html" class="btn btn-primary">Get Started</a>
+    <!-- ===== CTA ===== -->
+    <section class="container cta">
+      <div class="card card-cta">
+        <h2>Ready to start your trading journey?</h2>
+        <p>
+          Create your free account and access lessons, the simulator, and more.
+        </p>
+        <a href="signup.html" class="btn btn-primary">Create Free Account</a>
       </div>
-    </div>
-    <div class="hero-visual">
-      <div class="glow-card">
-        <i class="fa-solid fa-lightbulb"></i>
-        <span>Actionable Lessons</span>
-      </div>
-      <div class="glow-card">
-        <i class="fa-solid fa-gauge-high"></i>
-        <span>Analytics Insights</span>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== FEATURES ===== -->
-  <section class="container grid-3 features">
-    <div class="card">
-      <i class="fa-solid fa-book-open feature-icon"></i>
-      <h3>Step-by-Step Tutorials</h3>
-      <p>From chart basics to advanced strategies, learn with curated, visual lessons.</p>
-    </div>
-    <div class="card">
-      <i class="fa-solid fa-flask feature-icon"></i>
-      <h3>Proper Live Webinar </h3>
-      <p>Experienced hosters come here to teach people about trading.</p>
-    </div>
-    <div class="card">
-      <i class="fa-solid fa-chart-column feature-icon"></i>
-      <h3>Performance Analytics</h3>
-      <p>Track win-rate, expectancy, and equity curve to find your edge.</p>
-    </div>
-  </section>
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      <div class="container footer-inner">
+        <div>
+          <h6>Trading Tutor</h6>
+          <p class="muted">Learn • Practice • Grow</p>
+        </div>
+        <div>
+          <h6>Explore</h6>
+          <a href="index.html">Home</a><br />
+          <a href="dashboard.html">Dashboard</a><br />
+          <a href="blog.html">Blog</a><br />
+          <a href="workshop.html">Workshop</a><br />
+        </div>
+        <div>
+          <h6>Support</h6>
+          <a href="contactus.html">Contact</a><br />
+          <a href="forgot-password.html">Reset Password</a><br />
+        </div>
+        <div>
+          <h6>Legal</h6>
+          <a href="#">Terms</a><br />
+          <a href="#">Privacy</a><br />
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <div>© <span id="year"></span> Trading Tutor</div>
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+    </footer>
 
-  <!-- ===== CTA ===== -->
-  <section class="container cta">
-    <div class="card card-cta">
-      <h2>Ready to start your trading journey?</h2>
-      <p>Create your free account and access lessons, the simulator, and more.</p>
-      <a href="signup.html" class="btn btn-primary">Create Free Account</a>
-    </div>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
-  <footer>
-    <div class="container footer-inner">
-      <div>
-        <h6>Trading Tutor</h6>
-        <p class="muted">Learn • Practice • Grow</p>
-      </div>
-      <div>
-        <h6>Explore</h6>
-        <a href="index.html">Home</a><br>
-        <a href="dashboard.html">Dashboard</a><br>
-        <a href="blog.html">Blog</a><br>
-        <a href="workshop.html">Workshop</a><br>
-      </div>
-      <div>
-        <h6>Support</h6>
-        <a href="contactus.html">Contact</a><br>
-        <a href="forgot-password.html">Reset Password</a><br>
-      </div>
-      <div>
-        <h6>Legal</h6>
-        <a href="#">Terms</a><br>
-        <a href="#">Privacy</a><br>
-      </div>
-    </div>
-    <div class="container footer-bottom">
-      <div>© <span id="year"></span> Trading Tutor</div>
-      <div class="socials">
-        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="#"><i class="fa-brands fa-github"></i></a>
-      </div>
-    </div>
-  </footer>
-
-  <script src="D:/Trading-TuTorial/static/JS/scripts.js"></script>
-</body>
+    <script src="D:/Trading-TuTorial/static/JS/scripts.js"></script>
+  </body>
 </html>
