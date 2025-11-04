@@ -4,128 +4,69 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Create Account — Trading Tutor</title>
-  <link href="../static/CSS/signup.css" rel="stylesheet"/>
-  <link href="../static/CSS/styles.css" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../static/CSS/styles.css">
+  <link rel="stylesheet" href="../static/CSS/signup.css">
 </head>
 <body>
-  <header>
-    <div class="container nav">
-      <div class="brand">
-        <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
-        <div>
-          <div class="brand-title">Trading Tutor</div>
-          <div class="brand-sub">Create your account</div>
+
+ 
+
+  <main class="container auth-container">
+    <div class="card auth-card">
+      <h2>Create your account</h2>
+      <p class="muted">Start your trading journey with us.</p>
+      
+      <form id="signup-form" method="POST" action="/signup" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="full_name">Full Name</label>
+          <input type="text" id="signupName"  name ="full_name" placeholder="Enter your full name" required>
         </div>
-      </div>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="blog.html">Blog</a>
-        <a href="workshop.html">Workshop</a>
-        <a href="contactus.html">Contact</a>
-      </nav>
-      <div class="actions">
-        <button id="menu-btn" class="icon-btn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
-        <div class="theme-toggle">
-          <button id="theme-btn" aria-label="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="signupEmail" name="email" placeholder="you@example.com" required>
         </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container auth">
-    <div class="card signup-card">
-      <h2>Create Account</h2>
-
-      <!-- Role Selector -->
-      <div class="role-selector">
-        <button class="role-btn active" data-role="user">
-          <i class="fa-solid fa-user-graduate"></i> Learner
-        </button>
-        <button class="role-btn" data-role="hoster">
-          <i class="fa-solid fa-chalkboard-user"></i> Hoster
-        </button>
-        <button class="role-btn" data-role="buyer">
-          <i class="fa-solid fa-hand-holding-dollar"></i> Buyer
-        </button>
-      </div>
-
-      <!-- Forms -->
-      <form id="signup-form">
-        <!-- Learner -->
-        <div class="form-fields active" id="user-form">
-          <label>Name</label>
-          <input type="text" placeholder="Your name" required />
-          <label>Email</label>
-          <input type="email" placeholder="Your email" required />
-          <label>Password</label>
-          <input type="password" placeholder="Choose password" required />
+        
+        <div class="form-group">
+          <label >Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="signupPassword" name="password" placeholder="Create a strong password" required>
+            <button type="button" class="password-toggle-btn" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye-slash"></i>
+            </button>
+          </div>
         </div>
 
-        <!-- Hoster -->
-        <div class="form-fields" id="hoster-form">
-          <label>Name</label>
-          <input type="text" placeholder="Your name" required />
-          <label>Email</label>
-          <input type="email" placeholder="Your email" required />
-          <label>Password</label>
-          <input type="password" placeholder="Choose password" required />
-          <label>Organization</label>
-          <input type="text" placeholder="Your organization" required />
-        </div>
+        <div class="form-group">
+          <label for="photo">Profile Picture</label>
+          <input type="file" id="signupPhoto" name="photo" accept="image/*" required>
 
-        <!-- Buyer -->
-        <div class="form-fields" id="buyer-form">
-          <label>Name</label>
-          <input type="text" placeholder="Your name" required />
-          <label>Email</label>
-          <input type="email" placeholder="Your email" required />
-          <label>Password</label>
-          <input type="password" placeholder="Choose password" required />
         </div>
-
-        <button class="btn btn-primary" type="submit">Register</button>
+        
+        <div id="password-strength-meter">
+          <div class="strength-bar"></div>
+          <span class="strength-text"></span>
+        </div>
+        
+        <button class="btn btn-primary" type="submit" style="width: 100%;">Create Account</button>
+      
       </form>
-
-      <p class="muted small-links">Already have an account? <a href="login.html">Sign in</a></p>
+      <div class="auth-divider">
+        <span>OR</span>
+      </div> 
+      <button class="btn btn-secondary google-btn" onclick="window.location.href='/login/google'" style="width: 100%;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"><path fill="#4285F4" d="M17.64 9.20455c0-.61364-.05455-1.22727-.16364-1.84091H9v3.47727h4.84091c-.20455 1.125-.81818 2.08636-1.74545 2.73864v2.26136h2.90455c1.70455-1.56818 2.68636-3.87273 2.68636-6.63636Z"></path><path fill="#34A853" d="M9 18c2.43182 0 4.47727-.80682 5.96818-2.18182L12.06364 13.56c-.80682.54545-1.84091.87273-3.06364.87273-2.33182 0-4.30909-1.56818-5.01818-3.67045H1.84091v2.33182C3.33182 16.2 5.96818 18 9 18Z"></path><path fill="#FBBC05" d="M3.98182 10.74091c-.13636-.40909-.21818-.84546-.21818-1.29546s.08182-.88636.21818-1.29546V5.81818H1.84091C1.22727 7.02273.9 8.37273.9 9.81818s.32727 2.79545.94091 4V10.74091Z"></path><path fill="#EA4335" d="M9 3.56818c1.32273 0 2.50909.46364 3.44091 1.35L15.01364 2.34C13.47727.88636 11.43182 0 9 0 5.96818 0 3.33182 1.8 1.84091 4.31818L4.01818 6.65C4.72727 4.54773 6.70455 3.56818 9 3.56818Z"></path></svg>
+        <span>Continue with Google</span>
+      </button>
     </div>
   </main>
+  
 
-  <footer>
-    <div class="container footer-inner">
-      <div>
-        <h6>Trading Tutor</h6>
-        <p class="muted">One platform, multiple roles.</p>
-      </div>
-      <div>
-        <h6>Explore</h6>
-        <a href="index.html">Home</a>
-        <a href="blog.html">Blog</a>
-        <a href="workshop.html">Workshop</a>
-      </div>
-      <div>
-        <h6>Support</h6>
-        <a href="contactus.html">Contact</a>
-        <a href="forgot-password.html">Reset Password</a>
-      </div>
-      <div>
-        <h6>Account</h6>
-        <a href="login.html">Sign in</a>
-        <a href="signup.html">Create account</a>
-      </div>
-    </div>
-    <div class="container footer-bottom">
-      <div>© <span id="year"></span> Trading Tutor</div>
-      <div class="socials">
-        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="#"><i class="fa-brands fa-github"></i></a>
-      </div>
-    </div>
-  </footer>
 
-  <script src="D:\Trading-TuTorial\static\JS\scripts.js"></script>
+
+  <script src="../static/JS/scripts.js"></script>
 </body>
 </html>

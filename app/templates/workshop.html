@@ -4,99 +4,255 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Workshops — Trading Tutor</title>
-  <link href="D:\Trading-TuTorial\static\CSS\styles.css" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../static/CSS/styles.css">
+  <link rel="stylesheet" href="../static/CSS/workshop.css">
+
 </head>
 <body>
-  <!-- Header -->
+
   <header>
     <div class="container nav">
       <div class="brand">
         <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
         <div>
           <div class="brand-title">Trading Tutor</div>
-          <div class="brand-sub">Live Classes & Cohorts</div>
+          <div class="brand-sub">Learn • Practice • Grow</div>
         </div>
       </div>
+
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="dashboard.html">Dashboard</a>
         <a href="blog.html">Blog</a>
         <a href="workshop.html" class="active">Workshop</a>
         <a href="contactus.html">Contact</a>
-      </nav>
-      <div class="actions">
-        <button id="menu-btn" class="icon-btn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
-        <div class="theme-toggle">
-          <button id="theme-btn" aria-label="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+
+        <div class="mobile-actions">
+          <a href="login.html" class="btn btn-secondary mobile-only">Sign in</a>
+          <a href="signup.html" class="btn btn-primary mobile-only">Create account</a>
         </div>
-        <a class="btn btn-secondary" href="login.html">Sign in</a>
-        <a class="btn btn-primary" href="signup.html">Create account</a>
+      </nav>
+
+      <div class="actions">
+        <div class="theme-toggle">
+          <button id="theme-btn" aria-label="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+        <button id="menu-btn" class="icon-btn" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a class="btn btn-secondary desktop-only" href="login.html">Sign in</a>
+        <a class="btn btn-primary desktop-only" href="signup.html">Create account</a>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="container">
-    <h2>Host & Join Workshops</h2>
+  <main class="container" style="padding-top: 2rem;">
+    <h1>Live Workshops</h1>
+    <p class="muted">Learn directly from expert traders in live, interactive sessions.</p>
 
-    <!-- Host Workshop Form -->
-    <div class="card">
-      <h3>Host a Workshop</h3>
-      <form id="workshopForm">
-        <input type="text" placeholder="Workshop Title" required>
-        <textarea placeholder="Workshop Description" required></textarea>
-        <input type="date" required>
-        <input type="number" placeholder="Duration (days)" required>
-        <input type="number" placeholder="Price (INR)" required>
-        <label>Intro Video (YouTube link)</label>
-        <input type="url" placeholder="Video URL">
-        <label>Supporting Documents (PDF/DOC)</label>
-        <input type="file" accept=".pdf,.doc,.docx">
-        <button class="btn btn-primary" type="submit">Publish Workshop</button>
-      </form>
-    </div>
+    <div class.="hoster-cta">
+  <button id="showHostModalBtn" class="btn btn-primary">
+    <i class="fa-solid fa-chalkboard-user"></i> Host a Workshop
+  </button>
+</div>
 
-    <!-- Workshop List -->
-    <div id="workshopList" class="grid-2">
+<div class="filter-bar">
+  <div class="search-wrapper">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" id="workshopSearchInput" placeholder="Search by title or keyword..." autocomplete="off">
+  </div>
+  
+  <div class="filter-wrapper">
+    <label for="workshopFilter">Show:</label>
+    <select id="workshopFilter">
+      <option value="all">All Workshops</option>
+      <option value="available">Available</option>
+      <option value="expired">Expired / Sold Out</option>
+    </select>
+  </div>
+</div>
+<div class="workshop-grid" style="margin-top: 1.5rem;">
+
+    <div class="workshop-grid" style="margin-top: 2rem;">
+
       <div class="card workshop-card">
-        <h3>Stock Market Basics</h3>
-        <p>Learn fundamentals of stock trading in 7 days.</p>
-        <p class="muted">By Kritika • Starts 10 Sep 2025</p>
-        <p><strong>Price: ₹1999</strong></p>
-        <div class="workshop-actions">
-          <button class="btn btn-primary">Enroll & Pay</button>
-          <!-- Visible only to workshop owner -->
-          <button class="btn btn-secondary">Edit</button>
-          <button class="btn btn-secondary">Delete</button>
-        </div>
-      </div>
+  <div class="workshop-badge price">$10</div>
+  
+  <img src="https://picsum.photos/seed/workshop1/400/200" class="workshop-thumb" alt="Workshop Image">
+  <div class="workshop-content">
+    <div class="workshop-meta" data-date="2025-11-15T19:00:00">
+  <div class="countdown-timer">
+    <span>--d</span> : <span>--h</span> : <span>--m</span> : <span>--s</span>
+  </div>
+  <span class="workshop-duration">
+    <i class="fa-regular fa-clock"></i> 3 Days
+  </span>
+</div>
+    </div>
+    <h3>Introduction to Technical Analysis</h3>
+    <p>Learn the fundamentals of chart patterns, indicators, and how to read market trends.</p>
+    <button class="btn btn-primary register-btn" style="width: 100%;">Register Now</button>
+  </div>
+</div>
+
+<div class="card workshop-card">
+  <div class="workshop-badge free">FREE</div>
+  
+  <img src="https://picsum.photos/seed/workshop2/400/200" class="workshop-thumb" alt="Workshop Image">
+  <div class="workshop-content">
+    <div class="workshop-meta" data-date="2025-11-22T19:00:00">
+  <div class="countdown-timer">
+    <span>--d</span> : <span>--h</span> : <span>--m</span> : <span>--s</span>
+  </div>
+  <span class="workshop-duration">
+    <i class="fa-regular fa-clock"></i> 2 Hours
+  </span>
+</div>
+    <h3>Options Trading Masterclass (Beginner)</h3>
+    <p>Understand Calls, Puts, and basic option strategies in this 2-hour intensive workshop.</p>
+    <button class="btn btn-primary register-btn" style="width: 100%;">Register Now</button>
+  </div>
+</div>
+
+<div class="card workshop-card is-sold-out">
+  <img src="https://picsum.photos/seed/workshop3/400/200" class="workshop-thumb" alt="Workshop Image">
+  <div class="workshop-content">
+    <div class="workshop-meta" data-date="2024-11-01T19:00:00">
+  <div class="countdown-timer">
+    <span>--d</span> : <span>--h</span> : <span>--m</span> : <span>--s</span>
+  </div>
+  <span class="workshop-duration">
+    <i class="fa-regular fa-clock"></i> 2 Days
+  </span>
+</div>
+    <h3>Psychology of Trading</h3>
+    <p>Master your emotions, overcome fear and greed, and build a winning mindset.</p>
+    <button class="btn btn-secondary" style="width: 100%;" disabled>Sold Out</button>
+  </div>
+</div>
     </div>
   </main>
 
-  <!-- Footer -->
+  <div id="hostModal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-content">
+    <button id="hostCloseBtn" class="modal-close-btn">&times;</button>
+      <h2>Create a New Workshop</h2>
+      <p class="muted">Fill out the details to list your workshop.</p>
+      
+      <form id="hostWorkshopForm">
+  
+  <fieldset class="form-fieldset">
+    <legend>Step 1: Your Hoster Details</legend>
+    <div class="form-group">
+      <label for="hostName">Full Name (as per ID)</label>
+      <input type="text" id="hostName" placeholder="Enter your full name" required>
+    </div>
+    <div class="form-group">
+      <label for="hostEmail">Contact Email</label>
+      <input type="email" id="hostEmail" placeholder="Your primary email for verification" required>
+    </div>
+    <div class="form-group">
+      <label for="hostSocial">LinkedIn or Portfolio URL</label>
+      <input type="text" id="hostSocial" placeholder="e.g., https://linkedin.com/in/yourprofile" required>
+    </div>
+    <div class="form-group">
+      <label for="hostExpertise">Proof of Expertise</label>
+      <textarea id="hostExpertise" rows="2" placeholder="e.g., 'I am a 5-year certified analyst' or paste portfolio links." required></textarea>
+    </div>
+  </fieldset>
+  
+  <fieldset class="form-fieldset">
+    <legend>Step 2: Your Workshop Details</legend>
+    <div class="form-group">
+      <label for="hostTitle">Workshop Title</label>
+      <input type="text" id="hostTitle" placeholder="e.g., Advanced Options Strategy" required>
+    </div>
+    <div class="form-group">
+      <label for="hostDesc">Description</label>
+      <textarea id="hostDesc" rows="3" placeholder="What will attendees learn?" required></textarea>
+    </div>
+    <div class="form-grid"> <div class="form-group">
+        <label for="hostPrice">Price ($ or 'FREE')</label>
+        <input type="text" id="hostPrice" placeholder="e.g., $50 or FREE" required>
+      </div>
+      <div class="form-group">
+        <label for="hostDuration">Duration</label>
+        <input type="text" id="hostDuration" placeholder="e.g., 3 Days" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="hostDate">Date & Time</label>
+      <input type="text" id="hostDate" placeholder="e.g., 25 Dec 2025 • 5:00 PM IST" required>
+    </div>
+    <div class="form-group">
+      <label for="hostImage">Image URL</label>
+      <input type="text" id="hostImage" placeholder="https://picsum.photos/seed/myworkshop/400/200">
+    </div>
+  </fieldset>
+  
+  <p class="muted" style="font-size: 0.8rem; margin-top: 1rem;">
+    *By submitting, you agree to our platform's quality and identity verification process (Tier 1 & 2). Your workshop will be manually reviewed before publishing.*
+  </p>
+  
+  <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+    Submit for Review
+  </button>
+</form>
+    </div>
+  </div>
+</div>
+
+  <div id="workshopModal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-content"></div>
+    <button id="workshopCloseBtn" class="modal-close-btn">&times;</button>
+    <div class="modal-content">
+      <h2>Register for Workshop</h2>
+      <p class="muted">You are registering for: <strong id="modalWorkshopTitle">Workshop Title</strong></p>
+      
+      <form id="workshopRegForm">
+        <div class="form-group">
+          <label for="regName">Full Name</label>
+          <input type="text" id="regName" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email Address</label>
+          <input type="email" id="regEmail" placeholder="Enter your email" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm Registration</button>
+      </form>
+    </div>
+  </div>
+</div>
+
   <footer>
     <div class="container footer-inner">
       <div>
         <h6>Trading Tutor</h6>
-        <p class="muted">Learn with cohorts and mentors.</p>
+        <p class="muted">Learn • Practice • Grow</p>
       </div>
       <div>
         <h6>Explore</h6>
-        <a href="index.html">Home</a>
-        <a href="blog.html">Blog</a>
-        <a href="dashboard.html">Dashboard</a>
+        <a href="index.html">Home</a><br>
+        <a href="dashboard.html">Dashboard</a><br>
+        <a href="blog.html">Blog</a><br>
+        <a href="workshop.html">Workshop</a><br>
       </div>
       <div>
         <h6>Support</h6>
-        <a href="contactus.html">Contact</a>
-        <a href="forgot-password.html">Reset Password</a>
+        <a href="contactus.html">Contact</a><br>
+        <a href="forgot-password.html">Reset Password</a><br>
       </div>
       <div>
-        <h6>Account</h6>
-        <a href="login.html">Sign in</a>
-        <a href="signup.html">Create account</a>
+        <h6>Legal</h6>
+        <a href="#">Terms</a><br>
+        <a href="#">Privacy</a><br>
       </div>
     </div>
     <div class="container footer-bottom">
@@ -109,6 +265,6 @@
     </div>
   </footer>
 
-  <script src="D:\Trading-TuTorial\static\JS\scripts.js"></script>
+  <script src="../static/JS/scripts.js"></script>
 </body>
 </html>

@@ -3,13 +3,6 @@ from openai import OpenAI
 
 def get_chatbot_response(user_message, api_key):
     
-    if not user_message or user_message.strip() == "":
-        return (
-            "👋 Hello! I am your Trading Tutor Bot, created to help you with "
-            "your queries and doubts about trading and stocks. "
-            "You can ask me anything related to trading, stock market basics, or investing!"
-        )
-
     client = OpenAI(
         base_url="https://api.sambanova.ai/v1",
         api_key=api_key

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reset Password — Trading Tutor</title>
+  <link href="../static/CSS/styles.css" rel="stylesheet"/>
+   <link href="../static/CSS/auth.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  
+
+  <main class="container auth">
+  <div class="card auth-card">
+    <h2>Forgot your password?</h2>
+    <p class="muted">Enter your email and we’ll send you a reset link.</p>
+
+    <form method="POST">
+      <!-- 🔹 Hidden inputs to preserve state -->
+      <input type="hidden" name="email_verified" value="{{ email_verified }}">
+      <input type="hidden" name="otp_verified" value="{{ otp_verified }}">
+
+      {% if not email_verified %}
+        <!-- Step 1: Email Verification -->
+        <label for="email">Email</label>
+        <input type="email" placeholder="you@example.com" name="email"
+               value="{{ request.form.get('email', '') }}" required/>
+        <button class="btn btn-primary" type="submit" name="action" value="verify_email">Verify Email</button>
+
+      {% elif email_verified and not otp_verified %}
+        <!-- Step 2: OTP Verification -->
+        <p class="muted">An OTP has been sent to {{ email }}. Please enter it below.</p>
+        <input type="hidden" name="email" value="{{ email }}"/>
+        <label for="otp">Enter the OTP</label>
+        <input type="text" placeholder="Enter the 4 Digit OTP" name="otp" required/>
+        <button class="btn btn-primary" type="submit" name="action" value="verify_otp">Verify OTP</button>
+
+      {% elif otp_verified %}
+        <!-- Step 3: New Password -->
+        <p class="muted">OTP verified — now set your new password.</p>
+        <input type="hidden" name="email" value="{{ email }}"/>
+        <label for="new_pass">New Password</label>
+        <input type="password" placeholder="Set a strong password" name="new_pass" required/>
+        <button class="btn btn-primary" type="submit" name="action" value="reset_password">Reset Password</button>
+      {% endif %}
+    </form>
+
+    <p class="muted small-links">
+      <a href="{{ url_for('main.login') }}">Back to Sign in</a>
+    </p>
+
+    {% if message %}
+    <script>
+      alert("{{ message }}");
+    </script>
+    {% endif %}
+  </div>
+</main>
+
+  <script src="D:\Trading-TuTorial\static\JS\scripts.js"></script>
+</body>
+</html>

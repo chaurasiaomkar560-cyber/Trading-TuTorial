@@ -333,7 +333,6 @@
   width: 100%;
   padding: 1rem 1.5rem;
   padding-left: 3.5rem; /* Icon ke liye jagah */
-  padding-right: 3.25rem;
   font-size: 1.1rem;
   background-color: var(--card-bg); /* Dark mode mein bhi kaam karega */
   border-radius: var(--border-radius);
@@ -346,30 +345,4 @@
   transform: translateY(-50%);
   color: var(--text-muted);
   font-size: 1.1rem;
-}
-
-/*
-=========================================
-  SEARCH BAR FILTER BUTTON
-=========================================
-*/
-.filter-icon-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 3.25rem; /* Left padding se match karein */
-  
-  /* Button styles reset karein */
-  background: none;
-  border: none;
-  cursor: pointer;
-  
-  /* Icon styles */
-  color: var(--text-muted);
-  font-size: 1rem;
-  transition: color 0.2s ease;
-}
-.filter-icon-btn:hover {
-  color: var(--primary-color);
 }

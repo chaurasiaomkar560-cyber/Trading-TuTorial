@@ -1,481 +1,935 @@
-/* === Root Variables (Light Theme Default) === */
+/* ===== GOOGLE FONT IMPORT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/*
+=========================================
+  1. CSS VARIABLES (NEW DESIGN THEME)
+=========================================
+*/
 :root {
-  --primary: #6c63ff;
-  --primary-dark: #4b44c9;
-  --secondary: #ff6584;
-  --accent: #4dd0e1;
-  --bg: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-  --text: #222;
-  --muted: #666;
-  --white: #fff;
-  --radius: 14px;
-  --shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-family: 'Poppins', sans-serif;
+  
+  /* New Color Palette from Image */
+  --primary-color: #6D41C8; /* Main purple */
+  --primary-hover: #5634a0;
+  --secondary-color: #0dcaf0; /* Light blue (for "Try Demo" button) */
+  --secondary-hover: #0b9fb5;
+  
+  --bg-color: #ffffff;
+  --card-bg: #ffffff;
+  --text-primary: #212529;
+  --text-muted: #6c757d;
+  --border-color: #f0f1f3; /* Lighter border */
+  
+  /* New Footer Colors */
+  --footer-bg: #1a0b33;
+  --footer-text: #f8f9fa;
+  --footer-text-muted: #adb5bd;
+  
+  --shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+  --border-radius: 12px; /* Slightly more rounded cards */
+  --container-width: 1100px;
+
+  --header-bg: rgba(255, 255, 255, 0.7);
+  --slider-bg: rgba(255, 255, 255, 0.5);
 }
 
-/* === Dark Theme Overrides === */
-body.dark {
-  --bg: linear-gradient(135deg, #0f172a, #1e293b);
-  --text: #f0f0f0;
-  --muted: #bbb;
-  --white: #1c1c1c;
-  --primary: #8a7dff;
-  --primary-dark: #6b5bda;
-  --secondary: #ff79a8;
-  --accent: #26c6da;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+[data-theme="dark"] {
+
+  /* Dark mode can be refined later */
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-muted: #78a9db;
+  --border-color: #343a40;
+  --footer-bg: #1a0b33;
+
+  --header-bg: rgba(30, 30, 30, 0.7);
+  --slider-bg: rgba(30, 30, 30, 0.5);
+
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
+  input[type='search'],
+  textarea {
+    background-color: var(--bg-color); /* Dark background */
+    color: var(--text-primary); /* Light text */
+    border-color: var(--border-color);
+  }
+
+  input[type='text']:focus,
+  input[type='email']:focus,
+  input[type='password']:focus,
+  input[type='search']:focus,
+  textarea:focus {
+    background-color: var(--bg-color); /* Dark background (same as page) */
+    color: var(--text-primary);      /* Light text */
+    border-color: var(--primary-color); /* Highlight border */
+  }
 }
 
-/* === Dark Mode Adjustments === */
-body.dark header {
-  background: rgba(255, 255, 255, 0.08); /* transparent glass look */
-  backdrop-filter: blur(10px);
-}
-body.dark .brand-title,
-body.dark .brand-sub {
-  color: #000 !important;
-}
-body.dark .nav-links {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-}
-body.dark .nav-links a {
-  color: #000 !important;
-}
-body.dark .nav-links a:hover {
-  background: linear-gradient(120deg, #4b44c9, #ff79a8);
-  color: #fff !important;
-}
-body.dark .nav-links a::before {
-  background: linear-gradient(120deg, #4b44c9, #ff79a8);
-}
-
-/* === Base Reset === */
+/*
+=========================================
+  2. BASE & RESET STYLES
+=========================================
+*/
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
+
 body {
-  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
   line-height: 1.6;
-  background: var(--bg);
-  color: var(--text);
-  padding-top: 80px;
 }
+
 a {
+  color: var(--primary-color);
   text-decoration: none;
-  color: inherit;
+  transition: color 0.2s ease;
 }
+
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
 }
+
 p {
   margin-bottom: 1rem;
 }
+
+/*
+=========================================
+  3. LAYOUT & CONTAINER
+=========================================
+*/
 .container {
-  width: min(1200px, 90%);
-  margin: auto;
-}
-img {
-  max-width: 100%;
-  border-radius: var(--radius);
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem; /* Padding for mobile */
 }
 
-/* === Header === */
-header {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow);
-  padding: 12px 0;
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-  transition: var(--transition);
-}
-header:hover {
-  background: rgba(255, 255, 255, 0.95);
-}
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.logo {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: var(--white);
-  border-radius: 50%;
-  padding: 10px;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-}
-.logo:hover {
-  transform: rotate(12deg) scale(1.05);
-}
-.brand-title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #000;
-  transition: none;
-}
-.brand-sub {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-.brand-title:hover,
-.brand-sub:hover {
-  color: #000;
-  transform: none;
-  transition: none;
-}
-.nav-links {
-  display: flex;
-  gap: 20px;
-}
-.nav-links a {
-  padding: 8px 16px;
-  border-radius: var(--radius);
-  font-weight: 500;
-  position: relative;
-  overflow: hidden;
-  transition: var(--transition);
-  color: var(--text);
-}
-.nav-links a.active,
-.nav-links a:hover {
-  color: var(--white);
-}
-.nav-links a::before {
-  content: "";
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(120deg, var(--primary), var(--secondary));
-  z-index: -1;
-  transition: var(--transition);
-}
-.nav-links a:hover::before,
-.nav-links a.active::before {
-  left: 0;
-}
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.icon-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: none;
-}
-.theme-toggle button {
-  background: var(--primary);
-  border: none;
-  border-radius: 50%;
-  width: 38px;
-  height: 38px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-}
-.theme-toggle button:hover {
-  transform: rotate(20deg) scale(1.1);
-  background: var(--secondary);
-}
-
-/* === Buttons === */
-.btn {
-  display: inline-block;
-  padding: 12px 20px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: center;
-  font-weight: 600;
-}
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: var(--white);
-  box-shadow: var(--shadow);
-}
-.btn-primary:hover {
-  transform: translateY(-3px);
-  background: linear-gradient(135deg, var(--secondary), var(--primary));
-}
-.btn-secondary {
-  background: var(--accent);
-  color: var(--white);
-}
-.btn-secondary:hover {
-  background: #26a7bd;
-  transform: translateY(-3px);
-}
-
-/* === Hero === */
-.hero {
-  display: grid;
-  gap: 40px;
-  align-items: center;
-  padding: 60px 0;
-}
-.hero-content h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-.hero-content p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-}
-.hero-cta {
-  display: flex;
-  gap: 16px;
-}
-.hero-visual {
-  display: flex;
-  gap: 20px;
-}
-.glow-card {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
-  text-align: center;
-  flex: 1;
-  transition: var(--transition);
-}
-.glow-card:hover {
-  transform: translateY(-5px) scale(1.05);
-}
-
-/* === Features === */
-.features .feature-icon {
-  font-size: 2rem;
-  color: var(--primary);
-  margin-bottom: 12px;
-  display: block;
-}
-
-/* === CTA Section === */
-.card-cta {
-  text-align: center;
-}
-
-/* === Cards === */
-.card {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 24px;
-  margin-bottom: 24px;
-  backdrop-filter: blur(6px);
-  transition: var(--transition);
-}
-.card:hover {
-  transform: translateY(-5px) scale(1.02);
-}
-
-/* === Grid Helpers === */
-.grid-2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-}
+/* This is the base grid, home.css will override it */
 .grid-3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  gap: 1.5rem;
 }
 
-/* === Forms === */
+/*
+=========================================
+  4. HEADER & NAVIGATION
+=========================================
+*/
+header {
+  background-color: var(--header-bg);
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow like image */
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: -0.5rem;
+}
+
+.brand .logo {
+  font-size: 1.75rem;
+  color: var(--primary-color);
+  /* Add transition for the icon */
+  transition: transform 0.3s ease-out;
+}
+
+.brand:hover .logo {
+  /* Animate on .brand hover: scale up and rotate */
+  transform: scale(1.1) rotate(-10deg);
+}
+
+.brand-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.brand-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: none; /* Hidden on mobile */
+  gap: 0.5rem;
+}
+
+.nav-links a {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  color: var(--text-primary); /* Dark text for links */
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.nav-links a:hover {
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+}
+
+.nav-links a.active {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 1001;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/*
+=========================================
+  5. FOOTER (NEW DARK DESIGN)
+=========================================
+*/
+footer {
+  background-color: var(--footer-bg);
+  color: var(--footer-text-muted);
+  padding-top: 3rem;
+  margin-top: 3rem;
+  border: none; /* Remove top border */
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile-first stack */
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  border-color: rgba(255, 255, 255, 0.1); /* Light border for dark bg */
+}
+
+.footer-inner h6 {
+  color: var(--footer-text); /* White heading */
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.footer-inner a {
+  color: var(--footer-text-muted);
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  text-decoration: none;
+}
+
+.footer-inner a:hover {
+  color: #ffffff; /* Brighter white on hover */
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.socials {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.socials a {
+  font-size: 1.25rem;
+  color: var(--footer-text-muted);
+}
+.socials a:hover {
+  color: var(--footer-text);
+}
+
+/*
+=========================================
+  6. BUTTONS & COMPONENTS (NEW DESIGN)
+=========================================
+*/
+
+/* --- Icon/Utility Buttons --- */
+.icon-btn,
+.theme-toggle button {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.icon-btn:hover,
+.theme-toggle button:hover {
+  color: var(--text-primary);
+  background-color: #f0f1f3;
+}
+
+/* Hamburger Menu Button */
+#menu-btn {
+  display: block; /* Show on mobile */
+}
+
+/* --- Standard Buttons --- */
+.btn {
+  display: inline-block;
+  padding: 0.85rem 1.75rem; /* Slightly larger padding */
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  width: 100%; /* Default to full-width for mobile forms */
+  
+  /* YEH HAI HOVER ANIMATION (jaisa aapne maanga) */
+  transition: all 0.3s ease;
+}
+.btn:hover {
+  text-decoration: none;
+  transform: translateY(-2px); /* Button lift animation */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Gradient Button (Primary) */
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(90deg, #C850C0 0%, #4158D0 100%);
+  background-size: 100% 100%;
+}
+.btn-primary:hover {
+  color: #fff;
+  opacity: 0.9;
+  box-shadow: 0 6px 12px rgba(65, 88, 208, 0.3);
+}
+
+/* Light Blue Button (Secondary) */
+.btn-secondary {
+  background-color: #08b4ee;
+  color: #fafdff;
+  border: 1px solid #e0f7ff;
+}
+.btn-secondary:hover {
+  background-color: #ccefff;
+  color: #0056b3;
+  border-color: #ccefff;
+}
+
+/* This was in contactus.html */
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+.btn-outline:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+/* --- Card --- */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+/*
+=========================================
+  7. FORMS
+=========================================
+*/
 form {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
-form label {
+
+label {
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: -0.5rem; /* Place closer to its input */
 }
-form input, form textarea, form select {
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+textarea {
   width: 100%;
-  padding: 12px;
-  border-radius: var(--radius);
-  border: 1px solid #ccc;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color); /* Light grey background for inputs */
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 1rem;
+}
+
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus,
+textarea:focus {
   outline: none;
-  margin-bottom: 14px;
-  background: rgba(255, 255, 255, 0.9);
-  transition: var(--transition);
-}
-form input:focus,
-form textarea:focus,
-form select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.3);
+  border-color: var(--primary-color);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.15);
 }
 
-/* === Auth Pages === */
-.auth {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 70vh;
+textarea {
+  min-height: 120px;
+  resize: vertical;
 }
-.auth-card {
-  max-width: 420px;
-  width: 100%;
+
+/*
+=========================================
+  8. UTILITY CLASSES
+=========================================
+*/
+.muted {
+  color: var(--text-muted);
 }
-.signup-card {
-  max-width: 520px;
-  margin: auto;
-}
-.role-selector {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0 25px;
-  gap: 12px;
-}
-.role-btn {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  border-radius: var(--radius);
-  background: #f1f1f1;
-  color: var(--primary);
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: var(--shadow);
-}
-.role-btn.active {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: var(--white);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-}
-.role-btn:hover {
-  transform: translateY(-3px);
-  background: var(--accent);
-  color: var(--white);
-}
-.form-fields { display: none; }
-.form-fields.active { display: block; }
+
 .small-links {
-  text-align: center;
-  margin-top: 10px;
+  font-size: 0.9rem;
+  margin-top: 1rem;
 }
 
-/* === Footer === */
-footer {
-  margin-top: 60px;
-  background: linear-gradient(135deg, var(--primary-dark), #111);
-  color: var(--white);
-  padding-top: 40px;
+.desktop-only {
+  display: none;
 }
-.footer-inner {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 24px;
-  padding: 20px 0;
-}
-.footer-inner a {
+
+.mobile-only {
   display: block;
-  color: #ccc;
-  margin-bottom: 8px;
-  font-size: 0.95rem;
-  transition: var(--transition);
 }
-.footer-inner a:hover {
-  color: var(--white);
-  transform: translateX(6px);
-}
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 0;
-  font-size: 0.95rem;
-}
-.footer-bottom a { color: #ccc; }
-.footer-bottom a:hover { color: var(--white); }
 
-/* === Responsive === */
-@media (max-width: 768px) {
+/*
+=========================================
+  9. RESPONSIVE (MEDIA QUERIES)
+=========================================
+*/
+/*
+=========================================
+  MOBILE NAVIGATION (NEW DROPDOWN BOX STYLE)
+=========================================
+*/
+@media (max-width: 767px) {
+  
   .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 75px;
-    right: 20px;
-    background: var(--white);
-    box-shadow: var(--shadow);
-    padding: 15px;
-    border-radius: var(--radius);
-    transform-origin: top;
-    transform: scaleY(0);
-    transition: transform 0.3s ease;
-  }
-  header.active .nav-links {
+    /* 1. New Box Position */
+    position: fixed;
+    top: 104px;  /* Header ke theek niche (header height + small gap) */
+    right: 1rem; /* Right side se 1rem ka gap */
+    left: auto; /* Left ko unset karein */
+    width: 300px; /* Box ki width */
+    max-width: 90%; /* Chhoti screen ke liye safety */
+    height: auto; /* Content ke hisab se height */
+    
+    /* 2. Frosted Glass Box Style */
+    background-color: var(--slider-bg); /* Yeh blur karega */
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    border-radius: var(--border-radius); /* Box ko rounded corners dein */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Shadow add karein */
+    border: 1px solid var(--border-color); /* Halki si border */
+
+    /* 3. Align links inside the box */
     display: flex;
-    transform: scaleY(1);
+    flex-direction: column;
+    justify-content: flex-start; /* Links ko top se start karein */
+    align-items: stretch; /* Links ko poori width dein */
+    gap: 0.5rem; /* Links ke beech gap kam karein */
+    padding: 1rem; /* Box ke andar padding */
+
+    /* 4. Hiding logic (Fade in + slide down) */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px); /* Upar se slide karke aayega */
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
-  .icon-btn {
+  
+  .nav-links.nav-open {
+    /* 5. Show the box */
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0); /* Final position par slide karein */
+  }
+  
+  /* 6. Style the links inside the box */
+  .nav-links > a {
+    color: var(--text-primary);
+    font-size: 1rem; /* Font size normal karein (bada nahi) */
+    font-weight: 600;
+    padding: 0.75rem 1rem; /* Padding */
+    border-radius: var(--border-radius);
+    text-align: left; /* Text ko left-align karein */
+  }
+  
+  .nav-links > a:hover {
+    background: var(--border-color);
+    text-decoration: none;
+  }
+
+  .nav-links > a.active {
+    color: var(--primary-color);
+    background: var(--border-color);
+  }
+  
+  /* 7. Style the mobile buttons */
+  .mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: -1rem; 
+    padding-top: 1rem; /* Padding kam karein */
+    border-top: 1px solid var(--border-color);
+    width: 100%; /* Box ki poori width */
+  }
+  
+  .mobile-actions .btn {
+    width: 100%;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+  
+  .footer-inner {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .brand {
+    margin-left: -1rem; /* Desktop par thoda aur left mein */
+  }
+
+  #menu-btn {
+    display: none;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: row;
+    position: static; /* Reset from 'absolute' */
+    background-color: transparent;
+    border-bottom: none;
+    padding: 0;
+    transform: none; /* Reset transform */
+    transition: none;
+    box-shadow: none;
+    /* align-items: center; */
+  }
+
+  .nav-links a {
+    width: auto; /* Reset from 100% width */
+    padding: 0.5rem 0.75rem;
+  }
+
+  .btn {
+    width: auto; /* Buttons are not full-width on desktop */
+  }
+
+  .desktop-only {
     display: block;
   }
-  .hero {
-    grid-template-columns: 1fr;
+  
+  .actions .btn.desktop-only {
+    display: inline-block;
+  }
+
+  .mobile-only {
+    display: none;
   }
 }
 
-/* === Improved Dark Theme Readability === */
-body.dark {
-  --bg: #0f172a;
-  --text: #f0f0f0;
-  --muted: #bbb;
-  --white: #1c1c1c;
-}
-body.dark h1, body.dark h2, body.dark h3, body.dark p, body.dark a, body.dark li, body.dark span {
-  color: var(--text);
-}
-body.dark .card,
-body.dark .signup-card,
-body.dark .auth-card {
-  background: #222;
-  color: var(--text);
-}
-body.dark form input,
-body.dark form textarea,
-body.dark form select {
-  background: #2b2b2b;
-  color: #f5f5f5;
-  border: 1px solid #666;
-}
-body.dark header {
-  background: rgba(255,255,255,0.08);
-}
-body.dark .nav-links a {
-  color: #f0f0f0;
-}
-body.dark .nav-links a:hover {
+/*
+=========================================
+  GLOBAL CHATBOT STYLES
+=========================================
+*/
+
+/* 1. Chatbot Toggle Button (Desktop & Mobile) */
+#chatbot-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 998; /* Popup ke peeche */
+  
+  /* Website logo se match karta hua design */
+  background: var(--primary-color);
   color: #fff;
-  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 1.75rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  
+  /* Animation */
+  transition: transform 0.3s ease;
 }
+#chatbot-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* 2. Chatbot Popup (Slider) */
+#chatbot-popup {
+  position: fixed;
+
+  bottom: 1.5rem;
+  right: 1.5rem;
+
+  height: 90vh; /* Height badha di */
+  max-height: 900px; /* Max-height badha di */
+
+  width: 420px; /* Width badha di */
+  z-index: 1001;
+
+  background: var(--card-bg);
+  backdrop-filter: blur(15px);
+
+  border-radius: var(--border-radius);
+  
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  border: 1px solid var(--border-color);
+
+  display: flex;
+  flex-direction: column;
+
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease-in-out;
+}
+
+#chatbot-popup.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 3. Popup Header */
+.chatbot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.chatbot-header h3 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--primary-color);
+}
+.chatbot-header .icon-btn {
+  font-size: 1.5rem; /* 'x' button */
+}
+
+/* 4. Chat Log (jahaan messages dikhenge) */
+.chatbot-log {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chat-message {
+  display: flex;
+  width: 100%;
+}
+.chat-message p {
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  max-width: 80%;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+/* 5. Message Styles (Aapke Design ke Mutabik) */
+
+/* User ka Message (Create Account jaisa) */
+.chat-message.user {
+  justify-content: flex-end; /* Right side mein */
+}
+.chat-message.user p {
+  color: #fff;
+  background: linear-gradient(90deg, #C850C0 0%, #4158D0 100%);
+  border-top-right-radius: 6px; /* Chat bubble look */
+}
+
+/* Bot ka Message (Blue-Pink mix) */
+.chat-message.bot {
+  justify-content: flex-start; /* Left side mein */
+}
+.chat-message.bot p {
+  color: #fff;
+  background: linear-gradient(90deg, #007bff 0%, #ff007b 100%);
+  border-top-left-radius: 6px; /* Chat bubble look */
+}
+
+/* 6. Input Field */
+.chatbot-input {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+#chatbot-input-field {
+  flex-grow: 1;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--text-primary);
+  padding: 0.75rem;
+}
+#chatbot-send {
+  margin-left: 0.5rem;
+  background: var(--primary-color);
+  color: #fff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+/*
+=========================================
+  CHATBOT STYLING UPGRADES (Scrollbar & Suggestions)
+=========================================
+*/
+
+/* 1. Suggestion Buttons (Chips) */
+.chatbot-suggestions {
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-wrap: wrap; /* Agar zyaada button hon toh agli line mein aa jaayein */
+  gap: 0.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.suggestion-chip {
+  /* Yeh 'btn-outline' jaisa dikhega */
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.suggestion-chip:hover {
+  background-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+
+/* 2. Custom Scrollbar (Chat Log) */
+
+/* Firefox ke liye fallback */
+.chatbot-log {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--bg-color);
+}
+
+/* WebKit (Chrome, Safari, Edge) ke liye */
+
+/* Scrollbar ki width */
+.chatbot-log::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Scrollbar ka track (background) */
+.chatbot-log::-webkit-scrollbar-track {
+  background: var(--bg-color);
+  border-radius: var(--border-radius);
+}
+
+/* Scrollbar ka thumb (jise aap drag karte hain) */
+.chatbot-log::-webkit-scrollbar-thumb {
+  background-color: var(--text-muted);
+  border-radius: var(--border-radius);
+  border: 2px solid var(--bg-color);
+}
+
+/* Hover karne par thumb ka color */
+.chatbot-log::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color);
+}
+
+
+/* Naye header buttons ke liye wrapper */
+.chatbot-header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+#chatbot-expand {
+  font-size: 1rem; /* Expand icon ko thoda chhota rakhein */
+}
+
+/* Fullscreen State (Desktop) */
+#chatbot-popup.fullscreen {
+  top: 50%;
+  left: 50%;
+
+  bottom: auto;
+  right: auto;
+  transform: translate(-50%, -50%);
+  
+  height: 90vh;
+  width: 90vw;
+
+  max-height: 800px;
+  max-width: 1000px;
+
+  border-radius: var(--border-radius);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+  border: 1px solid var(--border-color);
+}
+
+/* Mobile par chatbot hamesha fullscreen rakhein (Better UX) */
+@media (max-width: 480px) {
+  #chatbot-popup {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    bottom: 0;
+    border-radius: 0;
+    border: none;
+     position: fixed;
+    left: 0rem;
+  }
+  /* Mobile par expand button ki zaroorat nahi */
+  #chatbot-expand {
+    display: none;
+  }
+
+  #chatbot-popup.fullscreen {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    border: none;
+    transform: none; /* Centering reset karein */
+  }
+}
+
+/* Hides header buttons when chatbot is open */
+header .actions.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/*
+=========================================
+  GLOBAL FORM STYLES (Password Toggle)
+=========================================
+*/
+
+/* Yeh form fields ke beech acchi spacing deta hai */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Password Field (Icon ke liye wrapper) */
+.password-wrapper {
+  position: relative;
+  display: flex;
+}
+
+.password-wrapper input {
+  /* Input ko poori width dein */
+  flex-grow: 1;
+  /* Right padding taaki text icon ke neeche na jaaye */
+  padding-right: 3rem; 
+}
+
+.password-toggle-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3rem; /* 48px */
+  background: none;
+  border: none;
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  color: var(--text-muted);
+}
+.password-toggle-btn:hover {
+  color: var(--text-primary);
+}
+

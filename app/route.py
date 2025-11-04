@@ -1,186 +1,212 @@
-from flask import Blueprint, render_template, request, jsonify, current_app
+from flask import Blueprint, render_template, request, jsonify, current_app, redirect, url_for, flash,session
 from .chatbot import get_chatbot_response
+from flask_mail import Message
+import random
+from datetime import datetime
 
 main = Blueprint('main', __name__)
+otp_storage = {}
+
 
 @main.route('/')
 def home():
     return render_template('index.html')
 
-@main.route('/chatbot')
-def chatbot_page():
-    return render_template('chatbot.html')
-
 @main.route('/api/chat', methods=['POST'])
 def chat_api():
-    data = request.get_json()
-    user_message = data.get('message', '')
+    data = request.get_json() or {}
+    user_message = data.get('message', '').strip()
 
     if not user_message:
         return jsonify({'error': 'No message provided'}), 400
 
-    api_key = current_app.config['OPENAI_API_KEY']
-    response = get_chatbot_response(user_message, api_key)
-    return jsonify({'response': response})
+    api_key = current_app.config.get('OPENAI_API_KEY')
+    if not api_key:
+        return jsonify({'error': 'Missing API key in server config'}), 500
+
+    try:
+        response = get_chatbot_response(user_message, api_key)
+        return jsonify({'response': response})
+    except Exception as e:
+        print("Chatbot error:", e)
+        return jsonify({'response': ' Sorry, there was an error processing your request.'}), 500
 
 
+# SIGNUP ROUTE
+@main.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        full_name = request.form.get('full_name', '').strip()
+        email = request.form.get('email', '').strip().lower()
+        password = request.form.get('password', '').strip()
+        photo = request.files.get('photo')
 
+        supabase = current_app.config["SUPABASE_CLIENT"]
+        SUPABASE_URL = current_app.config["SUPABASE_URL"]
 
-#Webinaar Logic
-# from aiortc import RTCPeerConnection, RTCSessionDescription, VideoStreamTrack
-# from aiortc.contrib.media import MediaRecorder
-# import cv2, asyncio
+        public_url = None
 
-# bp = Blueprint('webinar', __name__)
-
-# pcs = set()
-
-# class CameraStreamTrack(VideoStreamTrack):
-#     def __init__(self):
-#         super().__init__()
-#         self.cap = cv2.VideoCapture(0)  # webcam
-
-#     async def recv(self):
-#         pts, time_base = await self.next_timestamp()
-#         ret, frame = self.cap.read()
-#         if not ret:
-#             return None
-#         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-#         from av import VideoFrame
-#         video_frame = VideoFrame.from_ndarray(frame, format="rgb24")
-#         video_frame.pts = pts
-#         video_frame.time_base = time_base
-#         return video_frame
-
-# @bp.route('/')
-# def home():
-#     return render_template('index.html')
-
-# @bp.route('/webinar')
-# def webinar_page():
-#     return render_template('webinar.html')
-
-# @bp.route('/offer', methods=['POST'])
-# async def offer():
-#     params =  request.get_json()
-#     offer = RTCSessionDescription(sdp=params['sdp'], type=params['type'])
-#     pc = RTCPeerConnection()
-#     pcs.add(pc)
-
-#     local_video = CameraStreamTrack()
-#     recorder = MediaRecorder('recordings/session.mp4')  # save if you want
-#     await recorder.start()
-#     pc.addTrack(local_video)
-
-#     @pc.on("connectionstatechange")
-#     async def on_state_change():
-#         print("Connection state:", pc.connectionState)
-#         if pc.connectionState in ["failed", "closed"]:
-#             await recorder.stop()
-#             await pc.close()
-#             pcs.discard(pc)
-
-#     await pc.setRemoteDescription(offer)
-#     answer = await pc.createAnswer()
-#     await pc.setLocalDescription(answer)
-
-#     return {"sdp": pc.localDescription.sdp, "type": pc.localDescription.type}
-
-# Webinaar Logic (updated) — replace your previous Webinaar block with this
-from aiortc import RTCPeerConnection, RTCSessionDescription
-from aiortc.contrib.media import MediaRecorder
-import asyncio
-import datetime
-from pathlib import Path
-
-bp = Blueprint('webinar', __name__)
-
-pcs = set()
-RECORDINGS_DIR = Path("recordings")
-RECORDINGS_DIR.mkdir(exist_ok=True)
-
-@bp.route('/')
-def home():
-    return render_template('index.html')
-
-@bp.route('/webinar')
-def webinar_page():
-    return render_template('webinar.html')
-
-@bp.route('/offer', methods=['POST'])
-async def offer():
-    """
-    Expects JSON { sdp: "...", type: "offer" }
-    Returns JSON { sdp: "...", type: "answer" }
-    """
-    # Note: use synchronous request.get_json() here (works with Flask 2/3)
-    params = request.get_json()
-    if not params or "sdp" not in params:
-        return {"error": "missing sdp"}, 400
-
-    offer = RTCSessionDescription(sdp=params["sdp"], type=params.get("type", "offer"))
-
-    pc = RTCPeerConnection()
-    pcs.add(pc)
-    print("Created PeerConnection:", pc)
-
-    # Prepare recorder file path (unique per connection)
-    ts = datetime.datetime.utcnow().strftime("%Y%m%d-%H%M%S")
-    filename = str(RECORDINGS_DIR / f"session-{ts}.mp4")
-    recorder = MediaRecorder(filename)
-    recorder_started = False
-
-    # When a remote track arrives, add it to the recorder
-    @pc.on("track")
-    def on_track(track):
-        nonlocal recorder_started
-        print("Received track:", track.kind)
-
-        # Add the track to the recorder so it records incoming audio/video
-        recorder.addTrack(track)
-
-        # Start recorder only once (when first track arrives)
-        async def start_recorder_once():
-            nonlocal recorder_started
-            if not recorder_started:
-                try:
-                    await recorder.start()
-                    recorder_started = True
-                    print("Recorder started:", filename)
-                except Exception as e:
-                    print("Failed to start recorder:", e)
-
-        # Schedule start in event loop
-        asyncio.create_task(start_recorder_once())
-
-        @track.on("ended")
-        async def on_ended():
-            print("Track %s ended" % track.kind)
-
-    @pc.on("connectionstatechange")
-    async def on_connectionstatechange():
-        print("Connection state:", pc.connectionState)
-        if pc.connectionState in ("failed", "closed", "disconnected"):
-            # Stop recorder and cleanup
+        if photo:
             try:
-                if recorder_started:
-                    await recorder.stop()
-                    print("Recorder stopped.")
+                bucket_name = "user_photos"  # same as Supabase bucket name
+                file_name = f"{email.replace('@', '_').replace('.', '_')}_{photo.filename}"
+                file_path = file_name
+
+                upload_response = supabase.storage.from_(bucket_name).upload(
+                    file_path,
+                    photo.read(),
+                    {"content-type": photo.content_type}
+                )
+
+                
+
+                public_url = f"{SUPABASE_URL}/storage/v1/object/public/{bucket_name}/{file_path}"
+                
+
             except Exception as e:
-                print("Error stopping recorder:", e)
-            try:
-                await pc.close()
-            except Exception:
-                pass
-            pcs.discard(pc)
-            print("PeerConnection closed and removed.")
+                print("Image upload error:", e)
+                flash("Image upload failed.", "danger")
+                return render_template("signup.html")
 
-    # Apply remote description (the offer from the browser)
-    await pc.setRemoteDescription(offer)
+        try:
+            response = supabase.table("users").insert({
+                "name": full_name,
+                "email": email,
+                "password": password,
+                "google_picture": public_url,
+            }).execute()
 
-    # Create answer and set local description
-    answer = await pc.createAnswer()
-    await pc.setLocalDescription(answer)
 
-    print("Sending answer")
-    return {"sdp": pc.localDescription.sdp, "type": pc.localDescription.type}
+            # Set session for newly signed-up user
+            session["user_name"] = full_name
+            session["is_new_user"] = True  # new user signup
+
+            flash("Account created successfully!", "success")
+            return redirect(url_for("main.dashboard"))
+
+        except Exception as e:
+            print("Signup error:", e)
+            flash("Server error while creating account.", "danger")
+
+    return render_template("signup.html")
+
+
+
+
+# LOGIN ROUTE
+@main.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        print("Checking credentials for:", email)
+
+        supabase = current_app.config["SUPABASE_CLIENT"]
+        response = supabase.table("users").select("*").eq("email", email).execute()
+
+        if not response.data:
+            return render_template('login.html', message="User not found!")
+
+        user = response.data[0]
+        stored_password = user['password']
+
+        if stored_password == password:
+            # ✅ Set session values for logged-in user
+            session["user_name"] = user["name"]
+            session["is_new_user"] = False  # returning user
+            return redirect(url_for('main.dashboard'))
+        else:
+            return render_template('login.html', message="Incorrect password!")
+
+    return render_template('login.html')
+
+
+
+
+#  FORGOT PASSWORD ROUTE
+@main.route('/forgot', methods=['GET', 'POST'])
+def forgot_password():
+    supabase = current_app.config["SUPABASE_CLIENT"]
+    mail = current_app.extensions['mail']
+
+    email_verified = False
+    otp_verified = False
+    message = ""
+    email = ""
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+        email = request.form.get('email')
+
+        #  Step 1️: Verify email exists
+        if action == "verify_email":
+            response = supabase.table("users").select("*").eq("email", email).execute()
+            if not response.data:
+                message = "No account found with this email."
+            else:
+                otp = str(random.randint(1000, 9999))
+                otp_storage[email] = otp
+
+                # Send OTP mail
+                msg = Message("Your Trading Tutor OTP",
+                              sender=current_app.config["MAIL_USERNAME"],
+                              recipients=[email])
+                msg.body = f"Your OTP for password reset is: {otp}"
+                mail.send(msg)
+
+                email_verified = True
+                message = "OTP has been sent to your email."
+
+        #  Step 2️: Verify OTP
+        elif action == "verify_otp":
+            otp = request.form.get('otp')
+            if otp_storage.get(email) == otp:
+                email_verified = True
+                otp_verified = True
+                message = "OTP verified successfully."
+            else:
+                email_verified = True
+                message = "Invalid OTP. Please try again."
+
+        #  Step 3️: Reset password + store change time
+        elif action == "reset_password":
+            new_pass = request.form.get('new_pass')
+
+            # Update password + password_changed_at
+            response = supabase.table("users").update({
+                "password": new_pass,
+                "password_changed_at": datetime.utcnow().isoformat()  # save in UTC format
+            }).eq("email", email).execute()
+
+            if response.data:
+                otp_storage.pop(email, None)
+                flash("Password reset successful! Please log in.", "success")
+                return redirect(url_for('main.login'))
+            else:
+                message = "Something went wrong. Please try again."
+
+    return render_template(
+        'forgot.html',
+        message=message,
+        email_verified=email_verified,
+        otp_verified=otp_verified,
+        email=email
+    )
+
+
+
+# DASHBOARD ROUTE
+@main.route('/dashboard')
+def dashboard():
+    if "user_name" not in session:
+        return redirect(url_for('main.login'))
+    
+    return render_template(
+        'dashboard.html',
+        name=session["user_name"],
+        is_new=session.get("is_new_user", False)
+    )
+
+
+
