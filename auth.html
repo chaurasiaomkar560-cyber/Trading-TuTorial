@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Login</title>
+
+  <style>
+    /* ===== GOOGLE FONT ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      overflow: hidden;
+    }
+
+    .login-container {
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      padding: 2.5rem;
+      text-align: center;
+      color: #fff;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+      opacity: 0.9;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      transition: 0.3s ease;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .input-group input:focus {
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+
+    button {
+      width: 100%;
+      background: #fff;
+      color: #2575fc;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #2575fc;
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4);
+    }
+
+    .note {
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 2rem;
+      }
+      h2 {
+        font-size: 1.4rem;
+      }
+      button {
+        font-size: 0.95rem;
+      }
+    }
+
+    .error {
+      color: #ffcccc;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Tool Login</h2>
+
+    <form id="loginForm" method="POST" action="/admin-login">
+      <div class="input-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required />
+      </div>
+
+      <div class="input-group">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" name="email" placeholder="Enter your email id" required />
+      </div>
+
+      <div class="input-group">
+        <label for="keycode">Keycode</label>
+        <input type="password" id="keycode" name="keycode" placeholder="Enter your keycode" required />
+      </div>
+
+      <button type="submit">Login</button>
+    
+
+      {% if error %}
+        <p class="error">{{ error }}</p>
+      {% endif %}
+
+      <p class="note">Your access is protected and encrypted 🔒</p>
+    </form>
+  </div>
+
+</body>
+</html>
