@@ -6,6 +6,7 @@ from .route import main
 from .auth import auth
 from flask_mail import Mail
 from webinar import webinar_bp
+from app.workshop import workshop_bp
 
 load_dotenv()
 
@@ -23,6 +24,7 @@ def create_app():
     app.register_blueprint(main)
     app.register_blueprint(auth)
     app.register_blueprint(webinar_bp)
+    app.register_blueprint(workshop_bp)
 
 
     #Config gmail server

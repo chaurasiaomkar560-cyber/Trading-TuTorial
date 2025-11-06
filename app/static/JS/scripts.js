@@ -1,41 +1,33 @@
 /* ===========================
-   scripts.js — Trading Tutor
+   scripts.js — Trading Tutor (Updated)
    =========================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
- // === 1. HAMBURGER MENU TOGGLE (Updated for Popup) ===
+  // === 1. HAMBURGER MENU TOGGLE (Updated for Popup) ===
   const menuBtn = document.getElementById('menu-btn');
   const menuIcon = menuBtn ? menuBtn.querySelector('i') : null;
   const navLinks = document.querySelector('.nav-links');
 
   if (menuBtn && navLinks && menuIcon) {
     menuBtn.addEventListener('click', () => {
-      // Toggle the menu's open state
       navLinks.classList.toggle('nav-open');
-      
-      // Toggle the icon
       if (navLinks.classList.contains('nav-open')) {
-        // Menu is open, show 'X' (times) icon
         menuIcon.classList.remove('fa-bars');
         menuIcon.classList.add('fa-times');
       } else {
-        // Menu is closed, show 'hamburger' (bars) icon
         menuIcon.classList.remove('fa-times');
         menuIcon.classList.add('fa-bars');
       }
     });
   }
-  
 
-  // === 2. THEME TOGGLE (Corrected with localStorage) ===
-  // Yeh humare CSS (data-theme) se match karta hai
+  // === 2. THEME TOGGLE ===
   const themeBtn = document.getElementById('theme-btn');
   const themeIcon = themeBtn ? themeBtn.querySelector('i') : null;
-  const htmlElement = document.documentElement; // <html> tag
+  const htmlElement = document.documentElement;
 
   if (themeBtn && themeIcon) {
-    // Function to set the theme
     const setTheme = (theme) => {
       if (theme === 'dark') {
         htmlElement.setAttribute('data-theme', 'dark');
@@ -50,111 +42,87 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    // Check for saved theme in localStorage
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedTheme) setTheme(savedTheme);
+    else if (prefersDark) setTheme('dark');
+    else setTheme('light');
 
-    // Apply theme on page load
-    if (savedTheme) {
-      setTheme(savedTheme); // Use saved theme
-    } else if (prefersDark) {
-      setTheme('dark'); // Use OS preference
-    } else {
-      setTheme('light'); // Default to light
-    }
-
-    // Add click event listener to the button
     themeBtn.addEventListener('click', () => {
       const currentTheme = htmlElement.getAttribute('data-theme');
-      if (currentTheme === 'dark') {
-        setTheme('light');
-      } else {
-        setTheme('dark');
-      }
+      setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
   }
 
   // === 3. FOOTER YEAR AUTO UPDATE ===
   const yearSpan = document.getElementById('year');
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
-  }
+  if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-  
-  // 1. Password Show/Hide Toggle (Global)
-  // Yeh code page par sabhi password toggle buttons ko dhoondhega
-  const allPassToggleBtns = document.querySelectorAll('.password-toggle-btn');
-  
-  allPassToggleBtns.forEach(btn => {
+  // === 4. PASSWORD TOGGLE & STRENGTH ===
+  const signupForm = document.getElementById('signupForm');
+  const passInput = document.getElementById('signupPassword');
+  const strengthMeter = document.getElementById('passwordStrengthMeter');
+  const strengthText = document.getElementById('passwordStrengthText');
+
+  // Password show/hide toggle
+  document.querySelectorAll('.password-toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      // Button ke paas waale input ko dhoondho
       const passWrapper = btn.closest('.password-wrapper');
-      const passInput = passWrapper.querySelector('input');
+      const input = passWrapper.querySelector('input');
       const icon = btn.querySelector('i');
-
-      if (passInput && icon) {
-        // Input type aur icon ko toggle karo
-        if (passInput.type === 'password') {
-          passInput.type = 'text';
-          icon.classList.remove('fa-eye-slash');
-          icon.classList.add('fa-eye');
+      if (input && icon) {
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
         } else {
-          passInput.type = 'password';
-          icon.classList.remove('fa-eye');
-          icon.classList.add('fa-eye-slash');
+          input.type = 'password';
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
         }
       }
     });
   });
-  
-  // 2. Real-time Password Strength
+
+  // Real-time password strength
   if (passInput && strengthMeter && strengthText) {
     passInput.addEventListener('input', () => {
       const pass = passInput.value;
-      let strength = 'Weak';
-      let strengthLevel = 'weak';
-      
+      let strength = '', level = '';
       const hasNumber = /\d/.test(pass);
       const hasUpper = /[A-Z]/.test(pass);
       const hasLower = /[a-z]/.test(pass);
       const hasSpecial = /[!@#$%^&*()]/.test(pass);
-      
+
       if (pass.length >= 10 && hasNumber && hasUpper && hasLower && hasSpecial) {
         strength = 'Strong';
-        strengthLevel = 'strong';
+        level = 'strong';
       } else if (pass.length >= 8 && (hasNumber || hasSpecial) && hasUpper && hasLower) {
         strength = 'Medium';
-        strengthLevel = 'medium';
-      } else if (pass.length === 0) {
-        strength = '';
-        strengthLevel = '';
+        level = 'medium';
+      } else if (pass.length > 0) {
+        strength = 'Weak';
+        level = 'weak';
       }
-      
-      strengthMeter.dataset.strength = strengthLevel;
+
+      strengthMeter.dataset.strength = level;
       strengthText.textContent = strength;
     });
   }
-  
-  // 3. Form Submit (Simulation)
+
+  // Signup form simulation
   if (signupForm) {
     signupForm.addEventListener('submit', (e) => {
       e.preventDefault();
       alert('Account created successfully! (Simulation)');
       signupForm.reset();
-      strengthMeter.dataset.strength = '';
-      strengthText.textContent = '';
+      if (strengthMeter) strengthMeter.dataset.strength = '';
+      if (strengthText) strengthText.textContent = '';
     });
   }
-  // *** End of Section 4 (New) ***
 
-  // === 6. CLOSE MENU WHEN A LINK IS CLICKED (Popup) ===
- const allNavLinks = document.querySelectorAll('.nav-links a');
-  allNavLinks.forEach(link => {
+  // === 6. CLOSE MENU WHEN A LINK IS CLICKED ===
+  document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
-      // Close the nav menu
       if (navLinks) navLinks.classList.remove('nav-open');
-      
-      // IMPORTANT: Reset the icon back to hamburger
       if (menuIcon) {
         menuIcon.classList.remove('fa-times');
         menuIcon.classList.add('fa-bars');
@@ -162,797 +130,676 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
- // === 7. DASHBOARD CARD MODAL (Replaced Accordion Logic) ===
+  // === 7. DASHBOARD CARD MODAL (Updated for Full HTML Content) ===
   const dashboardCardModal = document.getElementById('dashboardCardModal');
   const cardModalCloseBtn = document.getElementById('cardModalCloseBtn');
-  const allAccordionHeaders = document.querySelectorAll('.accordion-card .card-header');
-  
-  if (dashboardCardModal && cardModalCloseBtn && allAccordionHeaders.length > 0) {
-    
-    // 1. Click to Open Modal
-    allAccordionHeaders.forEach(header => {
+
+  if (dashboardCardModal && cardModalCloseBtn) {
+    document.querySelectorAll('.accordion-card .card-header').forEach(header => {
       header.addEventListener('click', () => {
         const card = header.closest('.accordion-card');
-        
-        // Card se data nikalein
-        const title = card.querySelector('h3').textContent;
-        const imageSrc = card.querySelector('.card-image').src;
-        
-        // *** YEH HAI FIX ***
-        // Humne '.card-content p' ko specifically target kiya hai
-        const content = card.querySelector('.card-content p').textContent; 
-        
-        // Modal mein data daalein
-        document.getElementById('cardModalTitle').textContent = title;
-        document.getElementById('cardModalContent').textContent = content; // Ab yahaan sahi content aayega
-        document.getElementById('cardModalImage').src = imageSrc;
-        
-        // Modal dikhayein
+        if (!card) return;
+
+        // Set title
+        document.getElementById('cardModalTitle').textContent = card.querySelector('h3').textContent;
+
+        // Set full HTML content
+        const cardContent = card.querySelector('.card-content');
+        if (cardContent) {
+          document.getElementById('cardModalContent').innerHTML = cardContent.innerHTML;
+        }
+
+        // Set image
+        const cardImage = card.querySelector('.card-image');
+        if (cardImage) {
+          document.getElementById('cardModalImage').src = cardImage.src;
+        }
+
         dashboardCardModal.classList.add('open');
       });
     });
-    
-    // 2. Click to Close Modal
+
     cardModalCloseBtn.addEventListener('click', () => {
       dashboardCardModal.classList.remove('open');
-      // Saath hi chatbot shrink class bhi hata dein
-      dashboardCardModal.classList.remove('chatbot-is-open'); 
+      dashboardCardModal.classList.remove('chatbot-is-open');
     });
   }
-  // *** End of Section 7 (Updated) ***
 
+  // === 16. WORKSHOP COUNTDOWN TIMERS (Optimized Global Timer) ===
+  function updateWorkshopCountdowns() {
+    document.querySelectorAll('.workshop-meta[data-date]').forEach(meta => {
+      const countdown = meta.querySelector('.countdown-timer');
+      if (!countdown) return;
+      const target = new Date(meta.dataset.date).getTime();
+      const now = Date.now();
+      const distance = target - now;
 
-  // === 8. BLOG FORM SUBMISSION (Updated for Modal) ===
-  const blogForm = document.getElementById('blogForm');
-  const blogList = document.getElementById('blogList');
-
-  if (blogForm && blogList) {
-    blogForm.addEventListener('submit', (e) => {
-      e.preventDefault(); // Page ko reload hone se rokein
-
-      // Form se values lein
-      const title = document.getElementById('blogTitle').value;
-      const fullContent = document.getElementById('blogContent').value; // Yeh poora content hai
-      let imageUrl = document.getElementById('blogImage').value;
-
-      // Snippet banayein (e.g., pehle 100 characters)
-      let snippet = fullContent.substring(0, 100);
-      if (fullContent.length > 100) {
-        snippet += "... (click read more)";
+      if (distance < 0) {
+        countdown.textContent = "Workshop Expired";
+        countdown.classList.add('expired');
+        return;
       }
 
-      // Agar image URL nahi hai, toh random image use karein
-      if (imageUrl === '') {
-        const randomSeed = Math.floor(Math.random() * 1000);
-        imageUrl = `https://picsum.photos/seed/${randomSeed}/400/200`;
-      }
+      const days = Math.floor(distance / (1000*60*60*24));
+      const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+      const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+      const seconds = Math.floor((distance % (1000*60)) / 1000);
 
-      // Naya blog card banane ke liye HTML
-      const newPost = document.createElement('div');
-      newPost.className = 'card blog-card';
-      newPost.innerHTML = `
-  <img src="${imageUrl}" class="blog-thumb" alt="Blog Image">
-  <div class="blog-content">
-    <h3 class="blog-card-title">${title}</h3>
-    <p class="blog-card-snippet">${snippet}</p>
-    <p class="blog-card-full-content" style="display: none;">${fullContent}</p>
-    <p class="muted blog-meta">By You • Just now</p>
-    <div class="blog-actions">
-      <a href="#" class="btn btn-secondary read-more-btn">Read More</a>
-      <button class="btn btn-outline like-btn">
-  <i class="fa-regular fa-heart"></i> <span>0</span>
-</button>
-      <button class="btn btn-outline edit-btn">Edit</button>
-      <button class="btn btn-outline delete-btn">Delete</button>
-    </div>
-  </div>
-`;
-
-      // Naye post ko list mein sabse upar add karein
-      blogList.prepend(newPost);
-
-      // Form ko reset kar dein
-      blogForm.reset();
+      const pad = (n) => n.toString().padStart(2, '0');
+      countdown.innerHTML = `<span>${days}d</span> : <span>${pad(hours)}h</span> : <span>${pad(minutes)}m</span> : <span>${pad(seconds)}s</span>`;
     });
   }
-  // *** End of Section 8 ***
+  setInterval(updateWorkshopCountdowns, 1000);
+  updateWorkshopCountdowns();
 
-  // === 9. BLOG MODAL (POPUP) LOGIC ===
-  const blogModal = document.getElementById('blogModal');
-  const modalCloseBtn = document.getElementById('modalCloseBtn');
-  const modalCommentList = document.getElementById('modalCommentList'); // YEH LINE ADD KAREIN
-  
-  // Modal content elements
-  const modalImage = document.getElementById('modalImage');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalFullContent = document.getElementById('modalFullContent');
-
-  // blogList variable Section 8 mein pehle se define hai
-  if (blogList && blogModal && modalCloseBtn) {
-    
-    // Event Delegation: Poori list par click sunein
-    blogList.addEventListener('click', (e) => {
-      // Check karein ki kya 'read-more-btn' par click hua hai
-      if (e.target.classList.contains('read-more-btn')) {
-        e.preventDefault(); // Link ko jump karne se rokein
-        
-        // Parent blog card aur uska content dhoondhein
-        const card = e.target.closest('.blog-card');
-        const title = card.querySelector('.blog-card-title').textContent;
-        const fullContent = card.querySelector('.blog-card-full-content').textContent;
-        const imageSrc = card.querySelector('.blog-thumb').src;
-        
-        // Modal ko content se bharein
-        modalTitle.textContent = title;
-        modalFullContent.textContent = fullContent;
-        modalImage.src = imageSrc;
-        
-        // Modal ko dikhayein
-        blogModal.classList.add('open');
-      }
-    });
-    
-    // Modal band karne ka function
-    const closeModal = () => {
-      blogModal.classList.remove('open');
-
-      if(modalCommentList) modalCommentList.innerHTML = ""; // Comments ko clear kar dein
-    };
-    
-    // Close button par click
-    modalCloseBtn.addEventListener('click', closeModal);
-    
-    // Overlay (background) par click karke band karein
-    blogModal.addEventListener('click', (e) => {
-      if (e.target.id === 'blogModal') {
-        closeModal();
-      }
-    });
-  }
-  // *** End of Section 9 ***
-
-  // === 10. EDIT & DELETE LOGIC ===
-  // blogList variable pehle se defined hai (Section 8 mein)
-
-  if (blogList) {
-    blogList.addEventListener('click', (e) => {
-      
-      // --- DELETE BUTTON LOGIC ---
-      if (e.target.classList.contains('delete-btn')) {
-        // Confirmation poochein
-        if (confirm('Are you sure you want to delete this post?')) {
-          const card = e.target.closest('.blog-card');
-          card.remove(); // Card ko HTML se delete kar dein
-        }
-      }
-      
-      // --- EDIT BUTTON LOGIC ---
-      if (e.target.classList.contains('edit-btn')) {
-        const card = e.target.closest('.blog-card');
-        
-        // Card se puraana data nikaalein
-        const title = card.querySelector('.blog-card-title').textContent;
-        const fullContent = card.querySelector('.blog-card-full-content').textContent;
-        const imageUrl = card.querySelector('.blog-thumb').src;
-        
-        // Us data ko upar waale main form mein daal dein
-        document.getElementById('blogTitle').value = title;
-        document.getElementById('blogContent').value = fullContent;
-        document.getElementById('blogImage').value = imageUrl;
-        
-        // Puraane card ko delete kar dein
-        card.remove();
-        
-        // User ko form tak scroll kar dein
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        
-        // Form par focus kar dein
-        document.getElementById('blogTitle').focus();
-      }
-      
-    });
-  }
-  // *** End of Section 10 ***
-
-  // === 11. COMMENT SUBMISSION LOGIC ===
-  const commentForm = document.getElementById('modalCommentForm');
-  // modalCommentList pehle se (Section 9 mein) defined hai
-  
-  if (commentForm && modalCommentList) {
-    commentForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      // 1. Form se values lein
-      const nameInput = document.getElementById('commentName');
-      const commentInput = document.getElementById('commentText');
-      const name = nameInput.value;
-      const commentText = commentInput.value;
-      
-      // 2. Naya comment element banayein
-      const newComment = document.createElement('div');
-      newComment.className = 'comment';
-      
-      // 3. Uska HTML set karein
-      newComment.innerHTML = `
-        <p class="comment-body">${commentText}</p>
-        <p class="comment-meta">by <strong>${name}</strong> on ${new Date().toLocaleDateString('en-IN')}</p>
-      `;
-      
-      // 4. List mein sabse upar add karein
-      modalCommentList.prepend(newComment);
-      
-      // 5. Form ko reset kar dein
-      commentForm.reset();
-    });
-  }
-  // *** End of Section 11 ***
-
-  // === 12. LIKE BUTTON LOGIC ===
-  
-  // Like button click ko handle karne ke liye global listener
-  document.body.addEventListener('click', (e) => {
-    const likeBtn = e.target.closest('.like-btn');
-    
-    if (likeBtn) {
-      // 1. Like state (class) ko toggle karein
-      likeBtn.classList.toggle('liked');
-      
-      // 2. Count (span) ko dhoondhein
-      const countSpan = likeBtn.querySelector('span');
-      if (!countSpan) return; // Agar span nahi mila toh exit
-      
-      let currentLikes;
-      
-      // 3. Count ko update karein
-      if (likeBtn.classList.contains('liked')) {
-        // Abhi-abhi like kiya hai
-        // Check karein ki modal wala button hai ya card wala
-        if (countSpan.textContent.includes('Like')) {
-          currentLikes = parseInt(countSpan.textContent.match(/\d+/)[0]); // (0) se 0 nikaalein
-          countSpan.textContent = `Like (${currentLikes + 1})`;
-        } else {
-          currentLikes = parseInt(countSpan.textContent);
-          countSpan.textContent = currentLikes + 1;
-        }
-        
-        // Icon ko solid karein (CSS bhi yeh karta hai, par JS se better hai)
-        likeBtn.querySelector('i').classList.remove('fa-regular');
-        likeBtn.querySelector('i').classList.add('fa-solid');
-        
-      } else {
-        // Abhi-abhi unlike kiya hai
-        if (countSpan.textContent.includes('Like')) {
-          currentLikes = parseInt(countSpan.textContent.match(/\d+/)[0]); // (1) se 1 nikaalein
-          countSpan.textContent = `Like (${currentLikes - 1})`;
-        } else {
-          currentLikes = parseInt(countSpan.textContent);
-          countSpan.textContent = currentLikes - 1;
-        }
-        
-        // Icon ko regular karein
-        likeBtn.querySelector('i').classList.remove('fa-solid');
-        likeBtn.querySelector('i').classList.add('fa-regular');
-      }
-    }
-  });
-  // *** End of Section 12 ***
-
-  // === 13. REAL-TIME BLOG SEARCH ===
-  const searchInput = document.getElementById('blogSearchInput');
-  // blogList (the <div> holding all cards) pehle se defined hai (Section 8)
-
-  if (searchInput && blogList) {
-    searchInput.addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      
-      // Card list ko dhoondhein
-      const allCards = blogList.querySelectorAll('.blog-card');
-      
-      allCards.forEach(card => {
-        // Title aur snippet dono mein search karein
-        const title = card.querySelector('.blog-card-title').textContent.toLowerCase();
-        const snippet = card.querySelector('.blog-card-snippet').textContent.toLowerCase();
-        
-        // Check karein ki match hota hai ya nahi
-        if (title.includes(searchTerm) || snippet.includes(searchTerm)) {
-          // IMPORTANT: Card ka display 'flex' hai (CSS ke hisab se)
-          card.style.display = 'flex'; // Card ko waapas dikhayein
-        } else {
-          card.style.display = 'none'; // Card ko hide kar dein
-        }
-      });
-    });
-  }
-  // *** End of Section 13 ***
-
-  // === 14. WORKSHOP REGISTRATION MODAL ===
-  const workshopModal = document.getElementById('workshopModal');
-  const workshopCloseBtn = document.getElementById('workshopCloseBtn');
-  const workshopRegForm = document.getElementById('workshopRegForm');
-  const workshopGrid = document.querySelector('.workshop-grid'); // Cards ka container
-  
-  if (workshopModal && workshopCloseBtn && workshopRegForm && workshopGrid) {
-    
-    // 1. "Register Now" button par click
-    workshopGrid.addEventListener('click', (e) => {
-      if (e.target.classList.contains('register-btn')) {
-        // Card se title dhoondhein
-        const card = e.target.closest('.workshop-card');
-        const title = card.querySelector('h3').textContent;
-        const priceBadge = card.querySelector('.workshop-badge');
-        const price = priceBadge ? priceBadge.textContent : 'FREE'; // Price lein
-        const meta = card.querySelector('.workshop-meta');
-        const date = meta ? meta.dataset.date : new Date().toISOString();
-
-        workshopRegForm.dataset.title = title;
-        workshopRegForm.dataset.price = price;
-        workshopRegForm.dataset.date = date;
-        
-        // Modal mein title set karein
-        document.getElementById('modalWorkshopTitle').textContent = title;
-        
-        // Modal ko dikhayein
-        workshopModal.classList.add('open');
-      }
-    });
-    
-    // 2. Modal band karne ka function
-    const closeWorkshopModal = () => {
-      workshopModal.classList.remove('open');
-      workshopRegForm.reset(); // Form ko reset karein
-    };
-    
-    // 3. Close button par click
-    workshopCloseBtn.addEventListener('click', closeWorkshopModal);
-    
-    // 4. Overlay (background) par click
-    workshopModal.addEventListener('click', (e) => {
-      if (e.target.id === 'workshopModal') {
-        closeWorkshopModal();
-      }
-    });
-    
-    // 5. Form Submit Logic (Abhi ke liye sirf alert)
-    workshopRegForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('regName').value;
-      const {title,price,date} = workshopRegForm.dataset;
-
-      let myWorkshops = JSON.parse(localStorage.getItem('myWorkshops')) || [];
-      myWorkshops.push({ title, price, date });
-      localStorage.setItem('myWorkshops', JSON.stringify(myWorkshops));
-      alert(`Success, ${name}! You are registered for the workshop: ${title}`);
-      closeWorkshopModal(); // Form submit hone par modal band kar dein
-    });
-  }
-  // *** End of Section 14 ***
-
-  // === 15. HOST A WORKSHOP MODAL & FORM LOGIC ===
+  // === 15. HOST WORKSHOP CARD FIX ===
   const showHostModalBtn = document.getElementById('showHostModalBtn');
   const hostModal = document.getElementById('hostModal');
   const hostCloseBtn = document.getElementById('hostCloseBtn');
   const hostWorkshopForm = document.getElementById('hostWorkshopForm');
-  // workshopGrid (cards container) pehle se defined hai (Section 14)
+  const workshopGrid = document.querySelector('.workshop-grid');
 
   if (showHostModalBtn && hostModal && hostCloseBtn && hostWorkshopForm && workshopGrid) {
-
-    // 1. "Host a Workshop" button par click
-    showHostModalBtn.addEventListener('click', () => {
-      hostModal.classList.add('open');
-    });
-
-    // 2. Modal band karne ka function
-    const closeHostModal = () => {
-      hostModal.classList.remove('open');
-      hostWorkshopForm.reset();
-    };
-
-    // 3. Close button aur Overlay par click
+    showHostModalBtn.addEventListener('click', () => hostModal.classList.add('open'));
+    const closeHostModal = () => { hostModal.classList.remove('open'); hostWorkshopForm.reset(); };
     hostCloseBtn.addEventListener('click', closeHostModal);
-    hostModal.addEventListener('click', (e) => {
-      if (e.target.id === 'hostModal') {
-        closeHostModal();
-      }
-    });
+    hostModal.addEventListener('click', e => { if(e.target.id==='hostModal') closeHostModal(); });
 
-    // 4. Form Submit Logic (Ab localStorage mein SAVE karega)
-    hostWorkshopForm.addEventListener('submit', (e) => {
+    hostWorkshopForm.addEventListener('submit', e => {
       e.preventDefault();
-
-      // --- Tier 2: Hoster Vetting Details ---
-      const hostName = document.getElementById('hostName').value;
-      const hostEmail = document.getElementById('hostEmail').value;
-      // ... (baaki hoster details)
-
-      // --- Workshop Details ---
       const title = document.getElementById('hostTitle').value;
       const desc = document.getElementById('hostDesc').value;
       const price = document.getElementById('hostPrice').value;
       const duration = document.getElementById('hostDuration').value;
       const date = document.getElementById('hostDate').value;
-      let imageUrl = document.getElementById('hostImage').value;
+      let imageUrl = document.getElementById('hostImage').value || `https://picsum.photos/seed/${Math.floor(Math.random()*1000)}/400/200`;
+      const badgeClass = price.toLowerCase()==='free'?'free':'price';
 
-      if (imageUrl === '') {
-        const randomSeed = Math.floor(Math.random() * 1000);
-        imageUrl = `https://picsum.photos/seed/${randomSeed}/400/200`;
-      }
-      
-      let badgeClass = 'price';
-      if (price.toLowerCase() === 'free') {
-        badgeClass = 'free';
-      }
-
-      // --- YEH HAI NAYA LOGIC (Step 1) ---
-      // 1. Puraana data "PendingWorkshops" se lein
-      let pendingWorkshops = JSON.parse(localStorage.getItem('pendingWorkshops')) || [];
-      
-      // 2. Naya workshop object banayein
-      const newWorkshopData = {
-        id: `ws_${new Date().getTime()}`, // Ek unique ID banayein
-        title,
-        hostName,
-        hostEmail,
-        date,
-        price,
-        duration,
-        desc,
-        imageUrl,
-        badgeClass
-      };
-      
-      // 3. Naya workshop add karein
-      pendingWorkshops.push(newWorkshopData);
-      
-      // 4. Waapas localStorage mein save karein
-      localStorage.setItem('pendingWorkshops', JSON.stringify(pendingWorkshops));
-      
-      // --- End of Naya Logic ---
-
-      
-      // --- Front-End Update (UI) ---
-      // (Ab hum naya data use karke card banayenge)
+      const newWorkshopData = { title, desc, price, duration, date, imageUrl, badgeClass };
       const newWorkshop = document.createElement('div');
       newWorkshop.className = 'card workshop-card';
-      
       newWorkshop.innerHTML = `
-        <div class="workshop-badge ${newWorkshopData.badgeClass}">${newWorkshopData.price}</div>
-        <img src="${newWorkshopData.imageUrl}" class="workshop-thumb" alt="Workshop Image">
-        <div class.="workshop-content">
-          <div class="workshop-meta" data-date="${newWorkshopData.date}">
+        <div class="workshop-badge ${badgeClass}">${price}</div>
+        <img src="${imageUrl}" class="workshop-thumb" alt="Workshop Image">
+        <div class="workshop-content">
+          <div class="workshop-meta" data-date="${date}">
             <div class="countdown-timer">Just Published!</div>
-            <span class="workshop-duration">
-              <i class="fa-regular fa-clock"></i> ${newWorkshopData.duration}
-            </span>
+            <span class="workshop-duration"><i class="fa-regular fa-clock"></i> ${duration}</span>
           </div>
-          <h3>${newWorkshopData.title}</h3>
-          <p>${newWorkshopData.desc}</p>
+          <h3>${title}</h3>
+          <p>${desc}</p>
           <button class="btn btn-primary register-btn" style="width: 100%;">Register Now</button>
         </div>
       `;
-
       workshopGrid.prepend(newWorkshop);
-      startWorkshopCountdowns(); 
       closeHostModal();
-      
       alert('Success! Your workshop is submitted for review.');
     });
-  
-  }
-  // *** End of Section 15 ***
-
-  // === 16. WORKSHOP COUNTDOWN TIMERS ===
-  
-  // Pehle ek helper function banayein
-  function startWorkshopCountdowns() {
-    const allWorkshopMeta = document.querySelectorAll('.workshop-meta[data-date]');
-    
-    allWorkshopMeta.forEach(meta => {
-      const countdownElement = meta.querySelector('.countdown-timer');
-      if (!countdownElement) return; // Agar countdown div nahi hai toh skip
-      
-      const targetDate = new Date(meta.dataset.date).getTime();
-      
-      // Timer ko har second update karein
-      const interval = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-        
-        // 1. Agar time poora ho gaya hai
-        if (distance < 0) {
-          clearInterval(interval);
-          countdownElement.innerHTML = "Workshop Expired";
-          countdownElement.classList.add('expired');
-          return;
-        }
-        
-        // 2. Time calculate karein
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
-        // Helper function (taaki '5' ki jagah '05' dikhe)
-        const pad = (num) => num.toString().padStart(2, '0');
-        
-        // 3. HTML ko update karein
-        countdownElement.innerHTML = `
-          <span>${days}d</span> : <span>${pad(hours)}h</span> : <span>${pad(minutes)}m</span> : <span>${pad(seconds)}s</span>
-        `;
-        
-      }, 1000);
-    });
-  }
-  
-  // Function ko call karein (DOMContentLoaded ke andar)
-  startWorkshopCountdowns();
-
-  // *** End of Section 16 ***
-
-  // === 17. WORKSHOP SEARCH & FILTER ===
-  const workshopSearchInput = document.getElementById('workshopSearchInput');
-  const workshopFilter = document.getElementById('workshopFilter');
-  // workshopGrid is already defined in Section 15
-  
-  function filterWorkshops() {
-    // Agar elements page par maujood nahi hain, toh function na chalayein
-    if (!workshopSearchInput || !workshopFilter || !workshopGrid) return;
-
-    const searchTerm = workshopSearchInput.value.toLowerCase();
-    const filterValue = workshopFilter.value;
-    
-    const allCards = workshopGrid.querySelectorAll('.workshop-card');
-    
-    allCards.forEach(card => {
-      
-      // 1. Check for Text Match (Title aur Description mein)
-      const title = card.querySelector('h3').textContent.toLowerCase();
-      const description = card.querySelector('p').textContent.toLowerCase();
-      const textMatch = title.includes(searchTerm) || description.includes(searchTerm);
-      
-      // 2. Check for Filter Match (Available, Expired)
-      let filterMatch = false;
-      const isSoldOut = card.classList.contains('is-sold-out');
-      // Timer script .expired class add karti hai
-      const isExpired = card.querySelector('.countdown-timer.expired'); 
-      
-      if (filterValue === 'all') {
-        filterMatch = true;
-      } else if (filterValue === 'available') {
-        filterMatch = !isSoldOut && !isExpired; // Na sold out ho, na expired
-      } else if (filterValue === 'expired') {
-        filterMatch = isSoldOut || isExpired; // Ya toh sold out ho YA expired
-      }
-      
-      // 3. Show or Hide Card
-      if (textMatch && filterMatch) {
-        card.style.display = 'flex'; // 'flex' because .workshop-card is display: flex
-      } else {
-        card.style.display = 'none'; // Hide karo
-      }
-    });
   }
 
-  // Event listeners ko DOMContentLoaded ke andar hi rakhein
-  if (workshopSearchInput && workshopFilter && workshopGrid) {
-    workshopSearchInput.addEventListener('input', filterWorkshops);
-    workshopFilter.addEventListener('change', filterWorkshops);
-  }
-  // *** End of Section 17 ***
-
-  // === 18. GLOBAL CHATBOT INJECTOR & LOGIC ===
-  
-  // 1. HTML ko inject karein
-  function injectChatbotHTML() {
+  // === 18. CHATBOT (Cleaned, No Nested DOMContentLoaded) ===
+  (function initChatbot(){
     const chatbotHTML = `
-      <button id="chatbot-toggle" class="icon-btn" aria-label="Open Chatbot">
-          <i class="fa-solid fa-chart-line"></i>
-      </button>
-
+      <button id="chatbot-toggle" class="icon-btn"><i class="fa-solid fa-chart-line"></i></button>
       <div id="chatbot-popup">
-          <div class="chatbot-header">
-    <h3>Trading Tutor AI</h3>
-    <div class="chatbot-header-buttons">
-        <button id="chatbot-expand" class="icon-btn" aria-label="Toggle Fullscreen" title="Toggle Fullscreen">
-            <i class="fa-solid fa-expand"></i>
-        </button>
-        <button id="chatbot-close" class="icon-btn" aria-label="Close Chatbot" title="Close Chatbot">
-            &times;
-        </button>
-    </div>
-</div>
-          <div class="chatbot-log" id="chatbot-log">
-              <div class="chat-message bot">
-              </div>
+        <div class="chatbot-header">
+          <h3>Trading Tutor AI</h3>
+          <div class="chatbot-header-buttons">
+            <button id="chatbot-expand" class="icon-btn"><i class="fa-solid fa-expand"></i></button>
+            <button id="chatbot-close" class="icon-btn">&times;</button>
           </div>
-          <div class="chatbot-suggestions" id="chatbot-suggestions">
-              <button class="suggestion-chip">What is Swing Trading?</button>
-              <button class="suggestion-chip">How do I host a workshop?</button>
-          </div>
-          <div class="chatbot-input">
-              <input type="text" id="chatbot-input-field" placeholder="Ask a question..." autocomplete="off">
-              <button id="chatbot-send" class="icon-btn" aria-label="Send Message">
-                  <i class="fa-solid fa-paper-plane"></i>
-              </button>
-          </div>
-      </div>
-    `;
-    // HTML ko <body> mein daalein
+        </div>
+        <div id="chatbot-log" class="chatbot-log"></div>
+        <div id="chatbot-suggestions" class="chatbot-suggestions">
+          <button class="suggestion-chip">What is Swing Trading?</button>
+          <button class="suggestion-chip">How do I host a workshop?</button>
+        </div>
+        <div class="chatbot-input">
+          <input type="text" id="chatbot-input-field" placeholder="Ask a question..." autocomplete="off">
+          <button id="chatbot-send" class="icon-btn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>`;
     document.body.insertAdjacentHTML('beforeend', chatbotHTML);
-  }
-  
-  // 2. Chatbot logic ko activate karein
-  // 🔹 1. Chatbot ko activate karein
-function activateChatbot() {
-  // Pehle HTML inject karein (agar alag se inject karte ho)
-  injectChatbotHTML?.();
 
-  // Sab elements select karein
-  const chatbotToggle = document.getElementById('chatbot-toggle');
-  const chatbotPopup = document.getElementById('chatbot-popup');
-  const chatbotClose = document.getElementById('chatbot-close');
-  const chatLog = document.getElementById('chatbot-log');
-  const inputField = document.getElementById('chatbot-input-field');
-  const sendBtn = document.getElementById('chatbot-send');
-  const suggestions = document.getElementById('chatbot-suggestions');
-  const expandBtn = document.getElementById('chatbot-expand');
-  const expandIcon = expandBtn ? expandBtn.querySelector('i') : null;
+    const toggleBtn = document.getElementById('chatbot-toggle');
+    const popup = document.getElementById('chatbot-popup');
+    const closeBtn = document.getElementById('chatbot-close');
+    const log = document.getElementById('chatbot-log');
+    const input = document.getElementById('chatbot-input-field');
+    const sendBtn = document.getElementById('chatbot-send');
+    const suggestions = document.getElementById('chatbot-suggestions');
+    const expandBtn = document.getElementById('chatbot-expand');
+    const expandIcon = expandBtn ? expandBtn.querySelector('i') : null;
 
-  if (!chatbotToggle || !chatbotPopup || !chatbotClose || !chatLog || !inputField || !sendBtn) {
-    console.error("Chatbot elements not found. Injection might have failed.");
-    return;
-  }
-
-  // 🔹 Open/Close toggle logic
-  chatbotToggle.addEventListener('click', () => {
-    chatbotPopup.classList.toggle('open');
-    chatbotToggle.style.opacity = chatbotPopup.classList.contains('open') ? '0' : '1';
-  });
-
-  chatbotClose.addEventListener('click', () => {
-    chatbotPopup.classList.remove('open');
-    chatbotToggle.style.opacity = '1';
-  });
-
-  // 🔹 Fullscreen toggle
-  if (expandBtn && expandIcon) {
-    expandBtn.addEventListener('click', () => {
-      chatbotPopup.classList.toggle('fullscreen');
-      const isFullscreen = chatbotPopup.classList.contains('fullscreen');
-      expandIcon.classList.toggle('fa-compress', isFullscreen);
-      expandIcon.classList.toggle('fa-expand', !isFullscreen);
-      expandBtn.setAttribute('title', isFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen');
+    toggleBtn.addEventListener('click', ()=>{ 
+      popup.classList.toggle('open'); 
+      toggleBtn.style.opacity = popup.classList.contains('open')?'0':'1'; 
     });
-  }
 
-  // 🔹 Message bhejne ka function
-  async function sendMessage() {
-    const text = inputField.value.trim();
-    if (text === "") return;
+    closeBtn.addEventListener('click', ()=>{ 
+      popup.classList.remove('open'); 
+      toggleBtn.style.opacity='1'; 
+    });
 
-    createMessageElement(text, 'user');
-    inputField.value = "";
+    expandBtn?.addEventListener('click', ()=>{ 
+      popup.classList.toggle('fullscreen');
+      const fs = popup.classList.contains('fullscreen');
+      expandIcon.classList.toggle('fa-compress', fs);
+      expandIcon.classList.toggle('fa-expand', !fs);
+    });
 
-    try {
-      // Backend se response lo
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text })
-      });
-
-      if (!response.ok) throw new Error("Server error");
-      const data = await response.json();
-
-      // Bot ka message display karo
-      createMessageElement(data.response || "⚠️ No reply received.", 'bot');
-    } catch (error) {
-      console.error("Chatbot error:", error);
-      createMessageElement("⚠️ Error connecting to chatbot server.", 'bot');
+    async function sendMessage(){
+      const text=input.value.trim(); if(!text) return;
+      createMessage(text,'user'); input.value='';
+      try{
+        const res=await fetch('/api/chat',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({message:text})
+        });
+        const data=res.ok?await res.json():null;
+        createMessage(data?.response||"⚠️ No reply received.",'bot');
+      }catch(e){ createMessage("🤖 Mock reply: "+text,'bot'); }
     }
-  }
 
-  // 🔹 Message display helper
-  function createMessageElement(text, type) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `chat-message ${type}`;
-    messageDiv.innerHTML = `<p>${text}</p>`;
-    chatLog.appendChild(messageDiv);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }
-
-  // 🔹 Send button & Enter key
-  sendBtn.addEventListener('click', sendMessage);
-  inputField.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-  });
-
-  // 🔹 Suggestion chips (optional)
-  suggestions?.addEventListener('click', (e) => {
-    if (e.target.classList.contains('suggestion-chip')) {
-      const text = e.target.textContent;
-      inputField.value = text;
-      sendMessage();
+    function createMessage(text,type){
+      const div=document.createElement('div');
+      div.className=`chat-message ${type}`;
+      div.innerHTML=`<p>${text}</p>`;
+      log.appendChild(div);
+      log.scrollTop=log.scrollHeight;
     }
-  });
 
-  // 🔹 Bot ka welcome message
-  createMessageElement("👋 Hello! I'm your Trading Tutor Bot — ask me anything about trading.", 'bot');
+    sendBtn.addEventListener('click',sendMessage);
+    input.addEventListener('keypress',e=>{if(e.key==='Enter')sendMessage();});
+    suggestions?.addEventListener('click',e=>{ 
+      if(e.target.classList.contains('suggestion-chip')){ 
+        input.value=e.target.textContent; 
+        sendMessage(); 
+      }
+    });
+    createMessage("👋 Hello! I'm your Trading Tutor Bot — ask me anything about trading.",'bot');
+  })();
+
+});
+
+/// blogs section 
+// Get form and blog list
+const blogForm = document.getElementById('blogForm');
+const blogList = document.getElementById('blogList');
+
+// Function to attach like event to a button
+function attachLikeHandler(btn) {
+    const likeCountSpan = btn.querySelector("span");
+    btn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const card = e.target.closest(".blog-card");
+        const blogId = card.dataset.id;
+
+        const isLiked = btn.classList.contains("liked");
+        let newCount = parseInt(likeCountSpan.textContent);
+
+        if (isLiked) {
+            newCount = Math.max(0, newCount - 1);
+            btn.classList.remove("liked");
+        } else {
+            newCount++;
+            btn.classList.add("liked");
+        }
+
+        likeCountSpan.textContent = newCount;
+
+        try {
+            const response = await fetch(`/blog/like/${blogId}`, { method: "POST" });
+            const data = await response.json();
+
+            if (!data.success) {
+                alert(data.error || "Failed to update like count on server.");
+                // Optional: revert UI
+                likeCountSpan.textContent = isLiked ? newCount + 1 : newCount - 1;
+                btn.classList.toggle("liked");
+            }
+        } catch (error) {
+            alert("Network error: Could not connect to the server.");
+            // Revert UI
+            likeCountSpan.textContent = isLiked ? newCount + 1 : newCount - 1;
+            btn.classList.toggle("liked");
+        }
+    });
 }
 
-// 🔹 2. Chatbot activate karo
-activateChatbot();
+// Attach to all existing like buttons
+document.querySelectorAll(".blog-card .like-btn").forEach(attachLikeHandler);
 
-  // *** End of Section 18 ***
+// Handle new blog submission
+if (blogForm) {
+    blogForm.addEventListener('submit', async e => {
+        e.preventDefault();
 
-  // === 19. DYNAMIC CONTACT FORM ===
-  const contactForm = document.getElementById('contactForm');
-  const formSuccessMessage = document.getElementById('formSuccessMessage');
+        const formData = new FormData(blogForm);
+        const res = await fetch('/blog', {
+            method: 'POST',
+            body: formData
+        });
 
-  if (contactForm && formSuccessMessage) {
-    contactForm.addEventListener('submit', (e) => {
-      // 1. Page ko reload hone se rokein
-      e.preventDefault();
-      
-      // (Asli application mein, yahaan data server ko bhejte hain)
-      console.log("Form submitted. (Simulation)");
-      
-      // 2. Form ko hide karein
-      contactForm.style.display = 'none';
-      
-      // 3. Success message ko dikhayein
-      formSuccessMessage.style.display = 'block';
+        const blog = await res.json();
+        if (blog.error) {
+            alert(blog.error);
+            return;
+        }
+
+        // Dynamically create new blog card
+        const div = document.createElement("div");
+        div.classList.add("blog-card");
+        div.dataset.id = blog.id;
+        div.innerHTML = `
+            <h3>${blog.title}</h3>
+            <p>${blog.content}</p>
+            <button class="like-btn">Like <span>0</span></button>
+        `;
+        blogList.prepend(div);
+
+        // Attach like handler to the new button
+        attachLikeHandler(div.querySelector(".like-btn"));
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // === BLOG ELEMENTS ===
+  const blogForm = document.getElementById('blogForm');
+  const blogList = document.getElementById('blogList');
+  const blogModal = document.getElementById('blogModal');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalImage = document.getElementById('modalImage');
+  const modalFullContent = document.getElementById('modalFullContent');
+  const modalLikeBar = document.querySelector('#blogModal .modal-like-bar .like-btn');
+
+  // === FUNCTIONS ===
+
+  // Attach listeners to all blog cards
+  function attachBlogCardListeners() {
+    // Read More / Modal
+    document.querySelectorAll('.read-more-btn').forEach(btn => {
+      btn.removeEventListener('click', openBlogModal); // safe removal
+      btn.addEventListener('click', openBlogModal);
+    });
+
+    // Like buttons
+    document.querySelectorAll('.blog-card .like-btn').forEach(btn => {
+      btn.removeEventListener('click', handleLikeAction);
+      btn.addEventListener('click', handleLikeAction);
+    });
+
+    // Delete buttons
+    document.querySelectorAll('.blog-card .delete-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (!confirm("Are you sure you want to delete this blog post?")) {
+          e.preventDefault();
+        }
+      });
     });
   }
-  // *** End of Section 19 ***
 
-  // === 20. DASHBOARD STATS LOADER ===
-  
-  // Yeh function sirf dashboard page par chalega
-  function loadDashboardStats() {
-    // Check karein ki hum dashboard page par hain ya nahi
-    const statsTotalEl = document.getElementById('stats-total');
-    if (!statsTotalEl) {
-      return; // Agar element nahi mila, toh dashboard page nahi hai, exit
-    }
-    
-    // 1. Data ko localStorage se load karein
-    const myWorkshops = JSON.parse(localStorage.getItem('myWorkshops')) || [];
-    
-    // 2. Counters banayein
-    let total = myWorkshops.length;
-    let completed = 0;
-    let pendingPaid = 0;
-    let pendingFree = 0;
-    const now = new Date(); // Aaj ki date
-    
-    // 3. Data ko loop karke calculate karein
-    myWorkshops.forEach(workshop => {
-      const workshopDate = new Date(workshop.date);
-      
-      if (workshopDate < now) {
-        // Workshop puraana ho gaya hai
-        completed++;
+  // Open Modal
+  function openBlogModal(e) {
+    e.preventDefault();
+    const blogCard = e.target.closest('.blog-card');
+    if (!blogCard || !blogModal) return;
+
+    modalTitle.textContent = blogCard.querySelector('.blog-card-title')?.textContent || 'Untitled Post';
+    modalFullContent.textContent = blogCard.querySelector('.blog-card-full-content')?.textContent || 'Content not available.';
+    modalImage.src = blogCard.querySelector('.blog-thumb')?.src || 'https://picsum.photos/400/200';
+
+    // Sync like button in modal
+    if (modalLikeBar) {
+      const blogId = blogCard.dataset.id;
+      const currentLikes = blogCard.querySelector('.like-btn span')?.textContent || '0';
+      modalLikeBar.dataset.id = blogId;
+      modalLikeBar.querySelector('span').textContent = `Like (${currentLikes})`;
+
+      if (blogCard.querySelector('.like-btn').classList.contains('liked')) {
+        modalLikeBar.classList.add('liked');
       } else {
-        // Workshop aane waala hai
-        if (workshop.price.toLowerCase() === 'free') {
-          pendingFree++;
+        modalLikeBar.classList.remove('liked');
+      }
+    }
+
+    blogModal.classList.add('open');
+  }
+
+  // Handle Like Action (both modal and card)
+  async function handleLikeAction(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const button = e.currentTarget;
+    const blogId = button.dataset.id || button.closest('.blog-card')?.dataset.id;
+    if (!blogId) return;
+
+    const card = document.querySelector(`.blog-card[data-id="${blogId}"]`);
+    const cardButton = card?.querySelector('.like-btn');
+    const cardLikeSpan = cardButton?.querySelector('span');
+    const modalButton = document.querySelector('#blogModal .modal-like-bar .like-btn');
+
+    try {
+      const response = await fetch(`/blog/like/${blogId}`, { method: "POST" });
+      const data = await response.json();
+
+      if (data.success) {
+        const newLikes = data.new_likes;
+        const action = data.action;
+
+        if (cardLikeSpan) cardLikeSpan.textContent = newLikes;
+        if (modalButton) modalButton.querySelector('span').textContent = `Like (${newLikes})`;
+
+        if (action === "liked") {
+          cardButton?.classList.add('liked');
+          modalButton?.classList.add('liked');
         } else {
-          pendingPaid++;
+          cardButton?.classList.remove('liked');
+          modalButton?.classList.remove('liked');
         }
+
+      } else {
+        alert(data.error || "Failed to update like count on server.");
+      }
+    } catch (err) {
+      alert("Network error: Could not connect to the server.");
+    }
+  }
+
+  // Close modal
+  if (blogModal && modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', () => blogModal.classList.remove('open'));
+    blogModal.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay')) {
+        blogModal.classList.remove('open');
       }
     });
-    
-    // 4. HTML ko numbers se update karein
-    document.getElementById('stats-total').textContent = total;
-    document.getElementById('stats-completed').textContent = completed;
-    document.getElementById('stats-pending-paid').textContent = pendingPaid;
-    document.getElementById('stats-pending-free').textContent = pendingFree;
+  }
+
+  // Modal like button listener
+  modalLikeBar?.addEventListener('click', handleLikeAction);
+
+  // Initial listeners
+  attachBlogCardListeners();
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ... (Sections 1-4, 6-7, 16 are unchanged - keeping them for context)
+
+  // === 16. WORKSHOP COUNTDOWN TIMERS (Optimized Global Timer) ===
+  function updateWorkshopCountdowns() {
+    document.querySelectorAll('.workshop-meta[data-date]').forEach(meta => {
+      // ... (countdown logic)
+    });
+  }
+  setInterval(updateWorkshopCountdowns, 1000);
+  updateWorkshopCountdowns();
+
+  // === 15. HOST WORKSHOP CARD FIX (Hoster Modal) ===
+  const showHostModalBtn = document.getElementById('showHostModalBtn');
+  const hostModal = document.getElementById('hostModal');
+  const hostCloseBtn = document.getElementById('hostCloseBtn');
+  const hostWorkshopForm = document.getElementById('hostWorkshopForm');
+  const workshopGrid = document.querySelector('.workshop-grid');
+  // New Hoster Modal Elements for multi-step
+  const hostNextBtn1 = document.getElementById('hostNextBtn1');
+  const hostBackBtn1 = document.getElementById('hostBackBtn1');
+  const hostNextBtn2 = document.getElementById('hostNextBtn2');
+  const hostBackBtn2 = document.getElementById('hostBackBtn2');
+  const hostSubmitBtn = document.getElementById('hostSubmitBtn');
+  const hostTermsCheckbox = document.getElementById('hostTerms');
+  const hostSteps = [
+    document.getElementById('host-step-1'),
+    document.getElementById('host-step-2'),
+    document.getElementById('host-step-3')
+  ];
+  const hostStepIndicators = [
+    document.getElementById('step-indicator-1'),
+    document.getElementById('step-indicator-2'),
+    document.getElementById('step-indicator-3')
+  ];
+  let currentHostStep = 0;
+
+  // Function to show a specific host step
+  function showHostStep(stepIndex) {
+    hostSteps.forEach((step, index) => {
+      step.classList.remove('active');
+      hostStepIndicators[index].classList.remove('active');
+    });
+    hostSteps[stepIndex].classList.add('active');
+    hostStepIndicators[stepIndex].classList.add('active');
+    currentHostStep = stepIndex;
   }
   
-  // Function ko run karein
-  loadDashboardStats();
+  // Host Modal Navigation Handlers
+  hostNextBtn1?.addEventListener('click', (e) => {
+    e.preventDefault();
+    // Basic validation check for step 1
+    const hostName = document.getElementById('hostName').value;
+    const hostEmail = document.getElementById('hostEmail').value;
+    const hostSocial = document.getElementById('hostSocial').value;
+    const hostExpertise = document.getElementById('hostExpertise').value;
+    if (hostName && hostEmail && hostSocial && hostExpertise) {
+        showHostStep(1); // Go to Step 2
+    } else {
+        alert('Please fill out all required fields in Step 1.');
+    }
+  });
   
-  // *** End of Section 20 ***
+  hostBackBtn1?.addEventListener('click', () => showHostStep(0));
+  
+  hostNextBtn2?.addEventListener('click', (e) => {
+    e.preventDefault();
+     // Basic validation check for step 2
+    const hostTitle = document.getElementById('hostTitle').value;
+    const hostDesc = document.getElementById('hostDesc').value;
+    const hostPrice = document.getElementById('hostPrice').value;
+    const hostDate = document.getElementById('hostDate').value;
+    const hostDuration = document.getElementById('hostDuration').value;
+    const hostLang = document.getElementById('hostLang').value;
+    const hostAudience = document.getElementById('hostAudience').value;
+
+    if (hostTitle && hostDesc && hostPrice && hostDate && hostDuration && hostLang && hostAudience) {
+        showHostStep(2); // Go to Step 3
+    } else {
+        alert('Please fill out all required fields in Step 2.');
+    }
+  });
+
+  hostBackBtn2?.addEventListener('click', () => showHostStep(1));
+
+  hostTermsCheckbox?.addEventListener('change', () => {
+    hostSubmitBtn.disabled = !hostTermsCheckbox.checked;
+  });
+
+  // Host Submit Handler (now displays success step)
+  hostWorkshopForm?.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!hostTermsCheckbox.checked) return;
+
+    // Simulate form submission and go to success step
+    document.getElementById('host-step-3').classList.remove('active');
+    document.getElementById('host-step-success').classList.add('active');
+    hostStepIndicators.forEach(ind => ind.classList.remove('active')); // Clear progress bar
+    alert('Success! Your workshop is submitted for review.');
+
+    // Clear and close after successful submission simulation (optional)
+    // You would typically handle API submission here before closing.
+    // setTimeout(() => {
+    //     closeHostModal();
+    // }, 3000);
+  });
+  
+  document.getElementById('hostDoneBtn')?.addEventListener('click', () => {
+      hostModal.classList.remove('open'); 
+      hostWorkshopForm.reset();
+      document.getElementById('host-step-success').classList.remove('active');
+      showHostStep(0); // Reset to step 1
+  });
+  
+  if (showHostModalBtn && hostModal && hostCloseBtn && hostWorkshopForm && workshopGrid) {
+    showHostModalBtn.addEventListener('click', () => hostModal.classList.add('open'));
+    const closeHostModal = () => { hostModal.classList.remove('open'); hostWorkshopForm.reset(); showHostStep(0); };
+    hostCloseBtn.addEventListener('click', closeHostModal);
+    hostModal.addEventListener('click', e => { if(e.target.id==='hostModal') closeHostModal(); });
+  }
 
 
-}); // <-- End of DOMContentLoaded
+  // === 19. WORKSHOP REGISTRATION MODAL (BUYER) FIX ===
+  const workshopModal = document.getElementById('workshopModal');
+  const workshopCloseBtn = document.getElementById('workshopCloseBtn');
+  const registerButtons = document.querySelectorAll('.register-btn');
+  const buyerRegForm = document.getElementById('buyerRegForm');
+  const buyerProceedBtn = document.getElementById('buyerProceedBtn');
+  const buyerTermsCheckbox = document.getElementById('buyerTerms');
+  const paymentBackBtn = document.getElementById('paymentBackBtn');
+  const paymentOptions = document.querySelector('#buyer-step-2 .payment-options');
+  const buyerDoneBtn = document.getElementById('buyerDoneBtn');
+
+  // Function to open the buyer modal
+  function openBuyerModal(title) {
+    document.getElementById('modalWorkshopTitle').textContent = title;
+    // Set other dynamic details here if available (e.g., price, hoster)
+    document.getElementById('modalAmount').textContent = '—'; // Placeholder
+    document.getElementById('modalHosterName').textContent = 'Expert Trader'; // Placeholder
+    
+    // Reset to step 1
+    document.querySelectorAll('#workshopModal .modal-step').forEach(step => step.classList.remove('active'));
+    document.getElementById('buyer-step-1').classList.add('active');
+    
+    // Open the modal
+    workshopModal.classList.add('open');
+  }
+
+  // Function to close the buyer modal and reset form
+  function closeBuyerModal() {
+    workshopModal.classList.remove('open');
+    buyerRegForm.reset();
+    buyerProceedBtn.disabled = true;
+  }
+
+  // 19.1. Attach click listeners to all "Register Now" buttons
+  registerButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const workshopCard = e.target.closest('.workshop-card');
+      const title = workshopCard.querySelector('h3').textContent;
+      
+      // Prevent opening modal for sold out/disabled cards
+      if (workshopCard.classList.contains('is-sold-out') || e.target.disabled) {
+        return; 
+      }
+      
+      openBuyerModal(title);
+    });
+  });
+
+  // 19.2. Close button and overlay click
+  workshopCloseBtn?.addEventListener('click', closeBuyerModal);
+  workshopModal?.addEventListener('click', e => {
+      if(e.target.id==='workshopModal') closeBuyerModal(); 
+  });
+
+  // 19.3. Enable/Disable 'Proceed' button based on T&C checkbox
+  buyerTermsCheckbox?.addEventListener('change', () => {
+    buyerProceedBtn.disabled = !buyerTermsCheckbox.checked;
+  });
+
+  // 19.4. Step 1: Registration Form Submission -> Step 2: Payment
+  buyerRegForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!buyerTermsCheckbox.checked) return;
+
+    // Simulate validation successful
+    document.getElementById('buyer-step-1').classList.remove('active');
+    document.getElementById('buyer-step-2').classList.add('active');
+  });
+
+  // 19.5. Step 2: Payment Back Button
+  paymentBackBtn?.addEventListener('click', () => {
+    document.getElementById('buyer-step-2').classList.remove('active');
+    document.getElementById('buyer-step-1').classList.add('active');
+  });
+
+  // 19.6. Step 2: Payment Buttons -> Step 3: Success
+  paymentOptions?.querySelectorAll('.payment-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const workshopTitle = document.getElementById('modalWorkshopTitle').textContent;
+      
+      document.getElementById('successWorkshopName').textContent = workshopTitle;
+      document.getElementById('buyer-step-2').classList.remove('active');
+      document.getElementById('buyer-step-3').classList.add('active');
+    });
+  });
+
+  // 19.7. Step 3: Done Button
+  buyerDoneBtn?.addEventListener('click', closeBuyerModal);
+
+  // ... (Section 18 for Chatbot is unchanged)
+
+});
+
+document.getElementById('profile_picture').addEventListener('change', function() {
+    var fileName = this.files && this.files.length > 0 ? this.files[0].name : 'No file chosen';
+    document.getElementById('profile_picture_filename').textContent = fileName;
+});
+
+// Host Submit Handler (now displays success step AND adds card)
+hostWorkshopForm?.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!hostTermsCheckbox.checked) return;
+    
+    // --- 1. **Capture Form Data for Dynamic Card Creation** ---
+    // Make sure to get the values from the Step 2 fields
+    const hostTitle = document.getElementById('hostTitle').value;
+    const hostDesc = document.getElementById('hostDesc').value;
+    const hostPrice = document.getElementById('hostPrice').value;
+    const hostDuration = document.getElementById('hostDuration').value;
+    const hostDate = document.getElementById('hostDate').value;
+
+    // NOTE: hostImage field does not exist, using random seed
+    const imageUrl = `https://picsum.photos/seed/${Math.floor(Math.random()*1000)}/400/200`;
+    const badgeClass = hostPrice.toLowerCase() === 'free' ? 'free' : 'price';
+
+    // --- 2. **Simulate Form Submission and Go to Success Step** ---
+    document.getElementById('host-step-3').classList.remove('active');
+    document.getElementById('host-step-success').classList.add('active');
+    hostStepIndicators.forEach(ind => ind.classList.remove('active')); // Clear progress bar
+    alert('Success! Your workshop is submitted for review.');
+    
+    // --- 3. **Create and Prepend New Workshop Card** ---
+    const newWorkshop = document.createElement('div');
+    newWorkshop.className = 'card workshop-card';
+    newWorkshop.innerHTML = `
+        <div class="workshop-badge ${badgeClass}">${hostPrice}</div>
+        <img src="${imageUrl}" class="workshop-thumb" alt="Workshop Image">
+        <div class="workshop-content">
+          <div class="workshop-meta" data-date="${hostDate}">
+            <div class="countdown-timer">Just Published!</div>
+            <span class="workshop-duration"><i class="fa-regular fa-clock"></i> ${hostDuration}</span>
+          </div>
+          <h3>${hostTitle}</h3>
+          <p>${hostDesc}</p>
+          <button class="btn btn-primary register-btn" style="width: 100%;">Register Now</button>
+        </div>
+    `;
+    workshopGrid.prepend(newWorkshop);
+    
+    // --- 4. **Re-attach Buyer Modal listener to the new button** ---
+    const newRegisterBtn = newWorkshop.querySelector('.register-btn');
+    if (newRegisterBtn) {
+        newRegisterBtn.addEventListener('click', (e) => {
+            const card = e.target.closest('.workshop-card');
+            if (card.classList.contains('is-sold-out') || e.target.disabled) return;
+            // The openBuyerModal function is defined elsewhere in your script
+            openBuyerModal(card.querySelector('h3').textContent);
+        });
+    }
+});

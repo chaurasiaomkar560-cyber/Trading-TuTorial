@@ -161,3 +161,46 @@
 .google-btn svg {
   margin-top: -2px; /* Icon ko visually center karein */
 }
+
+.form-group {
+    margin-bottom: 20px; /* Adjust as needed for spacing */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500; /* Similar to your current labels */
+    color: #333; /* Darker text */
+}
+
+.custom-file-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between button and file name */
+}
+
+.hidden-file-input {
+    display: none; /* Hide the default file input */
+}
+
+.custom-file-button {
+    display: inline-block;
+    padding: 8px 15px;
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 5px; /* Slightly rounded corners */
+    background-color: #f8f8f8; /* Light background for the button */
+    color: #555; /* Darker text for the button */
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.custom-file-button:hover {
+    background-color: #e0e0e0; /* Darker on hover */
+    border-color: #aaa;
+}
+
+.file-name {
+    font-size: 14px;
+    color: #777; /* Lighter text for the file name */
+}

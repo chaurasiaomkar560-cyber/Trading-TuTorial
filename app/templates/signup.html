@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create Account — Trading Tutor</title>
+  <title>Create Account — Trading Tutorials</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="../static/CSS/signup.css">
 </head>
 <body>
+
+ 
 
  
 
@@ -41,10 +43,13 @@
         </div>
 
         <div class="form-group">
-          <label for="photo">Profile Picture</label>
-          <input type="file" id="signupPhoto" name="photo" accept="image/*" required>
-
-        </div>
+    <label for="profile_picture">Profile Picture</label>
+    <div class="custom-file-input-wrapper">
+        <input type="file" id="profile_picture" name="profile_picture" class="hidden-file-input">
+        <label for="profile_picture" class="custom-file-button">Choose File</label>
+        <span id="profile_picture_filename" class="file-name">No file chosen</span>
+    </div>
+</div>
         
         <div id="password-strength-meter">
           <div class="strength-bar"></div>

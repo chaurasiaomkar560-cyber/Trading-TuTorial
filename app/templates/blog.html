@@ -22,15 +22,17 @@
           <div class="brand-sub">Learn • Practice • Grow</div>
         </div>
       </div>
+ <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="{{url_for('main.dashboard')}}" class="active">Dashboard</a>
+        <a href="{{url_for('main.blog')}}">Blog</a>
+        <a href="{{url_for('main.workshop')}}">Workshop</a>
+        <a href="{{url_for('main.contact')}}">Contact</a>
 
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="blog.html" class="active">Blog</a>
-        <a href="workshop.html">Workshop</a>
-        <a href="contactus.html">Contact</a>
-        
-      </nav>
+        <div class="mobile-actions">
+          <a href="{{url_for('main.login')}}"class="btn btn-secondary mobile-only">Sign in</a>
+          <a href="{{url_for('main.signup')}}" class="btn btn-primary mobile-only">Create account</a>
+        </div>
 
       <div class="actions">
         <div class="theme-toggle">
@@ -51,78 +53,74 @@
   <main class="container" style="padding-top: 2rem;">
     <h2>Community Blogs</h2>
     <p class="muted">Share your strategies, insights, and trading journey.</p>
-    
-    <div class="search-wrapper">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="search" id="blogSearchInput" placeholder="Search posts by title or keyword..." autocomplete="off">
-    </div>
-    
+     
     <div class="card blog-form-card" style="margin-top: 2rem;">
       <h3>Write a New Blog Post</h3>
-      <form id="blogForm">
+      <form id="blogForm" method="post" action="/blog">
         <label for="blogTitle">Title</label>
-        <input type="text" id="blogTitle" placeholder="Your amazing blog title" required>
-        
-        <label for="blogImage">Image URL (Optional)</label>
-        <input type="text" id="blogImage" placeholder="https://example.com/image.jpg">
+        <input type="text" id="blogTitle" name="title"  placeholder="Your amazing blog title" required>
         
         <label for="blogContent">Content</label>
-        <textarea id="blogContent" placeholder="Write your blog here..." required rows="6"></textarea>
+        <textarea id="blogContent" name="content" placeholder="Write your blog here..." required rows="6"></textarea>
         
         <button class="btn btn-primary" type="submit">Publish Post</button>
       </form>
     </div>
 
-    <h2 style="margin-top: 3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
-      Recent Posts
-    </h2>
-    <div id="blogList" class="blog-grid" style="margin-top: 1.5rem;">
-      
-      <div class="card blog-card">
-  <img src="https://picsum.photos/seed/blog1/400/200" class="blog-thumb" alt="Blog Image">
-  <div class="blog-content">
-    <h3 class="blog-card-title">My First Successful Swing Trade</h3>
-    <p class="blog-card-snippet">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur convallis, ligula non... (click read more)</p>
+  <h2 style="margin-top: 3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+    Recent Posts
+</h2>
 
-    <p class="blog-card-full-content" style="display: none;">
-      Yeh 'My First Successful Swing Trade' ka poora content hai. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur convallis, ligula non, Eget gravida... (Yahaan aapka poora 200-300 shabdon ka article hoga).
-    </p>
+<div id="blogList" class="blog-grid" style="margin-top: 1.5rem;">
+  {% if blogs %}
+    {% for blog in blogs %}
+      <div class="card blog-card" data-id="{{ blog.id }}">
+          <!-- Dynamic image: use user's Google image or placeholder -->
+          <img src="{{ blog.image_url }}" class="blog-thumb" alt="Blog Image">
 
-    <p class="muted blog-meta">By Krishna • 28 Oct 2025</p>
-    <div class="blog-actions">
-      <a href="#" class="btn btn-secondary read-more-btn">Read More</a>
-      <button class="btn btn-outline like-btn">
-  <i class="fa-regular fa-heart"></i> <span>0</span>
-</button> 
-      <button class="btn btn-outline edit-btn">Edit</button>
-      <button class="btn btn-outline delete-btn">Delete</button>
-    </div>
-  </div>
-</div>
-      
-      <div class="card blog-card">
-  <img src="https://picsum.photos/seed/blog1/400/200" class="blog-thumb" alt="Blog Image">
-  <div class="blog-content">
-    <h3 class="blog-card-title">My First Successful Swing Trade</h3>
-    <p class="blog-card-snippet">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur convallis, ligula non... (click read more)</p>
+          <div class="blog-content">
+              <!-- Blog title -->
+              <h3 class="blog-card-title">{{ blog.title }}</h3>
 
-    <p class="blog-card-full-content" style="display: none;">
-      Yeh 'My First Successful Swing Trade' ka poora content hai. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur convallis, ligula non, Eget gravida... (Yahaan aapka poora 200-300 shabdon ka article hoga).
-    </p>
+              <!-- Snippet for preview -->
+              <p class="blog-card-snippet">{{ blog.content[:100] }}... (click read more)</p>
 
-    <p class="muted blog-meta">By Krishna • 28 Oct 2025</p>
-    <div class="blog-actions">
-      <a href="#" class="btn btn-secondary read-more-btn">Read More</a> 
-      <button class="btn btn-outline like-btn">
-  <i class="fa-regular fa-heart"></i> <span>0</span>
-</button>
-        <button class="btn btn-outline edit-btn">Edit</button>
-      <button class="btn btn-outline delete-btn">Delete</button>
-    </div>
-  </div>
-</div>
-      
+              <!-- Full content hidden by default -->
+              <p class="blog-card-full-content" style="display: none;">{{ blog.content }}</p>
+
+              <!-- Author and date -->
+              <p class="muted blog-meta">By {{ blog.author_name }} • {{ blog.created_at[:10] }}</p>
+
+              <!-- Actions -->
+              <div class="blog-actions">
+                  <a href="#" class="btn btn-secondary read-more-btn">Read More</a>
+
+                  <!-- Like button (everyone can see) -->
+                  <button class="btn btn-outline like-btn">
+                      <i class="fa-regular fa-heart"></i> <span>{{ blog.likes or 0 }}</span>
+                  </button>
+
+                  <!-- Edit button: only for the blog author -->
+                  {% if session.get('user_name') == blog.author_name %}
+                      <a href="{{ url_for('main.edit_blog', blog_id=blog.id) }}" class="btn btn-outline edit-btn">Edit</a>
+                  {% endif %}
+
+                  <!-- Delete button: for author or admin -->
+                  {% if session.get('user_name') == blog.author_name or session.get('admin_name') %}
+                      <form method="POST" action="{{ url_for('main.delete_blog', blog_id=blog.id) }}" style="display:inline;">
+                          <button type="submit" class="btn btn-outline delete-btn">Delete</button>
+                      </form>
+                  {% endif %}
+              </div>
+          </div>
       </div>
+    {% endfor %}
+  {% else %}
+    <p>No blog posts yet. Be the first to write one!</p>
+  {% endif %}
+</div>
+
+
   </main>
 
   <div id="blogModal" class="modal-overlay">
@@ -139,34 +137,15 @@
   </button>
 </div>
 
-      <div class="comment-section">
-        <hr>
-        <h4>Comments</h4>
-        
-        <form id="modalCommentForm">
-          <div class="form-group">
-            <label for="commentName">Your Name</label>
-            <input type="text" id="commentName" placeholder="Enter your name" required>
-          </div>
-          <div class="form-group">
-            <label for="commentText">Your Comment</label>
-            <textarea id="commentText" rows="3" placeholder="Write your comment..." required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Post Comment</button>
-        </form>
-        
-        <div id="modalCommentList">
-          </div>
-      </div>
-      </div>
+     
   </div>
-</div>
+
       <p id="modalFullContent"></p>
     </div>
   </div>
 </div>
 
-  <footer>
+<footer>
     <div class="container footer-inner">
       <div>
         <h6>Trading Tutor</h6>
@@ -174,15 +153,15 @@
       </div>
       <div>
         <h6>Explore</h6>
-        <a href="index.html">Home</a><br>
-        <a href="dashboard.html">Dashboard</a><br>
-        <a href="blog.html">Blog</a><br>
-        <a href="workshop.html">Workshop</a><br>
+        <a href="{{url_for('main.home')}}">Home</a><br>
+        <a href="{{ url_for('main.dashboard' )}}">Dashboard</a><br>
+        <a href="{{url_for('main.blog')}}">Blog</a><br>
+        <a href="{{url_for('main.workshop')}}">Workshop</a><br>
       </div>
       <div>
         <h6>Support</h6>
-        <a href="contactus.html">Contact</a><br>
-        <a href="forgot-password.html">Reset Password</a><br>
+        <a href="{{url_for('main.contact')}}">Contact</a><br>
+        <a href="{{url_for('main.forgot_password')}}">Reset Password</a><br>
       </div>
       <div>
         <h6>Legal</h6>
@@ -201,5 +180,24 @@
   </footer>
 
   <script src="../static/JS/scripts.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".like-btn").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+            const card = e.target.closest(".blog-card");
+            const blogId = card.dataset.id;
+
+            const response = await fetch(`/blog/like/${blogId}`, { method: "POST" });
+            const data = await response.json();
+
+            if (data.success) {
+                btn.querySelector("span").textContent = data.new_likes;
+            } else {
+                alert(data.error);
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>

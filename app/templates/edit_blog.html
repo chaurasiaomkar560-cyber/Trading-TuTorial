@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Blog — Trading Tutor</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/Blog.css') }}">
+
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
+        <div>
+          <div class="brand-title">Trading Tutor</div>
+          <div class="brand-sub">Learn • Practice • Grow</div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="{{url_for('main.dashboard')}}">Dashboard</a>
+        <a href="{{url_for('main.blog')}}">Blog</a>
+        <a href="{{url_for('main.workshop')}}">Workshop</a>
+        <a href="{{url_for('main.contact')}}">Contact</a>
+
+        <div class="mobile-actions">
+          <a href="{{url_for('main.login')}}"class="btn btn-secondary mobile-only">Sign in</a>
+          <a href="{{url_for('main.signup')}}" class="btn btn-primary mobile-only">Create account</a>
+        </div>
+      </nav>
+
+      <div class="actions">
+        <div class="theme-toggle">
+          <button id="theme-btn" aria-label="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+
+        <button id="menu-btn" class="icon-btn" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a class="btn btn-secondary desktop-only" href="{{ url_for('main.login') }}">Sign in</a>
+        <a class="btn btn-primary desktop-only" href="{{ url_for('main.signup') }}">Create account</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 2rem;">
+    <h2>Editing Post: <span class="muted">{{ blog.title }}</span></h2>
+    <p class="muted">Make changes to your blog content and strategy insights.</p>
+     
+    <div class="card blog-form-card" style="margin-top: 2rem;">
+      <h3>Edit Blog Post</h3>
+      
+      <form method="POST">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value="{{ blog.title }}" placeholder="Your amazing blog title" required>
+        
+        <label for="content">Content</label>
+        <textarea id="content" name="content" rows="10" placeholder="Write your blog here..." required>{{ blog.content }}</textarea>
+        
+        <button class="btn btn-primary" type="submit">Update Post</button>
+        
+        <a href="{{ url_for('main.blog') }}" class="btn btn-outline" style="margin-top: 1rem;">
+          <i class="fa-solid fa-arrow-left"></i> Back to Blogs
+        </a>
+      </form>
+      
+    </div>
+  </main>
+
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <h6>Trading Tutor</h6>
+        <p class="muted">Learn • Practice • Grow</p>
+      </div>
+      <div>
+        <h6>Explore</h6>
+        <a href="{{url_for('main.home')}}">Home</a><br>
+        <a href="{{ url_for('main.dashboard' )}}">Dashboard</a><br>
+        <a href="{{url_for('main.blog')}}">Blog</a><br>
+        <a href="{{url_for('main.workshop')}}">Workshop</a><br>
+      </div>
+      <div>
+        <h6>Support</h6>
+        <a href="{{url_for('main.contact')}}">Contact</a><br>
+        <a href="{{url_for('main.forgot_password')}}">Reset Password</a><br>
+      </div>
+      <div>
+        <h6>Legal</h6>
+        <a href="#">Terms</a><br>
+        <a href="#">Privacy</a><br>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div>© <span id="year"></span> Trading Tutor</div>
+      <div class="socials">
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="{{ url_for('static', filename='JS/scripts.js') }}"></script>
+  
+  <script>
+    // Footer year update script copied from blog.html footer
+    const yearSpan = document.getElementById('year');
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

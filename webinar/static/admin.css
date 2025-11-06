@@ -1,0 +1,127 @@
+/*
+=========================================
+  ADMIN LOGIN FORM STYLES
+=========================================
+*/
+
+/* --- Root Variables --- */
+:root {
+  --bg-color: #f8f9fa;
+  --text-primary: #212529;
+  --border-color: #dee2e6;
+  --primary-color: #0d6efd;
+  --btn-bg: #0d6efd;
+  --btn-color: #fff;
+  --btn-hover-bg: #0b5ed7;
+}
+
+/* --- Body --- */
+body.admin-login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+/* --- Card --- */
+.admin-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* --- Brand / Logo --- */
+.admin-card .brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.admin-card .brand .logo {
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+.brand-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+.brand-sub {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+/* --- Form --- */
+.admin-card .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-card label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.admin-card input[type="email"],
+.admin-card input[type="password"] {
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-card input[type="email"]:focus,
+.admin-card input[type="password"]:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(13,110,253,0.2);
+}
+
+/* --- Button --- */
+.admin-card .btn {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--btn-color);
+  background-color: var(--btn-bg);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.admin-card .btn:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+/* --- Error Message --- */
+.form-error {
+  color: #dc3545;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* --- Theme Toggle Button --- */
+#admin-theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+}
+#admin-theme-toggle button {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}

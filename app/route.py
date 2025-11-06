@@ -32,6 +32,8 @@ def chat_api():
         return jsonify({'response': ' Sorry, there was an error processing your request.'}), 500
 
 
+
+
 # SIGNUP ROUTE
 @main.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -89,39 +91,55 @@ def signup():
             flash("Server error while creating account.", "danger")
 
     return render_template("signup.html")
-
-
-
-
-# LOGIN ROUTE
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-
-        print("Checking credentials for:", email)
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '').strip()
 
         supabase = current_app.config["SUPABASE_CLIENT"]
-        response = supabase.table("users").select("*").eq("email", email).execute()
 
-        if not response.data:
-            return render_template('login.html', message="User not found!")
+        # 1 Check Admin Table
+        admin_resp = supabase.table("admininfos").select("*").eq("email", email).execute()
+        
 
-        user = response.data[0]
-        stored_password = user['password']
+        if admin_resp.data and len(admin_resp.data) > 0:
+            admin_user = admin_resp.data[0]
+            if admin_user.get('password') == password:
+                session["admin_name"] = admin_user.get("email")
+                flash("Welcome Admin!", "success")
+                return redirect(url_for('main.admin_dashboard'))
+            else:
+                return render_template('login.html', message="Incorrect admin password!")
 
-        if stored_password == password:
-            # ✅ Set session values for logged-in user
-            session["user_name"] = user["name"]
-            session["is_new_user"] = False  # returning user
-            return redirect(url_for('main.dashboard'))
-        else:
-            return render_template('login.html', message="Incorrect password!")
+        #2️ Check Users Table
+        user_resp = supabase.table("users").select("*").eq("email", email).execute()
+        
+
+        if user_resp.data and len(user_resp.data) > 0:
+            user = user_resp.data[0]
+            if user.get('password') == password:
+                session["user_name"] = user.get("name")
+                session["is_new_user"] = False
+                flash("Welcome!", "success")
+                return redirect(url_for('main.dashboard'))
+            else:
+                return render_template('login.html', message="Incorrect user password!")
+
+        # 3️⃣ Email not found in either table
+        return render_template('login.html', message="Email not found!")
 
     return render_template('login.html')
 
+@main.route('/admin')
+def admin_dashboard():
+    if "admin_name" not in session:
+        return redirect(url_for('main.login'))
 
+    return render_template(
+        'admin.html', 
+        name=session["admin_name"]
+    )
 
 
 #  FORGOT PASSWORD ROUTE
@@ -196,7 +214,162 @@ def forgot_password():
 
 
 
-# DASHBOARD ROUTE
+
+# -------------------------------
+# NAVIGATION ROUTES (Navbar pages)
+# -------------------------------
+
+@main.route('/contact', methods=['GET', 'POST'])
+def contact():
+    supabase = current_app.config["SUPABASE_CLIENT"]
+    
+    if request.method == 'POST':
+        full_name = request.form.get('full_name')
+        email = request.form.get('email')
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+
+        try:
+            supabase.table("contactus").insert({
+                "full_name": full_name,
+                "email": email,
+                "subject": subject,
+                "message": message
+            }).execute()
+
+            flash("Your message has been sent successfully!", "success")
+            return redirect(url_for('main.contact'))
+
+        except Exception as e:
+            print("Error inserting into contactus:", e)
+            flash("Something went wrong. Please try again.", "danger")
+            return redirect(url_for('main.contact'))
+
+    return render_template('contactus.html')
+
+
+@main.route('/blog/edit/<int:blog_id>', methods=['GET', 'POST'])
+def edit_blog(blog_id):
+    supabase = current_app.config["SUPABASE_CLIENT"]
+
+    blog_resp = supabase.table("blogs").select("*").eq("id", blog_id).execute()
+    if not blog_resp.data:
+        flash("Blog not found.", "danger")
+        return redirect(url_for('main.blog'))
+
+    blog = blog_resp.data[0]
+
+    # Only author can edit
+    user_name = session.get("user_name")
+    if blog["user_id"] != supabase.table("users").select("id").eq("name", user_name).execute().data[0]["id"]:
+        flash("You are not authorized to edit this blog.", "danger")
+        return redirect(url_for('main.blog'))
+
+    if request.method == "POST":
+        new_title = request.form.get("title")
+        new_content = request.form.get("content")
+
+        supabase.table("blogs").update({
+            "title": new_title,
+            "content": new_content
+        }).eq("id", blog_id).execute()
+
+        flash("Blog updated successfully!", "success")
+        return redirect(url_for('main.blog'))
+
+    return render_template("edit_blog.html", blog=blog)
+
+
+@main.route('/blog', methods=['GET', 'POST'])
+def blog():
+    supabase = current_app.config["SUPABASE_CLIENT"]
+    
+    # Simulate current logged-in user (replace with real session/auth)
+    current_user = supabase.table("users").select("*").eq("name", session.get("user_name")).execute().data
+    if not current_user:
+        flash("Please log in to view blogs.", "danger")
+        return redirect(url_for('main.login'))
+    
+    current_user = current_user[0]
+
+    if request.method == 'POST':
+        # Add new blog
+        title = request.form.get('title')
+        content = request.form.get('content')
+
+        if not title or not content:
+            flash("Title and content cannot be empty.", "danger")
+            return redirect(url_for('main.blog'))
+
+        supabase.table("blogs").insert({
+            "user_id": current_user["id"],
+            "title": title,
+            "content": content,
+            "created_at": datetime.utcnow().isoformat()
+        }).execute()
+
+        flash("Blog published successfully!", "success")
+        return redirect(url_for('main.blog'))
+
+    # GET method: fetch blogs with user info
+    blogs_resp = supabase.table("blogs").select("*, users!inner(name,google_picture)").order("created_at", desc=True).execute()
+    
+    blogs = []
+    for blog in blogs_resp.data:
+        blogs.append({
+            "id": blog["id"],
+            "title": blog["title"],
+            "content": blog["content"],
+            "author_name": blog["users"]["name"],
+            "image_url": blog["users"]["google_picture"] or "https://picsum.photos/400/200",
+            "created_at": blog["created_at"]
+        })
+
+    return render_template("blog.html", blogs=blogs, current_user=current_user)
+
+@main.route('/blog/delete/<int:blog_id>', methods=['POST'])
+def delete_blog(blog_id):
+    supabase = current_app.config["SUPABASE_CLIENT"]
+    
+    # Get the blog to check ownership
+    blog_resp = supabase.table("blogs").select("*").eq("id", blog_id).execute()
+    if not blog_resp.data:
+        flash("Blog not found.", "danger")
+        return redirect(url_for('main.blog'))
+
+    blog = blog_resp.data[0]
+    
+    # Only allow author or admin to delete
+    user_name = session.get("user_name")
+    admin_name = session.get("admin_name")
+    
+    if blog["user_id"] == supabase.table("users").select("id").eq("name", user_name).execute().data[0]["id"] or admin_name:
+        supabase.table("blogs").delete().eq("id", blog_id).execute()
+        flash("Blog deleted successfully.", "success")
+    else:
+        flash("You are not authorized to delete this blog.", "danger")
+
+    return redirect(url_for('main.blog'))
+
+@main.route('/blog/like/<int:blog_id>', methods=['POST'])
+def like_blog(blog_id):
+    supabase = current_app.config["SUPABASE_CLIENT"]
+    blog_resp = supabase.table("blogs").select("*").eq("id", blog_id).execute()
+    if not blog_resp.data:
+        return jsonify({"success": False, "error": "Blog not found"}), 404 # Added success: False
+    
+    blog = blog_resp.data[0]
+    new_likes = (blog.get("likes") or 0) + 1
+    supabase.table("blogs").update({"likes": new_likes}).eq("id", blog_id).execute()
+    
+    # RESPONSE FIX: Return success and new_likes count
+    return jsonify({"success": True, "new_likes": new_likes}) # Changed key from 'likes' to 'new_likes' and added success
+
+
+@main.route('/workshop')
+def workshop():
+    return render_template('workshop.html')
+
 @main.route('/dashboard')
 def dashboard():
     if "user_name" not in session:
@@ -207,6 +380,3 @@ def dashboard():
         name=session["user_name"],
         is_new=session.get("is_new_user", False)
     )
-
-
-

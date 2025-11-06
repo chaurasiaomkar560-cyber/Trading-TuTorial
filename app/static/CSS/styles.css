@@ -1,3 +1,7 @@
+
+
+
+
 /* ===== GOOGLE FONT IMPORT ===== */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -933,3 +937,29 @@ header .actions.hidden {
   color: var(--text-primary);
 }
 
+/*
+=========================================
+  HEADER PROFILE PICTURE (Logged-in User)
+=========================================
+*/
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  
+  /* Pehle se hide rakhein */
+  display: none;
+}
+
+/* Jab user logged in ho, tab profile pic dikhayein */
+.user-logged-in .profile-pic {
+  display: block;
+}
+
+/* Jab user logged in ho, tab "Create account" buttons ko hide karein */
+.user-logged-in a[href="signup.html"] {
+  display: none !important; /* !important zaroori hai mobile/desktop dono ke liye */
+}

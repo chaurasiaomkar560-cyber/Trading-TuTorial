@@ -23,16 +23,17 @@
         </div>
       </div>
 
+      
       <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="blog.html">Blog</a>
-        <a href="workshop.html" class="active">Workshop</a>
-        <a href="contactus.html">Contact</a>
+        <a href="{{url_for('main.home')}}">Home</a>
+        <a href="{{url_for('main.dashboard')}}" class="active">Dashboard</a>
+        <a href="{{url_for('main.blog')}}">Blog</a>
+        <a href="{{url_for('main.workshop')}}">Workshop</a>
+        <a href="{{url_for('main.contact')}}">Contact</a>
 
         <div class="mobile-actions">
-          <a href="login.html" class="btn btn-secondary mobile-only">Sign in</a>
-          <a href="signup.html" class="btn btn-primary mobile-only">Create account</a>
+          <a href="{{url_for('main.login')}}" class="btn btn-secondary mobile-only">Sign in</a>
+          <a href="{{url_for('main.signup')}}" class="btn btn-primary mobile-only">Create account</a>
         </div>
       </nav>
 
@@ -45,192 +46,343 @@
         <button id="menu-btn" class="icon-btn" aria-label="Menu">
           <i class="fa-solid fa-bars"></i>
         </button>
-        <a class="btn btn-secondary desktop-only" href="login.html">Sign in</a>
-        <a class="btn btn-primary desktop-only" href="signup.html">Create account</a>
+        <a class="btn btn-secondary desktop-only" href="{{url_for('main.login')}}">Sign in</a>
+        <a class="btn btn-primary desktop-only" href="{{url_for('main.signup')}}">Create account</a>
       </div>
     </div>
   </header>
-
-  <main class="container" style="padding-top: 2rem;">
+<main class="container" style="padding-top: 2rem">
     <h1>Live Workshops</h1>
-    <p class="muted">Learn directly from expert traders in live, interactive sessions.</p>
+    <p class="muted">
+      Learn directly from expert traders in live, interactive sessions.
+    </p>
 
-    <div class.="hoster-cta">
-  <button id="showHostModalBtn" class="btn btn-primary">
-    <i class="fa-solid fa-chalkboard-user"></i> Host a Workshop
-  </button>
-</div>
+    <div class="hoster-cta">
+      <button id="showHostModalBtn" class="btn btn-primary">
+        <i class="fa-solid fa-chalkboard-user"></i> Host a Workshop
+      </button>
+    </div>
 
-<div class="filter-bar">
-  <div class="search-wrapper">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="search" id="workshopSearchInput" placeholder="Search by title or keyword..." autocomplete="off">
-  </div>
-  
-  <div class="filter-wrapper">
-    <label for="workshopFilter">Show:</label>
-    <select id="workshopFilter">
-      <option value="all">All Workshops</option>
-      <option value="available">Available</option>
-      <option value="expired">Expired / Sold Out</option>
-    </select>
-  </div>
-</div>
-<div class="workshop-grid" style="margin-top: 1.5rem;">
+    <div class="filter-bar">
+      <div class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="search" id="workshopSearchInput" placeholder="Search by title or keyword..." autocomplete="off" />
+        <button class="filter-icon-btn" aria-label="Filter workshops">
+          <i class="fa-solid fa-filter"></i>
+        </button>
+      </div>
 
-    <div class="workshop-grid" style="margin-top: 2rem;">
+      <div class="filter-wrapper">
+        <label for="workshopFilter">Show:</label>
+        <select id="workshopFilter">
+          <option value="all">All Workshops</option>
+          <option value="available">Available</option>
+          <option value="expired">Expired / Sold Out</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="workshop-grid" style="margin-top: 1.5rem">
+      <div class="card workshop-card">
+        <div class="workshop-badge price">$10</div>
+        <img src="https://picsum.photos/seed/workshop1/400/200" class="workshop-thumb" alt="Workshop Image" />
+        <div class="workshop-content">
+          <div class="workshop-meta" data-date="2025-11-15T19:00:00">
+            <div class="countdown-timer">
+              <span>--d</span> : <span>--h</span> : <span>--m</span> :
+              <span>--s</span>
+            </div>
+            <span class="workshop-duration">
+              <i class="fa-regular fa-clock"></i> 3 Days
+            </span>
+          </div>
+          <h3>Introduction to Technical Analysis</h3>
+          <p>
+            Learn the fundamentals of chart patterns, indicators, and how to
+            read market trends.
+          </p>
+          <button class="btn btn-primary register-btn" style="width: 100%">
+            Register Now
+          </button>
+        </div>
+      </div>
 
       <div class="card workshop-card">
-  <div class="workshop-badge price">$10</div>
-  
-  <img src="https://picsum.photos/seed/workshop1/400/200" class="workshop-thumb" alt="Workshop Image">
-  <div class="workshop-content">
-    <div class="workshop-meta" data-date="2025-11-15T19:00:00">
-  <div class="countdown-timer">
-    <span>--d</span> : <span>--h</span> : <span>--m</span> : <span>--s</span>
-  </div>
-  <span class="workshop-duration">
-    <i class="fa-regular fa-clock"></i> 3 Days
-  </span>
-</div>
-    </div>
-    <h3>Introduction to Technical Analysis</h3>
-    <p>Learn the fundamentals of chart patterns, indicators, and how to read market trends.</p>
-    <button class="btn btn-primary register-btn" style="width: 100%;">Register Now</button>
-  </div>
-</div>
+        <div class="workshop-badge free">FREE</div>
+        <img src="https://picsum.photos/seed/workshop2/400/200" class="workshop-thumb" alt="Workshop Image" />
+        <div class="workshop-content">
+          <div class="workshop-meta" data-date="2025-11-22T19:00:00">
+            <div class="countdown-timer">
+              <span>--d</span> : <span>--h</span> : <span>--m</span> :
+              <span>--s</span>
+            </div>
+            <span class="workshop-duration">
+              <i class="fa-regular fa-clock"></i> 2 Hours
+            </span>
+          </div>
+          <h3>Options Trading Masterclass (Beginner)</h3>
+          <p>
+            Understand Calls, Puts, and basic option strategies in this 2-hour
+            intensive workshop.
+          </p>
+          <button class="btn btn-primary register-btn" style="width: 100%">
+            Register Now
+          </button>
+        </div>
+      </div>
 
-<div class="card workshop-card">
-  <div class="workshop-badge free">FREE</div>
-  
-  <img src="https://picsum.photos/seed/workshop2/400/200" class="workshop-thumb" alt="Workshop Image">
-  <div class="workshop-content">
-    <div class="workshop-meta" data-date="2025-11-22T19:00:00">
-  <div class="countdown-timer">
-    <span>--d</span> : <span>--h</span> : <span>--m</span> : <span>--s</span>
-  </div>
-  <span class="workshop-duration">
-    <i class="fa-regular fa-clock"></i> 2 Hours
-  </span>
-</div>
-    <h3>Options Trading Masterclass (Beginner)</h3>
-    <p>Understand Calls, Puts, and basic option strategies in this 2-hour intensive workshop.</p>
-    <button class="btn btn-primary register-btn" style="width: 100%;">Register Now</button>
-  </div>
-</div>
-
-<div class="card workshop-card is-sold-out">
-  <img src="https://picsum.photos/seed/workshop3/400/200" class="workshop-thumb" alt="Workshop Image">
-  <div class="workshop-content">
-    <div class="workshop-meta" data-date="2024-11-01T19:00:00">
-  <div class="countdown-timer">
-    <span>--d</span> : <span>--h</span> : <span>--m</span> : <span>--s</span>
-  </div>
-  <span class="workshop-duration">
-    <i class="fa-regular fa-clock"></i> 2 Days
-  </span>
-</div>
-    <h3>Psychology of Trading</h3>
-    <p>Master your emotions, overcome fear and greed, and build a winning mindset.</p>
-    <button class="btn btn-secondary" style="width: 100%;" disabled>Sold Out</button>
-  </div>
-</div>
+      <div class="card workshop-card is-sold-out">
+        <img src="https://picsum.photos/seed/workshop3/400/200" class="workshop-thumb" alt="Workshop Image" />
+        <div class="workshop-content">
+          <div class="workshop-meta" data-date="2024-11-01T19:00:00">
+            <div class="countdown-timer">
+              <span>--d</span> : <span>--h</span> : <span>--m</span> :
+              <span>--s</span>
+            </div>
+            <span class="workshop-duration">
+              <i class="fa-regular fa-clock"></i> 2 Days
+            </span>
+          </div>
+          <h3>Psychology of Trading</h3>
+          <p>
+            Master your emotions, overcome fear and greed, and build a winning
+            mindset.
+          </p>
+          <button class="btn btn-secondary" style="width: 100%" disabled>
+            Sold Out
+          </button>
+        </div>
+      </div>
     </div>
   </main>
 
-  <div id="hostModal" class="modal-overlay">
-  <div class="modal-card">
-    <div class="modal-content">
-    <button id="hostCloseBtn" class="modal-close-btn">&times;</button>
-      <h2>Create a New Workshop</h2>
-      <p class="muted">Fill out the details to list your workshop.</p>
-      
-      <form id="hostWorkshopForm">
-  
-  <fieldset class="form-fieldset">
-    <legend>Step 1: Your Hoster Details</legend>
-    <div class="form-group">
-      <label for="hostName">Full Name (as per ID)</label>
-      <input type="text" id="hostName" placeholder="Enter your full name" required>
-    </div>
-    <div class="form-group">
-      <label for="hostEmail">Contact Email</label>
-      <input type="email" id="hostEmail" placeholder="Your primary email for verification" required>
-    </div>
-    <div class="form-group">
-      <label for="hostSocial">LinkedIn or Portfolio URL</label>
-      <input type="text" id="hostSocial" placeholder="e.g., https://linkedin.com/in/yourprofile" required>
-    </div>
-    <div class="form-group">
-      <label for="hostExpertise">Proof of Expertise</label>
-      <textarea id="hostExpertise" rows="2" placeholder="e.g., 'I am a 5-year certified analyst' or paste portfolio links." required></textarea>
-    </div>
-  </fieldset>
-  
-  <fieldset class="form-fieldset">
-    <legend>Step 2: Your Workshop Details</legend>
-    <div class="form-group">
-      <label for="hostTitle">Workshop Title</label>
-      <input type="text" id="hostTitle" placeholder="e.g., Advanced Options Strategy" required>
-    </div>
-    <div class="form-group">
-      <label for="hostDesc">Description</label>
-      <textarea id="hostDesc" rows="3" placeholder="What will attendees learn?" required></textarea>
-    </div>
-    <div class="form-grid"> <div class="form-group">
-        <label for="hostPrice">Price ($ or 'FREE')</label>
-        <input type="text" id="hostPrice" placeholder="e.g., $50 or FREE" required>
-      </div>
-      <div class="form-group">
-        <label for="hostDuration">Duration</label>
-        <input type="text" id="hostDuration" placeholder="e.g., 3 Days" required>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="hostDate">Date & Time</label>
-      <input type="text" id="hostDate" placeholder="e.g., 25 Dec 2025 • 5:00 PM IST" required>
-    </div>
-    <div class="form-group">
-      <label for="hostImage">Image URL</label>
-      <input type="text" id="hostImage" placeholder="https://picsum.photos/seed/myworkshop/400/200">
-    </div>
-  </fieldset>
-  
-  <p class="muted" style="font-size: 0.8rem; margin-top: 1rem;">
-    *By submitting, you agree to our platform's quality and identity verification process (Tier 1 & 2). Your workshop will be manually reviewed before publishing.*
-  </p>
-  
-  <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
-    Submit for Review
-  </button>
-</form>
-    </div>
-  </div>
-</div>
-
   <div id="workshopModal" class="modal-overlay">
-  <div class="modal-card">
-    <div class="modal-content"></div>
-    <button id="workshopCloseBtn" class="modal-close-btn">&times;</button>
+    <div class="modal-card">
+      <div class="modal-content">
+        <button id="workshopCloseBtn" class="modal-close-btn">&times;</button>
+
+        <div id="buyer-step-1" class="modal-step active">
+          <h2>Register for Workshop</h2>
+
+          <div class="workshop-summary">
+            <p><strong>Workshop:</strong> <span id="modalWorkshopTitle">...</span></p>
+            <p><strong>Hoster:</strong> <span id="modalHosterName">...</span></p>
+            <p><strong>Amount:</strong> <span id="modalAmount">...</span></p>
+          </div>
+
+          <form id="buyerRegForm" method="post" action="{{ url_for('workshop_bp.buyer_register') }}" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="buyerName">Full Name</label>
+              <input type="text" id="buyerName" placeholder="Enter your full name" name="buyerName" required>
+            </div>
+            <div class="form-group">
+              <label for="buyerMobile">Mobile Number</label>
+              <input type="text" id="buyerMobile" placeholder="Enter your 10-digit number" name="buyerMobile" required>
+            </div>
+
+            <div class="terms-box">
+              <p><strong>Terms and Conditions:</strong></p>
+              <ul>
+                <li>If the issue happens from the side of the hoster or any technical fault of the site, the buyer can
+                  demand the refund.</li>
+                <li>By any reason, if it is the buyer's fault, the refund will be rejected.</li>
+                <li>If any buyer misses a workshop, he/she will get the next session or a recorded session. A refund
+                  will not be given.</li>
+              </ul>
+              <hr>
+              <p><strong>Support:</strong> If there is any problem regarding the workshop, you can contact us via the
+                Contact page or mail your issue in the feedback form (Your Name, Workshop Name, Genuine Issue).</p>
+            </div>
+
+            <div class="checkbox-group">
+              <input type="checkbox" id="buyerTerms" class="terms-checkbox" name="buyerTerms">
+              <label for="buyerTerms">I hereby state that I have read all the information and I accept it.</label>
+            </div>
+
+            <button type="submit" id="buyerProceedBtn" class="btn btn-primary" style="width: 100%;" disabled>
+              Please Proceed
+            </button>
+          </form>
+        </div>
+        <div id="buyer-step-2" class="modal-step">
+          <h2>Payment Interface</h2>
+          <p class="muted">This is a simulation. Click a button to confirm booking.</p>
+          <div class="payment-options">
+            <button class="btn btn-primary payment-btn" style="width: 100%;">Pay with Card</button>
+            <button class="btn btn-primary payment-btn" style="width: 100%;">Pay with UPI</button>
+          </div>
+          <button id="paymentBackBtn" class="btn btn-outline" style="width: 100%; margin-top: 1rem;">Go Back</button>
+        </div>
+        <div id="buyer-step-3" class="modal-step">
+          <div class="form-success">
+            <i class="fa-solid fa-circle-check"></i>
+            <h3>Successfully Booked!</h3>
+            <p>You have successfully registered for <strong id="successWorkshopName">...</strong>. You can see this in
+              your dashboard.</p>
+            <button id="buyerDoneBtn" class="btn btn-primary" style="width: 100%;">Done</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hostModal" class="modal-overlay">
+  <div class="modal-card modal-lg">
     <div class="modal-content">
-      <h2>Register for Workshop</h2>
-      <p class="muted">You are registering for: <strong id="modalWorkshopTitle">Workshop Title</strong></p>
+      <button id="hostCloseBtn" class="modal-close-btn">&times;</button>
       
-      <form id="workshopRegForm">
-        <div class="form-group">
-          <label for="regName">Full Name</label>
-          <input type="text" id="regName" placeholder="Enter your full name" required>
-        </div>
-        <div class="form-group">
-          <label for="regEmail">Email Address</label>
-          <input type="email" id="regEmail" placeholder="Enter your email" required>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm Registration</button>
+      <div class="step-progress" id="host-progress-bar">
+        <div id="step-indicator-1" class="step-indicator active">1. Hoster</div>
+        <div id="step-indicator-2" class="step-indicator">2. Workshop</div>
+        <div id="step-indicator-3" class="step-indicator">3. Financials & Submit</div>
+      </div>
+      
+      <form id="hostWorkshopForm" method="post" action="{{ url_for('workshop_bp.hoster_signup') }}" enctype="multipart/form-data">
+        
+        <div id="host-step-1" class="modal-step active">
+          <h2>Step 1: Hoster Information</h2>
+          <fieldset class="form-fieldset">
+            <legend>About You</legend>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="hostName">Full Name (as per ID)</label>
+                <input type="text" id="hostName" placeholder="Your full name" name="full_name" required />
+              </div>
+              <div class="form-group">
+                <label for="hostCompany">Company </label>
+                <input type="text" id="hostCompany" name="company_name" placeholder="Your company name" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="hostEmail">Contact Email</label>
+              <input type="email" id="hostEmail" placeholder="Your primary email for verification" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="hostSocial">LinkedIn or Portfolio URL</label>
+              <input type="text" id="hostSocial" placeholder="https://linkedin.com/in/yourprofile" name="linkdin" required />
+            </div>
+            <div class="form-group">
+              <label for="hostExpertise">Proof of Expertise</label>
+              <textarea id="hostExpertise" rows="2" name="Expertise" placeholder="e.g., 'I am a 5-year certified analyst' or paste portfolio links." required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="hostKYC">KYC/ID (Simulation)</label>
+              <input type="file" id="hostKYC" name="KYC" class="form-control-file">
+              <small class="muted">Upload Aadhar, Passport, or Business Registration (Simulation)</small>
+            </div>
+          </fieldset>
+          <div class="step-navigation">
+            <button type="button" id="hostNextBtn1" class="btn btn-primary">Next: Workshop Details</button>
+          </div>
+        </div> <div id="host-step-2" class="modal-step">
+          <h2>Step 2: Workshop Details</h2>
+          <fieldset class="form-fieldset">
+            <legend>About the Workshop</legend>
+            <div class="form-group">
+              <label for="hostTitle">Workshop Name</label>
+              <input type="text" id="hostTitle" name="hostTitle" placeholder="e.g., Advanced Options Strategy" required />
+            </div>
+            <div class="form-group">
+              <label for="hostDesc">Details about workshop</label>
+              <textarea id="hostDesc" rows="3" placeholder="What will attendees learn?" name="hostDesc" required></textarea>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="hostPrice">Price ($ or 'FREE')</label>
+                <input type="text" id="hostPrice" placeholder="e.g., $50 or FREE" name="hostPrice" required>
+              </div>
+              <div class="form-group">
+                <label for="hostDate">Date & Time</label>
+                <input type="text" id="hostDate" placeholder="e.g., 2025-12-25T17:00:00" name="hostDate" required>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="hostDuration">Duration</label>
+                <input type="text" id="hostDuration" placeholder="e.g., 3 Days" name="hostDuration" required />
+              </div>
+              <div class="form-group">
+                <label for="hostLang">Language</label>
+                <input type="text" id="hostLang" placeholder="e.g., English, Hindi" name="hostLang" required />
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="hostAudience">Target Audience</label>
+                <input type="text" id="hostAudience" placeholder="e.g., Beginner, Advanced" name="hostAudience" required />
+              </div>
+              <div class="form-group">
+                <label for="hostSeats">Max Seats (Optional)</label>
+                <input type="text" id="hostSeats" placeholder="e.g., 50" name="hostSeats" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="hostVideo">Video URL (Optional)</label>
+              <input type="text" id="hostVideo" placeholder="Link to a promo video" name="hostVideo" required />
+            </div>
+          </fieldset>
+          <div class="step-navigation">
+            <button type="button" id="hostBackBtn1" class="btn btn-secondary">Back</button>
+            <button type="button" id="hostNextBtn2" class="btn btn-primary">Next: Financials & Submit</button>
+          </div>
+        </div> <div id="host-step-3" class="modal-step">
+          <h2>Step 3: Financials & Submit</h2>
+          <fieldset class="form-fieldset">
+            <legend>Payment Details</legend>
+            <div class="form-group">
+              <label for="finBankName">Bank Name</label>
+              <input type="text" id="finBankName" placeholder="e.g., HDFC Bank" name="finBankName" required>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="finAccount">Account Number</label>
+                <input type="text" id="finAccount" placeholder="Your bank account number" name="finAccount" required />
+              </div>
+              <div class="form-group">
+                <label for="finIFSC">IFSC Code</label>
+                <input type="text" id="finIFSC" placeholder="e.g., HDFC000123" name="finIFSC" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="finTaxID">PAN / GSTIN (for tax)</label>
+              <input type="text" id="finTaxID" placeholder="Your Tax ID" name="finTaxID" required>
+            </div>
+          </fieldset>
+          
+          <div class="terms-box">
+            <p><strong>Terms and Conditions:</strong></p>
+            <ul>
+              <li>If any fault is detected by us... (Terms)</li>
+              <li>Your payment will be processed after 7 days...</li>
+              <li>You agree to our platform's quality and identity verification...</li>
+              <li>You confirm that all information provided is accurate...</li>
+            </ul>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="hostTerms" class="terms-checkbox" name="hostTerms" required/>
+            <label for="hostTerms">I have read and accept the Hoster Terms and Conditions.</label>
+          </div>
+          
+          <div class="step-navigation">
+            <button type="button" id="hostBackBtn2" class="btn btn-secondary">Back</button>
+            <button type="submit" id="hostSubmitBtn" class="btn btn-primary" disabled>Submit for Review</button>
+          </div>
+        </div> 
       </form>
+      
+      <div id="host-step-success" class="modal-step">
+        <div class="form-success">
+          <i class="fa-solid fa-circle-check"></i>
+          <h3>Workshop Submitted!</h3>
+          <p>You have successfully submitted your workshop for review. We will notify you via email once it's approved.</p>
+          <button id="hostDoneBtn" type="button" class="btn btn-primary" style="width: 100%;">Done</button>
+        </div>
+      </div>
+      
     </div>
   </div>
 </div>
-
+  
   <footer>
     <div class="container footer-inner">
       <div>
@@ -239,15 +391,15 @@
       </div>
       <div>
         <h6>Explore</h6>
-        <a href="index.html">Home</a><br>
-        <a href="dashboard.html">Dashboard</a><br>
-        <a href="blog.html">Blog</a><br>
-        <a href="workshop.html">Workshop</a><br>
+        <a href="{{url_for('main.home')}}">Home</a><br>
+        <a href="{{ url_for('main.dashboard' )}}">Dashboard</a><br>
+        <a href="{{url_for('main.blog')}}">Blog</a><br>
+        <a href="{{url_for('main.workshop')}}">Workshop</a><br>
       </div>
       <div>
         <h6>Support</h6>
-        <a href="contactus.html">Contact</a><br>
-        <a href="forgot-password.html">Reset Password</a><br>
+        <a href="{{url_for('main.contact')}}">Contact</a><br>
+        <a href="{{url_for('main.forgot_password')}}">Reset Password</a><br>
       </div>
       <div>
         <h6>Legal</h6>

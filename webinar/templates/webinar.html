@@ -3,75 +3,249 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Live Webinar</title>
+  <title>🎥 Trading-TuTorial Webinar</title>
   <style>
-    body, html {
+    html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      background: #111;
-      font-family: Arial, sans-serif;
-    }
-    #jitsi-container {
-      height: 100vh;
       width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: "Segoe UI", Roboto, sans-serif;
+      color: #fff;
     }
+
+    #jitsi-container {
+      width: 100vw;
+      height: 100vh;
+    }
+
     .header {
       position: absolute;
       top: 10px;
-      left: 20px;
-      z-index: 10;
-      background: rgba(0,0,0,0.5);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 6px;
+      left: 15px;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    /* 🚨 Report Button */
+    .report-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      z-index: 9999;
+      background: rgba(255, 77, 77, 0.15);
+      color: #ff4d4d;
+      border: 1px solid rgba(255, 77, 77, 0.3);
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: all 0.2s ease;
+    }
+
+    .report-btn:hover {
+      background: #ff4d4d;
+      color: #fff;
+    }
+
+    /* 🧩 Popup Incident Box (Dark Theme) */
+    .report-box {
+      position: absolute;
+      top: 65px;
+      right: 20px;
+      z-index: 9999;
+      background: rgba(30, 30, 30, 0.95);
+      color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+      padding: 15px;
+      width: 280px;
+      display: none;
+      flex-direction: column;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .report-box label {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #ff4d4d;
+    }
+
+    .report-box .reason {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .report-box input[type="radio"] {
+      margin-right: 8px;
+      accent-color: #ff4d4d;
+      cursor: pointer;
+    }
+
+    .report-box textarea {
+      width: 100%;
+      resize: none;
+      height: 60px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(20, 20, 20, 0.9);
+      color: #eee;
+      padding: 8px;
+      font-size: 13px;
+    }
+
+    .report-box button {
+      background: #ff4d4d;
+      color: #fff;
+      border: none;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .report-box button:hover {
+      background: #ff2e2e;
+      box-shadow: 0 0 10px rgba(255, 77, 77, 0.4);
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h3>🎥 Trading-TuTorial Webinar</h3>
-  </div>
-
+  <div class="header">🎥 Trading-TuTorial Live Webinar</div>
   <div id="jitsi-container"></div>
 
-  <script src="https://meet.jit.si/external_api.js"></script>
-  <script>
-    const domain = "meet.jit.si"; // use your own Jitsi domain if self-hosted
-    const meetingID = "{{ meeting_id }}"; // from Flask route
-    const userName = "{{ user_name }}"; // from Flask session
-    const container = document.querySelector('#jitsi-container');
+  <!-- Report Button -->
+  <button class="report-btn" onclick="toggleReport()">🚨 Report</button>
 
-    const options = {
-      roomName: meetingID,
-      width: "100%",
-      height: "100%",
-      parentNode: container,
-      userInfo: {
-        displayName: userName || "Guest",
-      },
-      configOverwrite: {
-        prejoinPageEnabled: false,
-      },
-      interfaceConfigOverwrite: {
-        TOOLBAR_BUTTONS: [
-          'microphone', 'camera', 'desktop', 'fullscreen', 'fodeviceselection', 'hangup',
-          'profile', 'chat', 'recording', 'livestreaming', 'settings', 'raisehand', 'tileview'
-        ],
-      }
-    };
+  <!-- Popup Incident Box -->
+  <div class="report-box" id="reportBox">
+    <label>Report this session</label>
+    <div class="reason"><input type="radio" name="reason" value="Misleading Information"> Misleading or false information</div>
+    <div class="reason"><input type="radio" name="reason" value="Vulgar Language"> Use of abusive or vulgar language</div>
+    <div class="reason"><input type="radio" name="reason" value="Fraud Promotion"> Promoting scam or betting apps</div>
+    <div class="reason"><input type="radio" name="reason" value="Unprofessional Behaviour"> Unprofessional or inappropriate conduct</div>
+    <textarea id="extraNote" placeholder="Add any additional details (optional)..."></textarea>
+    <button onclick="submitIncident()">Submit Report</button>
+  </div>
 
-    const api = new JitsiMeetExternalAPI(domain, options);
+ <script src="https://meet.jit.si/external_api.js"></script>
+<script>
+  const domain = "meet.jit.si";
+  const meetingID = "{{ meeting_id }}";
+  const userName = "{{ user_name }}";
+  const isAdmin = "{{ is_admin }}" === "true";
 
-    api.addEventListener('videoConferenceJoined', () => {
-      console.log(`${userName} joined ${meetingID}`);
-    });
+  const container = document.getElementById("jitsi-container");
 
-    api.addEventListener('readyToClose', () => {
-      window.location.href = "/dashboard";
-    });
-  </script>
+  if (isAdmin) {
+    document.querySelector(".report-btn").style.display = "none";
+  }
+
+  const api = new JitsiMeetExternalAPI(domain, {
+    roomName: meetingID,
+    parentNode: container,
+    width: "100%",
+    height: "100%",
+    userInfo: { displayName: userName },
+    configOverwrite: {
+      prejoinPageEnabled: false,
+      disableDeepLinking: true,
+      enableClosePage: false
+    },
+    interfaceConfigOverwrite: {
+      SHOW_JITSI_WATERMARK: false,
+      SHOW_BRAND_WATERMARK: false,
+      SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+      TOOLBAR_BUTTONS: ["microphone","camera","desktop","chat","raisehand","tileview","hangup"]
+    }
+  });
+
+  let mediaRecorder;
+  let recordedChunks = [];
+  let isRecording = false;
+
+  api.addEventListener("videoConferenceJoined", async () => {
+    console.log("✅ Joined conference");
+    await startRecording();
+  });
+
+  api.addEventListener("readyToClose", async () => {
+    console.log("📞 Meeting ended by user");
+    await stopRecording();
+  });
+
+  async function startRecording() {
+    try {
+      const stream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true
+      });
+
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(stream);
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) recordedChunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = async () => {
+        console.log("💾 Stopped recording, preparing upload...");
+        const blob = new Blob(recordedChunks, { type: "video/mp4" });
+        const formData = new FormData();
+        formData.append("file", blob, `${meetingID}_${Date.now()}.mp4`);
+        formData.append("meeting_id", meetingID);
+
+        try {
+          const res = await fetch("/api/upload_recording", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await res.json();
+          console.log("✅ Upload complete:", data);
+          alert("Recording uploaded successfully!");
+        } catch (err) {
+          console.error("❌ Upload failed:", err);
+          alert("Error uploading recording");
+        }
+
+        // Redirect after upload finishes
+        window.location.href = "/dashboard";
+      };
+
+      mediaRecorder.start();
+      isRecording = true;
+      console.log("🎥 Recording started");
+    } catch (err) {
+      console.error("❌ Recording error:", err);
+      alert("Please allow screen and microphone access!");
+    }
+  }
+
+  async function stopRecording() {
+    if (isRecording && mediaRecorder && mediaRecorder.state !== "inactive") {
+      console.log("⏹️ Stopping recording...");
+      mediaRecorder.stop();
+      isRecording = false;
+    }
+  }
+
+  
+</script>
+
 </body>
 </html>
-
-firstmeet01
