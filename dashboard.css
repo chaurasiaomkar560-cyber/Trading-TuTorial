@@ -1,0 +1,237 @@
+/*
+=========================================
+  DASHBOARD.CSS (Page-Specific Styles)
+=========================================
+*/
+
+/* Naya Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+.stats-grid .card {
+  text-align: center; /* Stats ko center mein rakhein */
+}
+
+/* Grid for the new accordion cards */
+.accordion-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column on mobile */
+  gap: 1rem;
+}
+
+/* The Card Itself */
+.accordion-card {
+  padding: 0; /* Remove default card padding */
+  overflow: hidden; /* Crucial for animation */
+  transition: all 0.3s ease;
+}
+
+.accordion-card:hover {
+  /* Subtle hover effect */
+  box-shadow: var(--shadow), 0 10px 20px rgba(0,0,0,0.05);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 1.5rem; /* Add padding here */
+  cursor: pointer;
+}
+
+.card-image {
+  width: 70px; /* Specific size */
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%; /* Make it circular */
+  border: 3px solid var(--border-color);
+}
+
+.card-title-wrapper {
+  flex-grow: 1; /* Pushes icon to the right */
+}
+.card-title-wrapper h3 {
+  margin-bottom: 0.25rem;
+}
+.card-title-wrapper p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  transition: transform 0.3s ease; /* Animation for the arrow */
+}
+
+/* The Hidden Content */
+.card-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  padding: 0 1.5rem; /* Padding for when it's open */
+}
+
+.card-content p {
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.ai-image {
+  width: 100%;
+  border-radius: var(--border-radius);
+  margin: 0.5rem 0 1rem 0;
+  border: 1px solid var(--border-color);
+}
+
+/* The "Open" State (controlled by JS) */
+.accordion-card.open .card-content {
+  max-height: 1000px; /* Large value to allow expansion */
+  opacity: 1;
+  padding-bottom: 1.5rem; /* Add bottom padding when open */
+}
+
+.accordion-card.open .card-icon {
+  transform: rotate(180deg); /* Flip the arrow down */
+}
+
+/* Desktop Grid */
+@media (min-width: 768px) {
+  .accordion-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  .accordion-grid {
+     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/*
+=========================================
+  DASHBOARD CARD MODAL (NEW BOX STYLE)
+  (FINAL CLEANED VERSION)
+=========================================
+*/
+
+.card-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* 1. Dark, blurry background (Frosted Glass) */
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  
+  /* 2. Center the box */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  
+  /* 3. Chatbot Icon se neeche rakhein */
+  z-index: 997;
+  
+  /* Hiding logic */
+  opacity: 0;
+  pointer-events: none;
+  /* 4. DYNAMIC RESIZE ANIMATION */
+  transition: opacity 0.3s ease, width 0.4s ease-in-out;
+}
+
+.card-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Yeh hai naya "Box" */
+.card-modal-content {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  max-height: 85vh;
+  
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  border: 1px solid var(--border-color);
+
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 2rem 3rem;
+
+  transform: scale(0.95);
+  transition: opacity 0.3s ease, transform 0.4s ease-in-out;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--bg-color);
+}
+.card-modal-content::-webkit-scrollbar { width: 10px; }
+.card-modal-content::-webkit-scrollbar-track { background: var(--bg-color); }
+.card-modal-content::-webkit-scrollbar-thumb {
+  background-color: var(--text-muted);
+  border-radius: var(--border-radius);
+  border: 2px solid var(--bg-color);
+}
+.card-modal-content::-webkit-scrollbar-thumb:hover { background-color: var(--primary-color); }
+
+.card-modal-overlay.open .card-modal-content {
+  transform: scale(1);
+}
+
+#cardModalImage {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+#cardModalTitle {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+}
+#cardModalContent {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  max-width: 800px;
+}
+
+.modal-close-btn {
+  align-self: flex-end;
+  margin-bottom: -1rem;
+  margin-top: -1rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+}
+.modal-close-btn:hover {
+  color: var(--text-primary);
+}
+
+
+/* =========================================
+    AUTOMATIC RESIZE (FINAL VERSION)
+  =========================================
+*/
+@media (min-width: 480px) {
+  /* Jab chatbot open ho, overlay ki width kam kar dein */
+  .card-modal-overlay.open.chatbot-is-open {
+    width: calc(100% - 420px); /* 420px = chatbot ki width */
+  }
+}
