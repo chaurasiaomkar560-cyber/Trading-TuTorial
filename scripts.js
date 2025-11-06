@@ -472,11 +472,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // *** End of Section 13 ***
 
-  // === NEW SECTION 13.A: LOAD PERSISTENT BLOGS (YEH AAPKA FIX HAI) ===
+  // === NEW SECTION 13.A: LOAD PERSISTENT BLOGS (FIXED) ===
   const blogListOnLoad = document.getElementById('blogList');
   if (blogListOnLoad) {
       const allBlogs = JSON.parse(localStorage.getItem('allBlogs')) || [];
-      // Prepend, so newest (last added) appears first
+      
+      // **** YEH HAI AAPKA FIX (BLOGS) ****
+      // Page load par, pehle se likhe (hardcoded) blogs ko hata dein
+      // Taaki sirf saved blogs hi dikhein.
+      blogListOnLoad.innerHTML = '';
+      // **********************************
+
+      // Ab, localStorage se blogs load karein
       allBlogs.slice().reverse().forEach(blog => {
           const newPost = document.createElement('div');
           newPost.className = 'card blog-card';
@@ -644,12 +651,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // *** End of Section 14 ***
 
-  // === NEW SECTION 14.A: LOAD PERSISTENT WORKSHOPS (YEH AAPKA FIX HAI) ===
+  // === NEW SECTION 14.A: LOAD PERSISTENT WORKSHOPS (FIXED) ===
   // Note: 'workshopGrid' variable Section 14 mein pehle hi define ho chuka hai.
   if (workshopGrid) { // Check karein ki hum workshop page par hain
       const pendingWorkshops = JSON.parse(localStorage.getItem('pendingWorkshops')) || [];
       
-      // Naye workshops ko sabse upar dikhane ke liye reverse() karein
+      // **** YEH HAI AAPKA FIX (WORKSHOPS) ****
+      // Page load par, pehle se likhe (hardcoded) workshops ko hata dein
+      // Taaki sirf saved workshops hi dikhein.
+      workshopGrid.innerHTML = '';
+      // **************************************
+
+      // Ab, localStorage se workshops load karein
       pendingWorkshops.slice().reverse().forEach(workshop => {
           const newWorkshop = document.createElement('div');
           newWorkshop.className = 'card workshop-card';
@@ -865,6 +878,7 @@ document.addEventListener('DOMContentLoaded', () => {
       startWorkshopCountdowns(); 
       
       // 6. Form ko hide karein aur Success message dikhayein
+      alert("✅ Your workshop has been submitted for review. We'll email you once it’s approved!");
       hostWorkshopForm.style.display = 'none';
       hostProgressBar.style.display = 'none';
       hostSuccessStep.classList.add('active');

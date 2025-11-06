@@ -154,11 +154,10 @@
         </div>
       </div>
     </div>
-  </main>
+</main>
 
   <div id="workshopModal" class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-content">
+    <div class="modal-card modal-lg"> <div class="modal-content">
         <button id="workshopCloseBtn" class="modal-close-btn">&times;</button>
 
         <div id="buyer-step-1" class="modal-step active">
@@ -171,14 +170,105 @@
           </div>
 
           <form id="buyerRegForm" method="post" action="{{ url_for('workshop_bp.buyer_register') }}" enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="buyerName">Full Name</label>
-              <input type="text" id="buyerName" placeholder="Enter your full name" name="buyerName" required>
-            </div>
-            <div class="form-group">
-              <label for="buyerMobile">Mobile Number</label>
-              <input type="text" id="buyerMobile" placeholder="Enter your 10-digit number" name="buyerMobile" required>
-            </div>
+            
+            <fieldset class="form-fieldset">
+              <legend>(1) Basic Personal Details</legend>
+              <div class="form-group">
+                <label for="buyerName">Full Name</label>
+                <input type="text" id="buyerName" placeholder="Enter your full name" name="buyerName" required>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="buyerEmail">Email Address</label>
+                  <input type="email" id="buyerEmail" placeholder="Your primary email" name="buyerEmail" required>
+                </div>
+                <div class="form-group">
+                  <label for="buyerMobile">Mobile Number</label>
+                  <input type="text" id="buyerMobile" placeholder="Enter your 10-digit number" name="buyerMobile" required>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="buyerGender">Gender (Optional)</label>
+                  <select id="buyerGender" name="buyerGender">
+                    <option value="">Select...</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                    <option value="prefer_not_to_say">Prefer not to say</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="buyerAge">Age (Optional)</label>
+                  <input type="number" id="buyerAge" placeholder="Enter your age" name="buyerAge">
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-fieldset">
+              <legend>(2) Contact / Communication Details</legend>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="buyerCity">City</label>
+                  <input type="text" id="buyerCity" placeholder="Your city" name="buyerCity" required>
+                </div>
+                <div class="form-group">
+                  <label for="buyerState">State</label>
+                  <input type="text" id="buyerState" placeholder="Your state" name="buyerState" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="buyerCountry">Country</label>
+                <input type="text" id="buyerCountry" placeholder="Your country" name="buyerCountry" required>
+              </div>
+              <div class="form-group">
+                <label for="buyerAddress">Address (Optional)</label>
+                <textarea id="buyerAddress" name="buyerAddress" rows="2" placeholder="For physical materials, if any"></textarea>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="buyerWhatsApp">WhatsApp Number (Optional)</label>
+                  <input type="text" id="buyerWhatsApp" placeholder="If different from mobile" name="buyerWhatsApp">
+                </div>
+                <div class="form-group">
+                  <label for="buyerSocial">LinkedIn / Social Handle (Optional)</label>
+                  <input type="text" id="buyerSocial" placeholder="For networking" name="buyerSocial">
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-fieldset">
+              <legend>(3) Educational / Professional Details (Optional)</legend>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="buyerOccupation">Occupation / Profession</label>
+                  <input type="text" id="buyerOccupation" placeholder="e.g., Student, Software Engineer" name="buyerOccupation">
+                </div>
+                <div class="form-group">
+                  <label for="buyerOrg">College / Organization Name</label>
+                  <input type="text" id="buyerOrg" placeholder="Your company or college" name="buyerOrg">
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="buyerDept">Department / Course</label>
+                  <input type="text" id="buyerDept" placeholder="e.g., B.Tech CS, Marketing" name="buyerDept">
+                </div>
+                <div class="form-group">
+                  <label for="buyerExperience">Experience Level</label>
+                  <select id="buyerExperience" name="buyerExperience">
+                    <option value="">Select level...</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="expert">Expert</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="buyerPurpose">Purpose of Joining (Optional)</label>
+                <textarea id="buyerPurpose" name="buyerPurpose" rows="2" placeholder="What do you hope to learn?"></textarea>
+              </div>
+            </fieldset>
 
             <div class="terms-box">
               <p><strong>Terms and Conditions:</strong></p>
@@ -193,17 +283,16 @@
               <p><strong>Support:</strong> If there is any problem regarding the workshop, you can contact us via the
                 Contact page or mail your issue in the feedback form (Your Name, Workshop Name, Genuine Issue).</p>
             </div>
-
             <div class="checkbox-group">
               <input type="checkbox" id="buyerTerms" class="terms-checkbox" name="buyerTerms">
               <label for="buyerTerms">I hereby state that I have read all the information and I accept it.</label>
             </div>
-
             <button type="submit" id="buyerProceedBtn" class="btn btn-primary" style="width: 100%;" disabled>
               Please Proceed
             </button>
           </form>
         </div>
+        
         <div id="buyer-step-2" class="modal-step">
           <h2>Payment Interface</h2>
           <p class="muted">This is a simulation. Click a button to confirm booking.</p>
@@ -226,6 +315,7 @@
     </div>
   </div>
 
+
   <div id="hostModal" class="modal-overlay">
   <div class="modal-card modal-lg">
     <div class="modal-content">
@@ -233,7 +323,7 @@
       
       <div class="step-progress" id="host-progress-bar">
         <div id="step-indicator-1" class="step-indicator active">1. Hoster</div>
-        <div id="step-indicator-2" class="step-indicator">2. Workshop</div>
+        <div id="step-indicator-2" class="step-indicator">2. Workshop & Company</div>
         <div id="step-indicator-3" class="step-indicator">3. Financials & Submit</div>
       </div>
       
@@ -245,87 +335,121 @@
             <legend>About You</legend>
             <div class="form-grid">
               <div class="form-group">
-                <label for="hostName">Full Name (as per ID)</label>
+                <label for="hostName">Full Name</label>
                 <input type="text" id="hostName" placeholder="Your full name" name="full_name" required />
               </div>
               <div class="form-group">
-                <label for="hostCompany">Company </label>
-                <input type="text" id="hostCompany" name="company_name" placeholder="Your company name" />
+                <label for="hostEmail">Email</label>
+                <input type="email" id="hostEmail" placeholder="Your primary email" name="email" required />
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="hostContactNumber">Contact Number</label>
+                <input type="text" id="hostContactNumber" placeholder="Your 10-digit mobile" name="hostContactNumber" required />
+              </div>
+              <div class="form-group">
+                <label for="hostAge">Age</label>
+                <input type="number" id="hostAge" placeholder="Your age" name="hostAge" required />
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="hostGender">Gender</label>
+                <select id="hostGender" name="hostGender" required>
+                  <option value="">Select...</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="hostCountry">Country</label>
+                <input type="text" id="hostCountry" placeholder="Country" name="hostCountry" required />
               </div>
             </div>
             <div class="form-group">
-              <label for="hostEmail">Contact Email</label>
-              <input type="email" id="hostEmail" placeholder="Your primary email for verification" name="email" required />
-            </div>
-            <div class="form-group">
-              <label for="hostSocial">LinkedIn or Portfolio URL</label>
-              <input type="text" id="hostSocial" placeholder="https://linkedin.com/in/yourprofile" name="linkdin" required />
-            </div>
-            <div class="form-group">
-              <label for="hostExpertise">Proof of Expertise</label>
-              <textarea id="hostExpertise" rows="2" name="Expertise" placeholder="e.g., 'I am a 5-year certified analyst' or paste portfolio links." required></textarea>
-            </div>
-            <div class="form-group">
-              <label for="hostKYC">KYC/ID (Simulation)</label>
-              <input type="file" id="hostKYC" name="KYC" class="form-control-file">
-              <small class="muted">Upload Aadhar, Passport, or Business Registration (Simulation)</small>
+              <label for="hostCity">City</label>
+              <input type="text" id="hostCity" placeholder="City" name="hostCity" required />
             </div>
           </fieldset>
           <div class="step-navigation">
             <button type="button" id="hostNextBtn1" class="btn btn-primary">Next: Workshop Details</button>
           </div>
-        </div> <div id="host-step-2" class="modal-step">
-          <h2>Step 2: Workshop Details</h2>
+        </div> 
+
+        <div id="host-step-2" class="modal-step">
+          <h2>Step 2: Workshop & Company</h2>
+          
           <fieldset class="form-fieldset">
-            <legend>About the Workshop</legend>
+            <legend>Workshop Details</legend>
             <div class="form-group">
-              <label for="hostTitle">Workshop Name</label>
-              <input type="text" id="hostTitle" name="hostTitle" placeholder="e.g., Advanced Options Strategy" required />
+              <label for="hostTitle">Workshop Title</label>
+              <input type="text" id="hostTitle" name="workshop_title" placeholder="e.g., Introduction to Technical Analysis" required />
             </div>
             <div class="form-group">
-              <label for="hostDesc">Details about workshop</label>
-              <textarea id="hostDesc" rows="3" placeholder="What will attendees learn?" name="hostDesc" required></textarea>
+              <label for="hostDescription">Workshop Description</label>
+              <textarea id="hostDescription" name="workshop_desc" rows="3" placeholder="What will participants learn?" required></textarea>
             </div>
             <div class="form-grid">
               <div class="form-group">
-                <label for="hostPrice">Price ($ or 'FREE')</label>
-                <input type="text" id="hostPrice" placeholder="e.g., $50 or FREE" name="hostPrice" required>
+                <label for="hostPrice">Price ($)</label>
+                <input type="number" id="hostPrice" name="workshop_price" placeholder="Enter 0 for FREE" required />
               </div>
-              <div class="form-group">
-                <label for="hostDate">Date & Time</label>
-                <input type="text" id="hostDate" placeholder="e.g., 2025-12-25T17:00:00" name="hostDate" required>
-              </div>
-            </div>
-            <div class="form-grid">
               <div class="form-group">
                 <label for="hostDuration">Duration</label>
-                <input type="text" id="hostDuration" placeholder="e.g., 3 Days" name="hostDuration" required />
-              </div>
-              <div class="form-group">
-                <label for="hostLang">Language</label>
-                <input type="text" id="hostLang" placeholder="e.g., English, Hindi" name="hostLang" required />
-              </div>
-            </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="hostAudience">Target Audience</label>
-                <input type="text" id="hostAudience" placeholder="e.g., Beginner, Advanced" name="hostAudience" required />
-              </div>
-              <div class="form-group">
-                <label for="hostSeats">Max Seats (Optional)</label>
-                <input type="text" id="hostSeats" placeholder="e.g., 50" name="hostSeats" required>
+                <input type="text" id="hostDuration" name="workshop_duration" placeholder="e.g., 2 Hours or 3 Days" required />
               </div>
             </div>
             <div class="form-group">
-              <label for="hostVideo">Video URL (Optional)</label>
-              <input type="text" id="hostVideo" placeholder="Link to a promo video" name="hostVideo" required />
+              <label for="hostDate">Start Date and Time</label>
+              <input type="datetime-local" id="hostDate" name="workshop_date" required />
+              <small class="muted">Participants will see a countdown to this date.</small>
+            </div>
+          </fieldset>
+          <fieldset class="form-fieldset">
+            <legend>About Your Company</legend>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="companyName">Company Name</label>
+                <input type="text" id="companyName" name="company_name" placeholder="Your company name" required />
+              </div>
+              <div class="form-group">
+                <label for="companyEmail">Company Official Email</label>
+                <input type="email" id="companyEmail" placeholder="e.g., contact@company.com" name="company_email" required />
+              </div>
+            </div>
+             <div class="form-grid">
+                <div class="form-group">
+                  <label for="companyLinkedIn">LinkedIn URL</label>
+                  <input type="text" id="companyLinkedIn" placeholder="https://linkedin.com/company/yourcompany" name="company_linkedin" required />
+                </div>
+                 <div class="form-group">
+                  <label for="companyMobile">Company Mobile Number</label>
+                  <input type="text" id="companyMobile" placeholder="Official contact number" name="company_mobile" required />
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="companyAddress">Company Address</label>
+              <textarea id="companyAddress" rows="2" name="companyAddress" placeholder="Full company address" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="companyExpertise">Proof of Expertise</label>
+              <textarea id="companyExpertise" rows="2" name="Expertise" placeholder="e.g., 'We are a 5-year certified financial education firm...'" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="companyEmployeeID">Company Current Employee ID (File)</label>
+              <input type="file" id="companyEmployeeID" name="companyEmployeeID" class="form-control-file" required>
+              <small class="muted">Upload your company ID card (Simulation)</small>
             </div>
           </fieldset>
           <div class="step-navigation">
             <button type="button" id="hostBackBtn1" class="btn btn-secondary">Back</button>
             <button type="button" id="hostNextBtn2" class="btn btn-primary">Next: Financials & Submit</button>
           </div>
-        </div> <div id="host-step-3" class="modal-step">
+        </div> 
+        
+        <div id="host-step-3" class="modal-step">
           <h2>Step 3: Financials & Submit</h2>
           <fieldset class="form-fieldset">
             <legend>Payment Details</legend>
@@ -343,9 +467,15 @@
                 <input type="text" id="finIFSC" placeholder="e.g., HDFC000123" name="finIFSC" required>
               </div>
             </div>
-            <div class="form-group">
-              <label for="finTaxID">PAN / GSTIN (for tax)</label>
-              <input type="text" id="finTaxID" placeholder="Your Tax ID" name="finTaxID" required>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="finGSTIN">GSTIN Number</label>
+                <input type="text" id="finGSTIN" placeholder="Your GSTIN" name="finGSTIN" required>
+              </div>
+              <div class="form-group">
+                <label for="finBranchCode">Branch Code</label>
+                <input type="text" id="finBranchCode" placeholder="Your bank's branch code" name="finBranchCode" required>
+              </div>
             </div>
           </fieldset>
           
