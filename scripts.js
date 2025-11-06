@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         title: title,
         author: authorName,
         authorSeed: authorSeed,
-        date: new Date().toISOString(),
+        date: new Date().toISOString(), // Save as ISO string
         content: fullContent,
         snippet: snippet,
         imageUrl: imageUrl
@@ -370,6 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (confirm('Are you sure you want to delete this post?')) {
           const card = e.target.closest('.blog-card');
           card.remove();
+          // Note: This does not remove it from localStorage. A full fix would require finding the blog by ID.
         }
       }
       
@@ -387,6 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.remove();
         window.scrollTo({ top: 0, behavior: 'smooth' });
         document.getElementById('blogTitle').focus();
+        // Note: This does not update it in localStorage.
       }
     });
   }
@@ -470,11 +472,81 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // *** End of Section 13 ***
 
-  // === 14. WORKSHOP REGISTRATION MODAL (Multi-Step) ===
+  // === NEW SECTION 13.A: LOAD PERSISTENT BLOGS (YEH AAPKA FIX HAI) ===
+  const blogListOnLoad = document.getElementById('blogList');
+  if (blogListOnLoad) {
+      const allBlogs = JSON.parse(localStorage.getItem('allBlogs')) || [];
+      // Prepend, so newest (last added) appears first
+      allBlogs.slice().reverse().forEach(blog => {
+          const newPost = document.createElement('div');
+          newPost.className = 'card blog-card';
+          // Section 8 (submit logic) mein use kiye gaye template ka istemal karein
+          newPost.innerHTML = `
+            <img src="${blog.imageUrl}" class="blog-thumb" alt="Blog Image">
+            <div class="blog-content">
+              <h3 class="blog-card-title">${blog.title}</h3>
+              <p class="blog-card-snippet">${blog.snippet}</p>
+              <p class="blog-card-full-content" style="display: none;">${blog.content}</p>
+              <div class="author-info">
+                <img src="https://picsum.photos/seed/${blog.authorSeed}/40/40" alt="Author">
+                <div>
+                  <span class="author-name">${blog.author}</span>
+                  <span class="post-date muted">${new Date(blog.date).toLocaleDateString('en-IN')}</span> 
+                </div>
+              </div>
+              <div class="blog-actions">
+                <a href="#" class="btn btn-secondary read-more-btn">Read More</a>
+                <button class="btn btn-outline like-btn">
+                  <i class="fa-regular fa-heart"></i> <span>0</span>
+                </button>
+                <button class="btn btn-outline edit-btn">Edit</button>
+                <button class="btn btn-outline delete-btn">Delete</button>
+              </div>
+            </div>
+          `;
+          blogListOnLoad.prepend(newPost); // Naye blogs ko list mein sabse upar add karein
+      });
+  }
+  // *** End of New Section 13.A ***
+
+
+  // === FUNCTION DEFINITION MOVED ===
+  // Is function ko Section 14 se pehle define karna zaroori hai
+  function loadDashboardStats() {
+    const statsTotalEl = document.getElementById('stats-total');
+    if (!statsTotalEl) return;
+    
+    const myWorkshops = JSON.parse(localStorage.getItem('myWorkshops')) || [];
+    const now = new Date();
+    
+    let total = myWorkshops.length;
+    let completed = 0;
+    let pendingPaid = 0;
+    let pendingFree = 0;
+    
+    myWorkshops.forEach(workshop => {
+      const workshopDateStr = workshop.date || '1970-01-01T00:00:00';
+      const workshopDate = new Date(workshopDateStr.split('•')[0].trim());
+
+      if (workshopDate < now) {
+        completed++;
+      } else {
+        if (workshop.price && workshop.price.toLowerCase() === 'free') pendingFree++;
+        else pendingPaid++;
+      }
+    });
+    
+    statsTotalEl.textContent = total;
+    document.getElementById('stats-completed').textContent = completed;
+    document.getElementById('stats-pending-paid').textContent = pendingPaid;
+    document.getElementById('stats-pending-free').textContent = pendingFree;
+  }
+
+  // === 14. WORKSHOP REGISTRATION MODAL (Multi-Step) (MODIFIED) ===
   const workshopModal = document.getElementById('workshopModal');
   const workshopCloseBtn = document.getElementById('workshopCloseBtn');
   const buyerRegForm = document.getElementById('buyerRegForm');
-  const workshopGrid = document.querySelector('.workshop-grid');
+  const workshopGrid = document.querySelector('.workshop-grid'); // Yeh global 'workshopGrid' hai
   
   if (workshopModal && workshopCloseBtn && buyerRegForm && workshopGrid) {
     
@@ -522,10 +594,25 @@ document.addEventListener('DOMContentLoaded', () => {
       buyerStep1.classList.add('active');
     });
     
+    // === YEH LOGIC UPDATE KIYA GAYA HAI ===
     paymentBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         let myWorkshops = JSON.parse(localStorage.getItem('myWorkshops')) || [];
-        myWorkshops.push(currentWorkshopData);
+        
+        // Form se buyer ka data collect karein (naye form ke hisab se)
+        const buyerName = document.getElementById('buyerName').value;
+        const buyerEmail = document.getElementById('buyerEmail').value;
+        const buyerMobile = document.getElementById('buyerMobile').value;
+
+        // Workshop data aur buyer data ko merge karein
+        const workshopToSave = {
+          ...currentWorkshopData, // Isme title, price, hostName, date hai
+          buyerName: buyerName,
+          buyerEmail: buyerEmail,
+          buyerMobile: buyerMobile
+        };
+
+        myWorkshops.push(workshopToSave); // Pura object save karein
         localStorage.setItem('myWorkshops', JSON.stringify(myWorkshops));
         
         document.getElementById('successWorkshopName').textContent = currentWorkshopData.title;
@@ -533,13 +620,15 @@ document.addEventListener('DOMContentLoaded', () => {
         buyerStep2.classList.remove('active');
         buyerStep3.classList.add('active');
         
+        // Dashboard stats update karein (function ab defined hai)
         loadDashboardStats();
       });
     });
+    // === END OF UPDATE ===
 
     const closeWorkshopModal = () => {
       workshopModal.classList.remove('open');
-      buyerRegForm.reset();
+      buyerRegForm.reset(); // Yeh naye form ko bhi reset kar dega
       buyerStep1.classList.add('active');
       buyerStep2.classList.remove('active');
       buyerStep3.classList.remove('active');
@@ -554,6 +643,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   // *** End of Section 14 ***
+
+  // === NEW SECTION 14.A: LOAD PERSISTENT WORKSHOPS (YEH AAPKA FIX HAI) ===
+  // Note: 'workshopGrid' variable Section 14 mein pehle hi define ho chuka hai.
+  if (workshopGrid) { // Check karein ki hum workshop page par hain
+      const pendingWorkshops = JSON.parse(localStorage.getItem('pendingWorkshops')) || [];
+      
+      // Naye workshops ko sabse upar dikhane ke liye reverse() karein
+      pendingWorkshops.slice().reverse().forEach(workshop => {
+          const newWorkshop = document.createElement('div');
+          newWorkshop.className = 'card workshop-card';
+          
+          let priceBadge = '';
+          if (workshop.price === '0' || workshop.price === '') {
+              priceBadge = '<div class="workshop-badge free">FREE</div>';
+          } else {
+              priceBadge = `<div class="workshop-badge price">$${workshop.price}</div>`;
+          }
+          
+          const randomSeed = Math.floor(Math.random() * 1000);
+          const imageUrl = `https://picsum.photos/seed/ws${randomSeed}/400/200`;
+
+          // Section 15 (submit logic) mein use kiye gaye template ka istemal karein
+          newWorkshop.innerHTML = `
+            ${priceBadge}
+            <img src="${imageUrl}" class="workshop-thumb" alt="Workshop Image" />
+            <div class="workshop-content">
+              <div class="workshop-meta" data-date="${workshop.date}">
+                <div class="countdown-timer">
+                  <span>--d</span> : <span>--h</span> : <span>--m</span> : <span>--s</span>
+                </div>
+                <span class="workshop-duration">
+                  <i class="fa-regular fa-clock"></i> ${workshop.duration}
+                </span>
+              </div>
+              <h3>${workshop.title}</h3>
+              <p>${workshop.description}</p>
+              <button class="btn btn-primary register-btn" style="width: 100%">
+                Register Now
+              </button>
+            </div>
+          `;
+          workshopGrid.prepend(newWorkshop); // Naye workshop ko grid mein sabse upar add karein
+      });
+  }
+  // *** End of New Section 14.A ***
+
 
 // === 15. HOST A WORKSHOP MODAL (MODIFIED) ===
   const showHostModalBtn = document.getElementById('showHostModalBtn');
@@ -796,6 +931,7 @@ document.addEventListener('DOMContentLoaded', () => {
       meta.dataset.intervalId = interval; // Interval ID save karein taaki clear ho sake
     });
   }
+  // YEH FUNCTION AB PAGE LOAD PAR CHALEGA (NAYE ADD KIYE GAYE CARDS KE LIYE BHI)
   startWorkshopCountdowns();
   // *** End of Section 16 ***
 
@@ -982,36 +1118,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterBtnGroup = document.querySelector('.filter-btn-group');
 
   // --- 1. Stats Cards ko Load Karne ka Function ---
-  // Is function ko global scope mein rakhein taaki Section 14 use call kar sake
-  function loadDashboardStats() {
-    const statsTotalEl = document.getElementById('stats-total');
-    if (!statsTotalEl) return;
-    
-    const myWorkshops = JSON.parse(localStorage.getItem('myWorkshops')) || [];
-    const now = new Date();
-    
-    let total = myWorkshops.length;
-    let completed = 0;
-    let pendingPaid = 0;
-    let pendingFree = 0;
-    
-    myWorkshops.forEach(workshop => {
-      const workshopDateStr = workshop.date || '1970-01-01T00:00:00';
-      const workshopDate = new Date(workshopDateStr.split('•')[0].trim());
-
-      if (workshopDate < now) {
-        completed++;
-      } else {
-        if (workshop.price && workshop.price.toLowerCase() === 'free') pendingFree++;
-        else pendingPaid++;
-      }
-    });
-    
-    statsTotalEl.textContent = total;
-    document.getElementById('stats-completed').textContent = completed;
-    document.getElementById('stats-pending-paid').textContent = pendingPaid;
-    document.getElementById('stats-pending-free').textContent = pendingFree;
-  }
+  // Iski definition upar move kar di gayi hai (Section 14 se pehle)
   
   // --- 2. "My Workshops" List ko Populate Karne ka Function ---
   function populateMyWorkshopsList(filter = 'all') {
