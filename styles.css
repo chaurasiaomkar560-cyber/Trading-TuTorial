@@ -1,0 +1,961 @@
+/* ===== GOOGLE FONT IMPORT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/*
+=========================================
+  1. CSS VARIABLES (NEW DESIGN THEME)
+=========================================
+*/
+:root {
+  --font-family: 'Poppins', sans-serif;
+  
+  /* New Color Palette from Image */
+  --primary-color: #6D41C8; /* Main purple */
+  --primary-hover: #5634a0;
+  --secondary-color: #0dcaf0; /* Light blue (for "Try Demo" button) */
+  --secondary-hover: #0b9fb5;
+  
+  --bg-color: #ffffff;
+  --card-bg: #ffffff;
+  --text-primary: #212529;
+  --text-muted: #6c757d;
+  --border-color: #f0f1f3; /* Lighter border */
+  
+  /* New Footer Colors */
+  --footer-bg: #1a0b33;
+  --footer-text: #f8f9fa;
+  --footer-text-muted: #adb5bd;
+  
+  --shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+  --border-radius: 12px; /* Slightly more rounded cards */
+  --container-width: 1100px;
+
+  --header-bg: rgba(255, 255, 255, 0.7);
+  --slider-bg: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="dark"] {
+
+  /* Dark mode can be refined later */
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-muted: #78a9db;
+  --border-color: #343a40;
+  --footer-bg: #1a0b33;
+
+  --header-bg: rgba(30, 30, 30, 0.7);
+  --slider-bg: rgba(30, 30, 30, 0.5);
+
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
+  input[type='search'],
+  textarea {
+    background-color: var(--bg-color); /* Dark background */
+    color: var(--text-primary); /* Light text */
+    border-color: var(--border-color);
+  }
+
+  input[type='text']:focus,
+  input[type='email']:focus,
+  input[type='password']:focus,
+  input[type='search']:focus,
+  textarea:focus {
+    background-color: var(--bg-color); /* Dark background (same as page) */
+    color: var(--text-primary);      /* Light text */
+    border-color: var(--primary-color); /* Highlight border */
+  }
+}
+
+/*
+=========================================
+  2. BASE & RESET STYLES
+=========================================
+*/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/*
+=========================================
+  3. LAYOUT & CONTAINER
+=========================================
+*/
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem; /* Padding for mobile */
+}
+
+/* This is the base grid, home.css will override it */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/*
+=========================================
+  4. HEADER & NAVIGATION
+=========================================
+*/
+header {
+  background-color: var(--header-bg);
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow like image */
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: -0.5rem;
+}
+
+.brand .logo {
+  font-size: 1.75rem;
+  color: var(--primary-color);
+  /* Add transition for the icon */
+  transition: transform 0.3s ease-out;
+}
+
+.brand:hover .logo {
+  /* Animate on .brand hover: scale up and rotate */
+  transform: scale(1.1) rotate(-10deg);
+}
+
+.brand-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.brand-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: none; /* Hidden on mobile */
+  gap: 0.5rem;
+}
+
+.nav-links a {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  color: var(--text-primary); /* Dark text for links */
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.nav-links a:hover {
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+}
+
+.nav-links a.active {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 1001;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/*
+=========================================
+  5. FOOTER (NEW DARK DESIGN)
+=========================================
+*/
+footer {
+  background-color: var(--footer-bg);
+  color: var(--footer-text-muted);
+  padding-top: 3rem;
+  margin-top: 3rem;
+  border: none; /* Remove top border */
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile-first stack */
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  border-color: rgba(255, 255, 255, 0.1); /* Light border for dark bg */
+}
+
+.footer-inner h6 {
+  color: var(--footer-text); /* White heading */
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.footer-inner a {
+  color: var(--footer-text-muted);
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  text-decoration: none;
+}
+
+.footer-inner a:hover {
+  color: #ffffff; /* Brighter white on hover */
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.socials {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.socials a {
+  font-size: 1.25rem;
+  color: var(--footer-text-muted);
+}
+.socials a:hover {
+  color: var(--footer-text);
+}
+
+/*
+=========================================
+  6. BUTTONS & COMPONENTS (NEW DESIGN)
+=========================================
+*/
+
+/* --- Icon/Utility Buttons --- */
+.icon-btn,
+.theme-toggle button {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.icon-btn:hover,
+.theme-toggle button:hover {
+  color: var(--text-primary);
+  background-color: #f0f1f3;
+}
+
+/* Hamburger Menu Button */
+#menu-btn {
+  display: block; /* Show on mobile */
+}
+
+/* --- Standard Buttons --- */
+.btn {
+  display: inline-block;
+  padding: 0.85rem 1.75rem; /* Slightly larger padding */
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  width: 100%; /* Default to full-width for mobile forms */
+  
+  /* YEH HAI HOVER ANIMATION (jaisa aapne maanga) */
+  transition: all 0.3s ease;
+}
+.btn:hover {
+  text-decoration: none;
+  transform: translateY(-2px); /* Button lift animation */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Gradient Button (Primary) */
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(90deg, #C850C0 0%, #4158D0 100%);
+  background-size: 100% 100%;
+}
+.btn-primary:hover {
+  color: #fff;
+  opacity: 0.9;
+  box-shadow: 0 6px 12px rgba(65, 88, 208, 0.3);
+}
+
+/* Light Blue Button (Secondary) */
+.btn-secondary {
+  background-color: #08b4ee;
+  color: #fafdff;
+  border: 1px solid #e0f7ff;
+}
+.btn-secondary:hover {
+  background-color: #ccefff;
+  color: #0056b3;
+  border-color: #ccefff;
+}
+
+/* This was in contactus.html */
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+.btn-outline:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+/* --- Card --- */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+/*
+=========================================
+  7. FORMS
+=========================================
+*/
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: -0.5rem; /* Place closer to its input */
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color); /* Light grey background for inputs */
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 1rem;
+}
+
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.15);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/*
+=========================================
+  8. UTILITY CLASSES
+=========================================
+*/
+.muted {
+  color: var(--text-muted);
+}
+
+.small-links {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.desktop-only {
+  display: none;
+}
+
+.mobile-only {
+  display: block;
+}
+
+/*
+=========================================
+  9. RESPONSIVE (MEDIA QUERIES)
+=========================================
+*/
+/*
+=========================================
+  MOBILE NAVIGATION (NEW DROPDOWN BOX STYLE)
+=========================================
+*/
+@media (max-width: 767px) {
+  
+  .nav-links {
+    /* 1. New Box Position */
+    position: fixed;
+    top: 104px;  /* Header ke theek niche (header height + small gap) */
+    right: 1rem; /* Right side se 1rem ka gap */
+    left: auto; /* Left ko unset karein */
+    width: 300px; /* Box ki width */
+    max-width: 90%; /* Chhoti screen ke liye safety */
+    height: auto; /* Content ke hisab se height */
+    
+    /* 2. Frosted Glass Box Style */
+    background-color: var(--slider-bg); /* Yeh blur karega */
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    border-radius: var(--border-radius); /* Box ko rounded corners dein */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Shadow add karein */
+    border: 1px solid var(--border-color); /* Halki si border */
+
+    /* 3. Align links inside the box */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Links ko top se start karein */
+    align-items: stretch; /* Links ko poori width dein */
+    gap: 0.5rem; /* Links ke beech gap kam karein */
+    padding: 1rem; /* Box ke andar padding */
+
+    /* 4. Hiding logic (Fade in + slide down) */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px); /* Upar se slide karke aayega */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .nav-links.nav-open {
+    /* 5. Show the box */
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0); /* Final position par slide karein */
+  }
+  
+  /* 6. Style the links inside the box */
+  .nav-links > a {
+    color: var(--text-primary);
+    font-size: 1rem; /* Font size normal karein (bada nahi) */
+    font-weight: 600;
+    padding: 0.75rem 1rem; /* Padding */
+    border-radius: var(--border-radius);
+    text-align: left; /* Text ko left-align karein */
+  }
+  
+  .nav-links > a:hover {
+    background: var(--border-color);
+    text-decoration: none;
+  }
+
+  .nav-links > a.active {
+    color: var(--primary-color);
+    background: var(--border-color);
+  }
+  
+  /* 7. Style the mobile buttons */
+  .mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: -1rem; 
+    padding-top: 1rem; /* Padding kam karein */
+    border-top: 1px solid var(--border-color);
+    width: 100%; /* Box ki poori width */
+  }
+  
+  .mobile-actions .btn {
+    width: 100%;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+  
+  .footer-inner {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .brand {
+    margin-left: -1rem; /* Desktop par thoda aur left mein */
+  }
+
+  #menu-btn {
+    display: none;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: row;
+    position: static; /* Reset from 'absolute' */
+    background-color: transparent;
+    border-bottom: none;
+    padding: 0;
+    transform: none; /* Reset transform */
+    transition: none;
+    box-shadow: none;
+    /* align-items: center; */
+  }
+
+  .nav-links a {
+    width: auto; /* Reset from 100% width */
+    padding: 0.5rem 0.75rem;
+  }
+
+  .btn {
+    width: auto; /* Buttons are not full-width on desktop */
+  }
+
+  .desktop-only {
+    display: block;
+  }
+  
+  .actions .btn.desktop-only {
+    display: inline-block;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+}
+
+/*
+=========================================
+  GLOBAL CHATBOT STYLES
+=========================================
+*/
+
+/* 1. Chatbot Toggle Button (Desktop & Mobile) */
+#chatbot-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 998; /* Popup ke peeche */
+  
+  /* Website logo se match karta hua design */
+  background: var(--primary-color);
+  color: #fff;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 1.75rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  
+  /* Animation */
+  transition: transform 0.3s ease;
+}
+#chatbot-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* 2. Chatbot Popup (Slider) */
+#chatbot-popup {
+  position: fixed;
+
+  bottom: 1.5rem;
+  right: 1.5rem;
+
+  height: 90vh; /* Height badha di */
+  max-height: 900px; /* Max-height badha di */
+
+  width: 420px; /* Width badha di */
+  z-index: 1001;
+
+  background: var(--card-bg);
+  backdrop-filter: blur(15px);
+
+  border-radius: var(--border-radius);
+  
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  border: 1px solid var(--border-color);
+
+  display: flex;
+  flex-direction: column;
+
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease-in-out;
+}
+
+#chatbot-popup.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 3. Popup Header */
+.chatbot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.chatbot-header h3 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--primary-color);
+}
+.chatbot-header .icon-btn {
+  font-size: 1.5rem; /* 'x' button */
+}
+
+/* 4. Chat Log (jahaan messages dikhenge) */
+.chatbot-log {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chat-message {
+  display: flex;
+  width: 100%;
+}
+.chat-message p {
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  max-width: 80%;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+/* 5. Message Styles (Aapke Design ke Mutabik) */
+
+/* User ka Message (Create Account jaisa) */
+.chat-message.user {
+  justify-content: flex-end; /* Right side mein */
+}
+.chat-message.user p {
+  color: #fff;
+  background: linear-gradient(90deg, #C850C0 0%, #4158D0 100%);
+  border-top-right-radius: 6px; /* Chat bubble look */
+}
+
+/* Bot ka Message (Blue-Pink mix) */
+.chat-message.bot {
+  justify-content: flex-start; /* Left side mein */
+}
+.chat-message.bot p {
+  color: #fff;
+  background: linear-gradient(90deg, #007bff 0%, #ff007b 100%);
+  border-top-left-radius: 6px; /* Chat bubble look */
+}
+
+/* 6. Input Field */
+.chatbot-input {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+#chatbot-input-field {
+  flex-grow: 1;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--text-primary);
+  padding: 0.75rem;
+}
+#chatbot-send {
+  margin-left: 0.5rem;
+  background: var(--primary-color);
+  color: #fff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+/*
+=========================================
+  CHATBOT STYLING UPGRADES (Scrollbar & Suggestions)
+=========================================
+*/
+
+/* 1. Suggestion Buttons (Chips) */
+.chatbot-suggestions {
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-wrap: wrap; /* Agar zyaada button hon toh agli line mein aa jaayein */
+  gap: 0.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.suggestion-chip {
+  /* Yeh 'btn-outline' jaisa dikhega */
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.suggestion-chip:hover {
+  background-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+
+/* 2. Custom Scrollbar (Chat Log) */
+
+/* Firefox ke liye fallback */
+.chatbot-log {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--bg-color);
+}
+
+/* WebKit (Chrome, Safari, Edge) ke liye */
+
+/* Scrollbar ki width */
+.chatbot-log::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Scrollbar ka track (background) */
+.chatbot-log::-webkit-scrollbar-track {
+  background: var(--bg-color);
+  border-radius: var(--border-radius);
+}
+
+/* Scrollbar ka thumb (jise aap drag karte hain) */
+.chatbot-log::-webkit-scrollbar-thumb {
+  background-color: var(--text-muted);
+  border-radius: var(--border-radius);
+  border: 2px solid var(--bg-color);
+}
+
+/* Hover karne par thumb ka color */
+.chatbot-log::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color);
+}
+
+
+/* Naye header buttons ke liye wrapper */
+.chatbot-header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+#chatbot-expand {
+  font-size: 1rem; /* Expand icon ko thoda chhota rakhein */
+}
+
+/* Fullscreen State (Desktop) */
+#chatbot-popup.fullscreen {
+  top: 50%;
+  left: 50%;
+
+  bottom: auto;
+  right: auto;
+  transform: translate(-50%, -50%);
+  
+  height: 90vh;
+  width: 90vw;
+
+  max-height: 800px;
+  max-width: 1000px;
+
+  border-radius: var(--border-radius);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+  border: 1px solid var(--border-color);
+}
+
+/* Mobile par chatbot hamesha fullscreen rakhein (Better UX) */
+@media (max-width: 480px) {
+  #chatbot-popup {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    bottom: 0;
+    border-radius: 0;
+    border: none;
+     position: fixed;
+    left: 0rem;
+  }
+  /* Mobile par expand button ki zaroorat nahi */
+  #chatbot-expand {
+    display: none;
+  }
+
+  #chatbot-popup.fullscreen {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    border: none;
+    transform: none; /* Centering reset karein */
+  }
+}
+
+/* Hides header buttons when chatbot is open */
+header .actions.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/*
+=========================================
+  GLOBAL FORM STYLES (Password Toggle)
+=========================================
+*/
+
+/* Yeh form fields ke beech acchi spacing deta hai */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Password Field (Icon ke liye wrapper) */
+.password-wrapper {
+  position: relative;
+  display: flex;
+}
+
+.password-wrapper input {
+  /* Input ko poori width dein */
+  flex-grow: 1;
+  /* Right padding taaki text icon ke neeche na jaaye */
+  padding-right: 3rem; 
+}
+
+.password-toggle-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3rem; /* 48px */
+  background: none;
+  border: none;
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  color: var(--text-muted);
+}
+.password-toggle-btn:hover {
+  color: var(--text-primary);
+}
+
+/*
+=========================================
+  HEADER PROFILE PICTURE (Logged-in User)
+=========================================
+*/
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  
+  /* Pehle se hide rakhein */
+  display: none;
+}
+
+/* Jab user logged in ho, tab profile pic dikhayein */
+.user-logged-in .profile-pic {
+  display: block;
+}
+
+/* Jab user logged in ho, tab "Create account" buttons ko hide karein */
+.user-logged-in a[href="signup.html"] {
+  display: none !important; /* !important zaroori hai mobile/desktop dono ke liye */
+}
