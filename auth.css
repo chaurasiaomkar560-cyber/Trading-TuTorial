@@ -1,127 +1,142 @@
-/*
-=========================================
-  ADMIN LOGIN FORM STYLES
-=========================================
-*/
+/* ======================================
+   LOGIN PAGE – Enhanced Visual Design
+   Matches site theme (Purple-Blue Gradient)
+====================================== */
 
-/* --- Root Variables --- */
-:root {
-  --bg-color: #f8f9fa;
-  --text-primary: #212529;
-  --border-color: #dee2e6;
-  --primary-color: #0d6efd;
-  --btn-bg: #0d6efd;
-  --btn-color: #fff;
-  --btn-hover-bg: #0b5ed7;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-/* --- Body --- */
-body.admin-login-page {
+body {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: var(--bg-color);
+  background: linear-gradient(135deg, #C850C0 0%, #4158D0 100%);
   font-family: 'Poppins', sans-serif;
-  margin: 0;
 }
 
-/* --- Card --- */
-.admin-card {
+/* --- Main Form Box --- */
+.login-container {
   width: 100%;
-  max-width: 400px;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* --- Brand / Logo --- */
-.admin-card .brand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+.login-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.2);
 }
-.admin-card .brand .logo {
-  font-size: 2rem;
-  color: var(--primary-color);
-}
-.brand-title {
+
+/* --- Header --- */
+.login-container h2 {
   font-weight: 700;
-  font-size: 1.5rem;
-  color: var(--text-primary);
-}
-.brand-sub {
-  font-size: 0.85rem;
-  color: #6c757d;
+  color: #333;
+  margin-bottom: 1.8rem;
+  letter-spacing: 0.5px;
 }
 
-/* --- Form --- */
-.admin-card .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+/* --- Input Group --- */
+.input-group {
+  text-align: left;
   margin-bottom: 1.5rem;
 }
 
-.admin-card label {
-  font-weight: 600;
+.input-group label {
+  display: block;
   font-size: 0.9rem;
-  color: var(--text-primary);
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.4rem;
 }
 
-.admin-card input[type="email"],
-.admin-card input[type="password"] {
-  padding: 0.75rem 1rem;
-  font-size: 0.95rem;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
+/* --- Input Field Styling --- */
+.input-group input {
+  width: 90%;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  border: 1.5px solid #ddd;
+  font-size: 1rem;
+  color: #333;
+  background: #fafafa;
+  transition: all 0.3s ease;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.admin-card input[type="email"]:focus,
-.admin-card input[type="password"]:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(13,110,253,0.2);
+.input-group input::placeholder {
+  color: #999;
+  font-size: 0.95rem;
+}
+
+/* --- Input Focus Effect --- */
+.input-group input:focus {
+  border-color: #6D41C8;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(109, 65, 200, 0.3);
 }
 
 /* --- Button --- */
-.admin-card .btn {
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--btn-color);
-  background-color: var(--btn-bg);
+button[type="submit"] {
+  width: 100%;
+  padding: 0.85rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #C850C0 0%, #4158D0 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.admin-card .btn:hover {
-  background-color: var(--btn-hover-bg);
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(65, 88, 208, 0.3);
 }
 
-/* --- Error Message --- */
-.form-error {
+/* --- Note / Info Text --- */
+.note {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.error {
   color: #dc3545;
   font-size: 0.9rem;
-  text-align: center;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
-/* --- Theme Toggle Button --- */
-#admin-theme-toggle {
+/* --- Responsive (Mobile) --- */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 2rem 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  button[type="submit"] {
+    font-size: 0.95rem;
+  }
+}
+
+/* --- Theme Toggle (Optional) --- */
+.theme-toggle {
   position: absolute;
   top: 1rem;
-  right: 1.5rem;
+  right: 1rem;
 }
-#admin-theme-toggle button {
-  font-size: 1.5rem;
-  background: none;
+
+.theme-toggle button {
   border: none;
+  background: none;
+  font-size: 1.4rem;
   cursor: pointer;
+  color: #fff;
 }
