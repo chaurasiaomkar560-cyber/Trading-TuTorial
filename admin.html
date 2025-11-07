@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Trading Tutor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../static/CSS/styles.css">
+  <link rel="stylesheet" href="../static/CSS/admin.css">
+</head>
+<body class="admin-dashboard-page">
+
+  <aside id="admin-sidebar">
+    <div class="brand">
+      <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
+      <div>
+        <div class="brand-title">Admin Panel</div>
+      </div>
+    </div>
+    <nav class="admin-nav">
+      <a href="#dashboard" class="admin-nav-link active"><i class="fa-solid fa-home"></i> Dashboard</a>
+      <a href="#users" class="admin-nav-link"><i class="fa-solid fa-users"></i> User Mgmt</a>
+      <a href="#workshops" class="admin-nav-link"><i class="fa-solid fa-chalkboard-user"></i> Workshop Mgmt</a>
+      <a href="#blog" class="admin-nav-link"><i class="fa-solid fa-blog"></i> Blog Mgmt</a>
+      <a href="#email" class="admin-nav-link"><i class="fa-solid fa-envelope"></i> Email Mgmt</a>
+      <a href="#finance" class="admin-nav-link"><i class="fa-solid fa-file-invoice-dollar"></i> Finance Mgmt</a>
+    </nav>
+    <button id="logoutButton" class="btn btn-secondary" style="width: 100%; margin-top: auto;">Logout</button>
+  </aside>
+
+  <main id="admin-content">
+    <header class="admin-header">
+      <div>
+        <h2 id="admin-header-title">Dashboard</h2>
+        <p class="muted">Platform-wide overview.</p>
+      </div>
+      <div class="theme-toggle" id="admin-theme-toggle">
+        <button id="theme-btn" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="admin-tab-content active">
+      <h3 class="admin-section-title">User Management</h3>
+      <div class="stats-grid grid-5">
+        <div class="card"><h3>Total Users</h3><h2 id="stat-total-users">...</h2></div>
+        <div class="card"><h3>New Users (24h)</h3><h2 id="stat-new-users">...</h2></div>
+        <div class="card"><h3>Old Users</h3><h2 id="stat-old-users">...</h2></div>
+        <div class="card"><h3>Total Hosters</h3><h2 id="stat-hosters">...</h2></div>
+        <div class="card"><h3>Total Buyers</h3><h2 id="stat-buyers">...</h2></div>
+      </div>
+
+      <h3 class="admin-section-title">Workshop Management</h3>
+      <div class="stats-grid">
+        <div class="card"><h3>Total Workshops</h3><h2 id="stat-total-workshops">...</h2></div>
+        <div class="card"><h3>Total Hosters</h3><h2 id="stat-total-hosters">...</h2></div>
+        <div class="card"><h3>Total Buyers</h3><h2 id="stat-total-buyers">...</h2></div>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div id="users" class="admin-tab-content">
+      <div class="card">
+        <h3>All Users</h3>
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- WORKSHOPS -->
+    <div id="workshops" class="admin-tab-content">
+      <h3 class="admin-section-title">Today's Workshops</h3>
+      <div class="card">
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Hoster Name</th><th>Total Attenders</th><th>Shift Time</th></tr>
+            </thead>
+            <tbody id="todayWorkshopsTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 class="admin-section-title">Tomorrow's Workshops</h3>
+      <div class="card">
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Hoster Name</th><th>Total Attenders</th><th>Shift Time</th></tr>
+            </thead>
+            <tbody id="tomorrowWorkshopsTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 class="admin-section-title">Completed Workshops</h3>
+      <div class="card">
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Hoster Name</th><th>Total Attenders</th><th>Shift Time</th><th>Complains</th><th>Payment Date</th></tr>
+            </thead>
+            <tbody id="completedWorkshopsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOG -->
+    <div id="blog" class="admin-tab-content">
+      <div class="card">
+        <h3>All Blog Posts</h3>
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Date & time</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="blogTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMAIL -->
+    <div id="email" class="admin-tab-content">
+      <div class="card">
+        <h3>Email Manager</h3>
+        <div class="admin-sub-tabs">
+          <button class="sub-tab-btn active" data-target="email-multiple">Multiple Mail</button>
+          <button class="sub-tab-btn" data-target="email-single">Single Mail</button>
+        </div>
+
+        <!-- MULTIPLE EMAIL -->
+        <div id="email-multiple" class="admin-sub-tab-content active">
+          <form id="broadcastEmailForm" class="broadcast-form">
+            <div class="form-group">
+              <label for="tablename">Table / View Name</label>
+              <input type="text" id="tablename" placeholder="Enter the table or view..." required>
+            </div>
+            <div class="form-group">
+              <label for="emailSubject">Subject</label>
+              <input type="text" id="emailSubject" placeholder="New Workshop Announcement!" required>
+            </div>
+            <div class="form-group">
+              <label for="emailBody">Message</label>
+              <textarea id="emailBody" rows="8" placeholder="Dear user..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Broadcast</button>
+          </form>
+        </div>
+
+        <!-- SINGLE EMAIL -->
+        <div id="email-single" class="admin-sub-tab-content">
+          <form id="singleEmailForm" class="broadcast-form">
+            <div class="form-group">
+              <label for="emailSingleAddress">User Email</label>
+              <input type="email" id="emailSingleAddress" placeholder="user@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="emailSingleSubject">Subject</label>
+              <input type="text" id="emailSingleSubject" placeholder="Regarding your account..." required>
+            </div>
+            <div class="form-group">
+              <label for="emailSingleBody">Message</label>
+              <textarea id="emailSingleBody" rows="8" placeholder="Dear..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Single Email</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+<!-- FINANCE MANAGEMENT -->
+<div id="finance" class="admin-tab-content">
+  <div class="card">
+    <h3>Finance Management</h3>
+    <div class="admin-sub-tabs">
+      <button class="sub-tab-btn active" data-target="finance-refund">Refund Payment</button>
+      <button class="sub-tab-btn" data-target="finance-hoster">Payment to Hoster</button>
+      <button class="sub-tab-btn" data-target="finance-multiple">Multiple Payments</button>
+    </div>
+
+    <!-- 1️⃣ REFUND PAYMENT -->
+    <div id="finance-refund" class="admin-sub-tab-content active">
+      <form id="refundForm" class="broadcast-form">
+        <div class="form-group">
+          <label for="refundEmail">User Email</label>
+          <input type="email" id="refundEmail" placeholder="Enter user email..." required>
+        </div>
+        <div class="form-group">
+          <label for="refundAmount">Refund Amount ($)</label>
+          <input type="number" id="refundAmount" placeholder="Enter refund amount..." required>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Refund</button>
+      </form>
+    </div>
+
+    <!-- 2️⃣ PAYMENT TO HOSTER -->
+    <div id="finance-hoster" class="admin-sub-tab-content">
+      <form id="hosterPaymentForm" class="broadcast-form">
+        <div class="form-group">
+          <label for="workshopName">Workshop Name</label>
+          <input type="text" id="workshopName" placeholder="Enter Workshop Name..." required>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Hoster Name</label>
+            <input type="text" id="hosterName" readonly>
+          </div>
+          <div class="form-group">
+            <label>Hoster Email</label>
+            <input type="email" id="hosterEmail" readonly>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Total Attenders</label>
+            <input type="number" id="totalAttenders" readonly>
+          </div>
+          <div class="form-group">
+            <label>Workshop Amount ($)</label>
+            <input type="number" id="workshopAmount" readonly>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Refunded Amount ($)</label>
+            <input type="number" id="refundedAmount" readonly>
+          </div>
+          <div class="form-group">
+            <label>Complains Against You</label>
+            <input type="number" id="complainsCount" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Your Payment Amount ($)</label>
+          <input type="number" id="finalPayment" readonly>
+        </div>
+        <button type="submit" class="btn btn-primary">Pay to Hoster</button>
+      </form>
+    </div>
+
+   <!-- 3️⃣ MULTIPLE PAYMENTS -->
+<div id="finance-multiple" class="admin-sub-tab-content">
+  <form id="multiplePaymentForm" class="broadcast-form" onsubmit="return false;">
+    <div class="form-group">
+      <label for="multiTableName">Table / View Name</label>
+      <input type="text" id="multiTableName" placeholder="Enter Supabase table name..." required>
+    </div>
+    <div class="form-group">
+      <label for="multiPaymentType">Payment Type</label>
+      <select id="multiPaymentType" required>
+        <option value="">-- Select Payment Type --</option>
+        <option value="refund">Refund</option>
+        <option value="hoster">Payment to Hoster</option>
+      </select>
+    </div>
+  </form>
+
+  <!-- Refund form (for multiple) -->
+  <div id="multiRefundForm" class="broadcast-form" style="display:none;">
+    <div class="form-group">
+      <label for="multiRefundAmount">Refund Amount ($)</label>
+      <input type="number" id="multiRefundAmount" placeholder="Enter refund amount..." required>
+    </div>
+    <button id="sendRefundsBtn" class="btn btn-primary">Send Refunds</button>
+  </div>
+
+  <!-- Hoster form (for multiple) -->
+  <div id="multiHosterForm" class="broadcast-form" style="display:none;">
+    <div class="form-group">
+      <label for="multiHosterAmount">Payment Amount ($)</label>
+      <input type="number" id="multiHosterAmount" placeholder="Enter hoster payment amount..." required>
+    </div>
+    <button id="payHostersBtn" class="btn btn-primary">Pay All Hosters</button>
+  </div>
+</div>
+
+
+  <!-- TRANSACTION HISTORY -->
+  <div class="card" style="margin-top: 2rem;">
+    <h3>Transaction History</h3>
+    <div class="table-wrapper">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Email</th>
+            <th>Amount ($)</th>
+            <th>Workshop</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="transactionHistoryBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+  </main>
+
+  <script src="../static/JS/admin.js"></script>
+  <script src="../static/JS/admin-email.js"></script>
+
+</body>
+</html>
