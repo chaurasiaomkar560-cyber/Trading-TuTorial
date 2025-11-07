@@ -370,6 +370,59 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
- 
+// ======================================================
+// 7️⃣ DASHBOARD CARD POPUP (User-Controlled)
+// ======================================================
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".accordion-card");
 
+  // Create popup modal structure only once
+  const modal = document.createElement("div");
+  modal.className = "card-modal-overlay";
+  modal.innerHTML = `
+    <div class="card-modal-content">
+      <button class="modal-close-btn" aria-label="Close">&times;</button>
+      <img id="cardModalImage" src="" alt="Card Image">
+      <h2 id="cardModalTitle"></h2>
+      <div id="cardModalContent"></div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const modalContent = modal.querySelector(".card-modal-content");
+  const closeBtn = modal.querySelector(".modal-close-btn");
+  const img = modal.querySelector("#cardModalImage");
+  const title = modal.querySelector("#cardModalTitle");
+  const content = modal.querySelector("#cardModalContent");
+
+  // Close modal function
+  function closeModal() {
+    modal.classList.remove("open");
+    document.body.style.overflow = "auto";
+  }
+
+  closeBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal(); // click outside box
+  });
+
+  // Click event for each card
+  cards.forEach((card) => {
+    const header = card.querySelector(".card-header");
+    if (!header) return;
+
+    header.addEventListener("click", () => {
+      const cardImage = card.querySelector("img")?.src || "";
+      const cardTitle = card.querySelector("h3")?.textContent || "Trading Style";
+      const cardContent = card.querySelector(".card-content")?.innerHTML || "<p>No content available.</p>";
+
+      img.src = cardImage;
+      title.textContent = cardTitle;
+      content.innerHTML = cardContent;
+
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden"; // prevent background scroll
+    });
+  });
+});
 

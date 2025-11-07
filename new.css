@@ -1,0 +1,286 @@
+/*
+=========================================
+  DASHBOARD.CSS — FINAL VERSION
+  (Matching 2nd Screenshot Design)
+=========================================
+*/
+
+/* --- Overall Page --- */
+.dashboard-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.dashboard-section h2 {
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+  text-align: left;
+}
+
+.dashboard-section p {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+/* ==========================================
+   STATS GRID
+========================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stats-grid .card {
+  text-align: center;
+}
+
+/* ==========================================
+   ACCORDION GRID — CARD LAYOUT
+========================================== */
+.accordion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 2.2rem;
+  justify-items: center;
+  align-items: stretch;
+  padding: 1rem 0 3rem;
+}
+
+@media (min-width: 1024px) {
+  .accordion-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    justify-content: center;
+  }
+}
+
+/* ==========================================
+   INDIVIDUAL CARD STYLING
+========================================== */
+.accordion-card {
+  width: 100%;
+  max-width: 340px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.accordion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* CARD HEADER */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.card-header:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.card-header img.card-image {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  margin-right: 1rem;
+}
+
+.card-title-wrapper {
+  flex-grow: 1;
+}
+
+.card-title-wrapper h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.card-title-wrapper p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  transition: transform 0.3s ease;
+}
+
+/* CARD CONTENT (HIDDEN BY DEFAULT) */
+.card-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s ease-in-out;
+  padding: 0 1.5rem;
+}
+
+.card-content p {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+/* WHEN CARD IS OPEN */
+.accordion-card.open .card-content {
+  max-height: 800px;
+  opacity: 1;
+  padding-bottom: 1.5rem;
+}
+
+.accordion-card.open .card-icon {
+  transform: rotate(180deg);
+}
+
+/* CARD IMAGE INSIDE CONTENT */
+.ai-image {
+  width: 100%;
+  border-radius: var(--border-radius);
+  margin: 0.75rem 0 1rem;
+  border: 1px solid var(--border-color);
+}
+
+/* ==========================================
+   MODAL POPUP (CARD INFO)
+========================================== */
+.card-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  z-index: 997;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.card-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* POPUP BOX CONTENT */
+.card-modal-content {
+  width: 100%;
+  max-width: 850px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  padding: 2rem 3rem;
+  overflow-y: auto;
+  max-height: 85vh;
+  transform: scale(0.95);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-modal-overlay.open .card-modal-content {
+  transform: scale(1);
+}
+
+/* SCROLLBAR */
+.card-modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+.card-modal-content::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: var(--border-radius);
+}
+.card-modal-content::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* MODAL ELEMENTS */
+#cardModalImage {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+#cardModalTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+#cardModalContent {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.modal-close-btn {
+  align-self: flex-end;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  color: var(--primary-color);
+}
+
+/* ==========================================
+   RESPONSIVE IMPROVEMENTS
+========================================== */
+@media (max-width: 768px) {
+  .card-header img.card-image {
+    width: 60px;
+    height: 60px;
+  }
+  .card-title-wrapper h3 {
+    font-size: 1rem;
+  }
+  .card-modal-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .accordion-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .card-modal-content {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    padding: 1.5rem;
+  }
+}
