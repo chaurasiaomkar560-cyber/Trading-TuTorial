@@ -19,11 +19,13 @@
   display: grid;
   grid-template-columns: 1fr; /* Single column on mobile */
   gap: 1rem;
+  margin-right: 20px;
+  margin-left: 30px;
 }
 
 /* The Card Itself */
 .accordion-card {
-  padding: 0; /* Remove default card padding */
+  padding: 10px; /* Remove default card padding */
   overflow: hidden; /* Crucial for animation */
   transition: all 0.3s ease;
 }

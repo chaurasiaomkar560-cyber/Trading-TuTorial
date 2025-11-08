@@ -322,20 +322,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const badgeClass = ws.price == 0 ? "free" : "price";
         const priceLabel = ws.price == 0 ? "FREE" : `$${ws.price}`;
 
+        // --- Replace the innerHTML creation for each workshop card with this ---
         card.innerHTML = `
-          <div class="workshop-badge ${badgeClass}">${priceLabel}</div>
-          <img src="${ws.image_url || "https://picsum.photos/seed/default/400/200"}" class="workshop-thumb" alt="Workshop Image">
-          <div class="workshop-content">
-            <div class="workshop-meta" data-date="${ws.date_time}">
-              <div class="countdown-timer">--d : --h : --m : --s</div>
-              <span class="workshop-duration"><i class="fa-regular fa-clock"></i> ${ws.duration}</span>
-            </div>
-            <h3>${ws.title}</h3>
-            <p>${ws.description}</p>
-            <p class="muted"><strong>${ws.hoster_name || "Unknown"}</strong></p>
-            <button class="btn btn-primary register-btn" style="width: 100%">Register Now</button>
-          </div>
-        `;
+  <div class="workshop-badge ${badgeClass}">${priceLabel}</div>
+  <img src="${ws.image_url || "https://picsum.photos/seed/default/400/200"}" class="workshop-thumb" alt="Workshop Image">
+  <div class="workshop-content">
+    <div class="workshop-meta" data-date="${ws.date_time || ''}">
+      <div class="countdown-timer">--d : --h : --m : --s</div>
+      <span class="workshop-duration"><i class="fa-regular fa-clock"></i> ${ws.duration || "Duration not specified"}</span>
+    </div>
+    <h3>${ws.title || 'Untitled Workshop'}</h3>
+    <p>${ws.description || ''}</p>
+    <!-- show actual hoster name if available; fallback to ws.hoster or a dash -->
+    <p class="muted"><strong>${ws.hoster_name || ws.hoster || '—'}</strong></p>
+    <button class="btn btn-primary register-btn" style="width: 100%">Register Now</button>
+  </div>
+`;
+
         workshopGrid.appendChild(card);
       });
     } catch (err) {
@@ -343,27 +346,55 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // === Countdown Timer ===
   function updateCountdowns() {
-    document.querySelectorAll(".workshop-meta[data-date]").forEach((meta) => {
-      const countdown = meta.querySelector(".countdown-timer");
-      const target = new Date(meta.dataset.date).getTime();
-      const now = Date.now();
-      const diff = target - now;
+  document.querySelectorAll(".workshop-meta[data-date]").forEach((meta) => {
+    const countdown = meta.querySelector(".countdown-timer");
+    const dateStr = meta.dataset.date;
+    if (!dateStr) {
+      countdown.textContent = "Date not set";
+      return;
+    }
 
-      if (diff <= 0) {
-        countdown.textContent = "Expired";
-        return;
-      }
+    const target = new Date(dateStr).getTime();
+    if (isNaN(target)) {
+      countdown.textContent = "Invalid date";
+      return;
+    }
 
+    const now = Date.now();
+    const diff = target - now;
+
+    // If in the future -> normal countdown
+    if (diff > 0) {
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const mins = Math.floor((diff / (1000 * 60)) % 60);
       const secs = Math.floor((diff / 1000) % 60);
 
       countdown.textContent = `${days}d : ${hours}h : ${mins}m : ${secs}s`;
-    });
-  }
+      return;
+    }
+
+    // If in the past -> show "Started X ago" (or a readable date if very old)
+    const past = Math.abs(diff);
+    const pdays = Math.floor(past / (1000 * 60 * 60 * 24));
+    const phours = Math.floor((past / (1000 * 60 * 60)) % 24);
+    const pmins = Math.floor((past / (1000 * 60)) % 60);
+
+    if (pdays >= 30) {
+      // If older than 30 days show actual start date (human readable)
+      const dateObj = new Date(target);
+      countdown.textContent = `Started on ${dateObj.toLocaleDateString()} ${dateObj.toLocaleTimeString()}`;
+    } else if (pdays > 0) {
+      countdown.textContent = `Started ${pdays}d ${phours}h ago`;
+    } else if (phours > 0) {
+      countdown.textContent = `Started ${phours}h ${pmins}m ago`;
+    } else {
+      countdown.textContent = `Started ${pmins}m ago`;
+    }
+  });
+}
+
 
   setInterval(updateCountdowns, 1000);
   loadWorkshops();
@@ -425,4 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+
+
 

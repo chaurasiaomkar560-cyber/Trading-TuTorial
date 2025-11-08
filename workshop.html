@@ -84,7 +84,7 @@
         <div class="workshop-badge price">$10</div>
         <img src="https://picsum.photos/seed/workshop1/400/200" class="workshop-thumb" alt="Workshop Image" />
         <div class="workshop-content">
-          <div class="workshop-meta" data-date="2025-11-15T19:00:00">
+          <div class="workshop-meta" data-date="${ws.date_time?.includes('T') ? ws.date_time + ':00Z' : ws.date_time}">
             <div class="countdown-timer">
               <span>--d</span> : <span>--h</span> : <span>--m</span> :
               <span>--s</span>

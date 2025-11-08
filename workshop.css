@@ -108,22 +108,18 @@
 */
 /* Yeh styles blog.css se copy kiye gaye hain */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(5px);
-  z-index: 2000;
-  display: flex;
-  justify-content: center;
+  display: none;
   align-items: center;
-  padding: 1rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
 }
+.modal-overlay.active {
+  display: flex;
+}
+
 
 .modal-overlay.open {
   opacity: 1;
@@ -662,4 +658,82 @@ button:disabled:hover {
   font-size: 1.1rem;
   color: var(--text-muted);
   margin-bottom: 2rem;
+}
+
+/* ===============================
+   FIX: Hoster Modal Input Styling
+   =============================== */
+
+#hostWorkshopForm input[type="text"],
+#hostWorkshopForm input[type="email"],
+#hostWorkshopForm input[type="number"],
+#hostWorkshopForm input[type="datetime-local"],
+#hostWorkshopForm select,
+#hostWorkshopForm textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* On Focus — subtle glow */
+#hostWorkshopForm input:focus,
+#hostWorkshopForm select:focus,
+#hostWorkshopForm textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 4px var(--primary-color);
+}
+
+/* Ensure consistent height for selects and number inputs */
+#hostWorkshopForm select,
+#hostWorkshopForm input[type="number"] {
+  height: 45px;
+  line-height: 1.2;
+}
+
+/* Label styling */
+#hostWorkshopForm label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+/* Align fields in the form-grid properly */
+#hostWorkshopForm .form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Textarea consistency */
+#hostWorkshopForm textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Adjust file input */
+#hostWorkshopForm input[type="file"] {
+  padding: 0.5rem;
+  background-color: var(--bg-color);
+  color: var(--text-muted);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+/* Step titles & legend alignment */
+#hostWorkshopForm h2,
+#hostWorkshopForm legend {
+  color: var(--text-primary);
+}
+
+/* Buttons alignment fix */
+#hostWorkshopForm .step-navigation button {
+  min-width: 180px;
 }
